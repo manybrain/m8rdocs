@@ -202,6 +202,46 @@ This endpoint deletes a specific message.
 
 ### HTTP Request
 
+`DELETE https://api.mailinator.com/api/delete`
+
+### URL Parameters
+
+Parameter | Default | Required | Description
+--------- | ------- | -------- | -----------
+token | false | true | You must provide your API token with each request
+id | false | true | The message id (usually found in a previous inbox api call) to delete
+delete_all | false | false | if **delete_all=true** is specified, ALL email will be deleted from your Team's private domain		
+
+		
+
+# Rules
+
+Mailinator provides a great deal of flexibility in routing messages through it's system. By default, Public messages (if they pass spam checks) arrive in public inboxes, and private domain messages arrive in private domain team inboxes.
+
+This behavior can be changed and/or augmented to route messages from and to many destinations.
+
+## List Team Rules
+
+
+
+		
+```shell
+curl "https://api.mailinator.com/api/delete?token=YourTeamAPIToken&id=joe-1551548025-3982989"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status": "ok",
+}
+```
+
+This endpoint returns a list of all rules for this team (both active and disabled)
+
+
+### HTTP Request
+
 `DELETE https://api.mailinator.com/api/delete<ID>`
 
 ### URL Parameters

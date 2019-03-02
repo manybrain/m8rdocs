@@ -1,24 +1,57 @@
-*.gem
-*.rbc
-.bundle
-.config
-coverage
-InstalledFiles
-lib/bundler/man
-pkg
-rdoc
-spec/reports
-test/tmp
-test/version_tmp
-tmp
-*.DS_STORE
-build/
-.cache
-.vagrant
-.sass-cache
+,# Compiled source #
+###################
+*~
+.#*
+\#*\#
+out/
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+MANIFEST.MF
+*.lock
 
-# YARD artifacts
-.yardoc
-_yardoc
-doc/
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+#built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+
+# generated files
+/bin/
+gen/
+
+
+# Eclipse project files
+.classpath
+.project
+
+.gradle
+# Android Studio
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/datasources.xml
+.idea/dataSources.ids.idea/tasks.xml
+.idea/datasources.xml
+.idea/dataSources.ids
+
+.gradle
+/build/
+jsp/
+classes/
+
+*.iml
+*.iws
+.idea
 .idea/
+*.ipr
