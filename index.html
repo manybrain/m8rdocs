@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Mailinator API Reference</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -212,9 +212,6 @@
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -228,16 +225,24 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#messages" class="toc-h1 toc-link" data-title="Messages">Messages</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#inbox" class="toc-h2 toc-link" data-title="Inbox">Inbox</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#fetch-a-specific-message" class="toc-h2 toc-link" data-title="Fetch a specific message">Fetch a specific message</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#delete-a-message" class="toc-h2 toc-link" data-title="Delete a Message">Delete a Message</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#rules" class="toc-h1 toc-link" data-title="Rules">Rules</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#list-team-rules" class="toc-h2 toc-link" data-title="List Team Rules">List Team Rules</a>
                   </li>
               </ul>
           </li>
@@ -246,190 +251,271 @@
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https://www.mailinator.com/v3/#/#pricing_table_pane'>Subscribe for Mailinator API access</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>The Mailinator API provides programmatic access to fetching and injecting messages into the Mailinator system. From there those messages will run through a subscriber&#39;s ruleset to determine the final destination(s) of that incoming message. Messages are typically (and historically) email messages, however, that is by no means a restriction. Any data with the general format of to, from, subject, and (optionally) body are applicable. This includes (at least) email, SMS, Http Post messages.</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>Subscribers can read messages in both the Public and their own Private Mailinator email systems with the API. They may also inject messages but only to their Private Mailinator domains.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
+<p>In addition to message focused APIs, the API allows a programmatic to create and delete message routing rules (This may also be done in the Mailinator Web Interface).</p>
+
+<p>Access to the API (and messages in general) are subject to your subscription plan&#39;s rate limits.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To authorize, use this code:</p>
 </blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
+<pre class="highlight shell tab-shell"><code><span class="c"># REST calls require your team's API token in every call</span>
+curl <span class="s2">"api_endpoint_here?token=YourTeamAPIToken"</span>
 </code></pre>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>Replace YourTeamAPIToken with the API Token found on your Team&#39;s settings page</p>
 </blockquote>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code>Authorization: meowmeowmeow</code></p>
+<p>Mailinator uses API tokens for authentication. All calls to the API must include the token query parameter</p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>YourTeamAPIToken</code> with the API token found on your team's settings page
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<h1 id='messages'>Messages</h1><h2 id='inbox'>Inbox</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http:/api/inbox?token=YourTeamAPIToken&amp;to=joe"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>The above command returns the list of messages for the Inbox <b>joe</b>.
+It returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+</span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+</span><span class="s2">"messages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fit-X"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noreply@fitx.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548025-3982989"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fitx &lt;noreply@fitx.com&gt;"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Important information about your enquiry"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548025000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548117-3983825"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging &lt;wirelesstest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548117000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+     </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
+<p>This endpoint retrieves both public and private-domain inboxes</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
+<p><code>GET http://api.mailinator.com/api/inbox</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
 <th>Default</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
+<td>token</td>
 <td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>true</td>
+<td>You must provide your API token with each request</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>to</td>
+<td>false</td>
+<td>public only</td>
+<td>The inbox you wish to fetch<br>This may be a wildcard (i.e. <b>test*</b>) for fetching from your private domain<br>To fetch from a private domain, append the domain to this parameter (i.e. joe@myprivatedomain.com)<br>Public email fetches should only include the inbox itself</td>
 </tr>
 </tbody></table>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<p>Example <strong>Public domain</strong> (i.e. @mailinator.com) inbox fetchs:
+    <br>
+    &nbsp;
+    &nbsp;
+    &nbsp;<br>
+    <code>https://api.mailinator.com/api/inbox?to=bob&amp;token=YourTeamAPIToken</code>
+    <br>
+    &nbsp;
+    &nbsp;
+    &nbsp;<br>
+    <code>https://api.mailinator.com/api/inbox?to=testaccount1234&amp;token=YourTeamAPIToken</code>
+    <br>
+    <br>
+    Example <strong>Private Domain</strong> inbox fetchs:
+    <br>
+    &nbsp;
+    &nbsp;
+    &nbsp;<br>
+    <code>https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&amp;token=YourTeamAPIToken</code>
+    <br>
+    &nbsp;
+    &nbsp;
+    &nbsp;<br>
+    <code>https://api.mailinator.com/api/inbox?to=test*&amp;token=YourTeamAPIToken</code></p>
+<h2 id='fetch-a-specific-message'>Fetch a specific message</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/message?token=YourAPIToken&amp;id=joe-1551548025-3982989"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"requestId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"425041"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">263</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551549255000</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+        </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"multipart/alternative; boundary=</span><span class="se">\"</span><span class="s2">d9f1e7876ccd20ca69a4286c31823fa2</span><span class="se">\"</span><span class="s2">"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sat, 2 Mar 2019 12:51:10 -0500"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\"</span><span class="s2">Wireless Charging</span><span class="se">\"</span><span class="s2"> &lt;WirelessTest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"message-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;0ockv6sqfejl43fl-wlc9g9fho39kkla1-652@egtest.com&gt;"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"mime-version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"received"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from ([50.3.73.178])</span><span class="se">\r\n</span><span class="s2">        by mail.mailinator.com with SMTP (Postfix)</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"reply-to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\"</span><span class="s2">Wireless Charging</span><span class="se">\"</span><span class="s2"> &lt;WirelessTest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;joe@mailinator.com&gt;"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551549255-4004891"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging &lt;wirelesstest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"parts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fix your phone now!"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/plain;"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                    </span><span class="s2">"content-transfer-encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8bit"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html;"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+              </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;html&gt;&lt;body&gt;Fix your phone now!&lt;/body&gt;&lt;/html&gt;"</span><span class="p">,</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<p>This endpoint retrieves a specific message by id.</p>
+
+<p><code>GET http://api.mailinator.com/api/message</code></p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>false</td>
+<td>true</td>
+<td>You must provide your API token with each request</td>
+</tr>
+<tr>
+<td>id</td>
+<td>false</td>
+<td>true</td>
+<td>The message id (usually found in a previous inbox api call) to retrieve</td>
+</tr>
+</tbody></table>
+<h2 id='delete-a-message'>Delete a Message</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/delete?token=YourTeamAPIToken&amp;id=joe-1551548025-3982989"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<p>This endpoint deletes a specific message.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code>DELETE https://api.mailinator.com/api/delete</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>token</td>
+<td>false</td>
+<td>true</td>
+<td>You must provide your API token with each request</td>
+</tr>
+<tr>
+<td>id</td>
+<td>false</td>
+<td>true</td>
+<td>The message id (usually found in a previous inbox api call) to delete</td>
+</tr>
+<tr>
+<td>delete_all</td>
+<td>false</td>
+<td>false</td>
+<td>if <strong>delete_all=true</strong> is specified, ALL email will be deleted from your Team&#39;s private domain</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='rules'>Rules</h1>
+<p>Mailinator provides a great deal of flexibility in routing messages through it&#39;s system. By default, Public messages (if they pass spam checks) arrive in public inboxes, and private domain messages arrive in private domain team inboxes.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<p>This behavior can be changed and/or augmented to route messages from and to many destinations.</p>
+<h2 id='list-team-rules'>List Team Rules</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/delete?token=YourTeamAPIToken&amp;id=joe-1551548025-3982989"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
+<p>This endpoint returns a list of all rules for this team (both active and disabled)</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code>DELETE https://api.mailinator.com/api/delete&lt;ID&gt;</code></p>
 <h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>token</td>
+<td>false</td>
+<td>true</td>
+<td>You must provide your API token with each request</td>
+</tr>
+<tr>
+<td>id</td>
+<td>false</td>
+<td>true</td>
+<td>The message id (usually found in a previous inbox api call) to delete</td>
+</tr>
+<tr>
+<td>delete_all</td>
+<td>false</td>
+<td>false</td>
+<td>if <strong>delete_all=true</strong> is specified, ALL email will be deleted from your Team&#39;s private domain</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
@@ -447,39 +533,19 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
 </thead><tbody>
 <tr>
 <td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
+<td>Invalid API Token</td>
 </tr>
 <tr>
 <td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
+<td>Unauthorized</td>
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+<td>Forbidden</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+<td>Message Not Found</td>
 </tr>
 <tr>
 <td>500</td>
@@ -495,9 +561,6 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
     </div>
