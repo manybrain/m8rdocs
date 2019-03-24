@@ -251,7 +251,42 @@
                     <a href="#get-all-streams" class="toc-h2 toc-link" data-title="Get All Streams">Get All Streams</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-stream" class="toc-h2 toc-link" data-title="Get a Specific Stream">Get a Specific Stream</a>
+                    <a href="#get-stream" class="toc-h2 toc-link" data-title="Get Stream">Get Stream</a>
+                  </li>
+                  <li>
+                    <a href="#replace-stream" class="toc-h2 toc-link" data-title="Replace Stream">Replace Stream</a>
+                  </li>
+                  <li>
+                    <a href="#enable-stream" class="toc-h2 toc-link" data-title="Enable Stream">Enable Stream</a>
+                  </li>
+                  <li>
+                    <a href="#disable-stream" class="toc-h2 toc-link" data-title="Disable Stream">Disable Stream</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#rules-api" class="toc-h1 toc-link" data-title="Rules API">Rules API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#rules-schema" class="toc-h2 toc-link" data-title="Rules Schema">Rules Schema</a>
+                  </li>
+                  <li>
+                    <a href="#conditions-schema" class="toc-h2 toc-link" data-title="Conditions Schema">Conditions Schema</a>
+                  </li>
+                  <li>
+                    <a href="#actions-schema" class="toc-h2 toc-link" data-title="Actions Schema">Actions Schema</a>
+                  </li>
+                  <li>
+                    <a href="#rule-example" class="toc-h2 toc-link" data-title="Rule Example">Rule Example</a>
+                  </li>
+                  <li>
+                    <a href="#create-rule" class="toc-h2 toc-link" data-title="Create Rule">Create Rule</a>
+                  </li>
+                  <li>
+                    <a href="#enable-rule" class="toc-h2 toc-link" data-title="Enable Rule">Enable Rule</a>
+                  </li>
+                  <li>
+                    <a href="#disable-rule" class="toc-h2 toc-link" data-title="Disable Rule">Disable Rule</a>
                   </li>
               </ul>
           </li>
@@ -495,7 +530,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint deletes a specific message.</p>
@@ -609,7 +644,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <p>The endpoint fetches a list of all your streams. </p>
 <h3 id='http-request-4'>HTTP Request</h3>
 <p><code>GET https://api.mailinator.com/streams/</code></p>
-<h2 id='get-a-specific-stream'>Get a Specific Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
+<h2 id='get-stream'>Get Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON showing the newly created Stream:</p>
@@ -640,6 +675,370 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <td>(none)</td>
 <td>true</td>
 <td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h2 id='replace-stream'>Replace Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"description"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"My new description"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mynewname"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>The above command returns JSON showing the newly created Stream:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My new description"</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mynewname"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ownerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59188558619b4f3879751781"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows you to replace an existing stream</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>PUT https://api.mailinator.com/streams/:stream_id</code></p>
+<h3 id='path-2'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h3 id='put-parameters'>PUT Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>(none)</td>
+<td>true</td>
+<td>Names must be lowercase and 1-15 characters. They may only contain alphanumeric, dot, and underscore.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>(none)</td>
+<td>false</td>
+<td>1-255 characters</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>true</td>
+<td>false</td>
+<td>Enabled rules are immediately active.</td>
+</tr>
+<tr>
+<td>rules</td>
+<td>(none)</td>
+<td>false</td>
+<td>You may specify rules when creating a stream but it is often easier to add them in separate API calls</td>
+</tr>
+</tbody></table>
+<h2 id='enable-stream'>Enable Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/enable"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON::</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows you to enable an existing Stream</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>PUT https://api.mailinator.com/streams/:stream_id/enable</code></p>
+<h3 id='path-3'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h2 id='disable-stream'>Disable Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/disable"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON::</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows you to disable an existing Stream</p>
+<h3 id='http-request-8'>HTTP Request</h3>
+<p><code>PUT https://api.mailinator.com/streams/:stream_id/disable</code></p>
+<h3 id='path-4'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h1 id='rules-api'>Rules API</h1>
+<p>You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).</p>
+
+<p>Rules contain one or more conditions and one or more actions.</p>
+<h3 id='rules-schema'>Rules Schema</h3>
+<blockquote>
+<p>Examples:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to drop all incoming mail to spamtest@myprivatedomain.com"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spamdrop1"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spamtest"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"DROP"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>User Modifiable</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>_id</td>
+<td>no</td>
+<td>Unique Rule Id. You may use this ID to designate this specific rule</td>
+</tr>
+<tr>
+<td>name</td>
+<td>yes</td>
+<td>Names must be lowercase and 1-15 characters. They may only contain alphanumeric, dot, and underscore.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>yes</td>
+<td>1-255 characters</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>yes</td>
+<td>Enabled rules are immediately active.</td>
+</tr>
+<tr>
+<td>match</td>
+<td>yes</td>
+<td>Indicates condition matching type - must be ANY or ALL</td>
+</tr>
+<tr>
+<td>priority</td>
+<td>yes</td>
+<td>An Integer between 1-99999 governing rule execution order. 1 is the highest priority, 99999 is the lowest.</td>
+</tr>
+<tr>
+<td>conditions</td>
+<td>yes</td>
+<td>Conditions must be an array Conditions objects - see below</td>
+</tr>
+<tr>
+<td>actions</td>
+<td>yes</td>
+<td>Actions must be an array of Actions objects - see below</td>
+</tr>
+</tbody></table>
+<h3 id='conditions-schema'>Conditions Schema</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail starting with test* to my webhook"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testprefixpost"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PREFIX"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Valid Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>operation</td>
+<td>Comparison operation for field and value.</td>
+<td><em>EQUALS</em>, <em>PREFIX</em></td>
+</tr>
+<tr>
+<td>field</td>
+<td>The message field to compare.</td>
+<td><em>to</em></td>
+</tr>
+<tr>
+<td>value</td>
+<td>The value to compare.</td>
+<td>Any - E.g., &quot;joe&quot;, &quot;bob&quot;</td>
+</tr>
+</tbody></table>
+<h3 id='actions-schema'>Actions Schema</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>action</td>
+<td>Specific action to take if the rule condition was true. Valid values are:<br><em>DROP</em>, <em>WEBHOOK</em></td>
+</tr>
+</tbody></table>
+<h2 id='rule-example'>Rule Example</h2><h2 id='create-rule'>Create Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/"</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rule_drop"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>The above command returns JSON::</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows you to enable an existing Rule</p>
+<h3 id='http-request-9'>HTTP Request</h3>
+<p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</code></p>
+<h3 id='path-5'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+<tr>
+<td>:rule_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h2 id='enable-rule'>Enable Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON::</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows you to enable an existing Rule</p>
+<h3 id='http-request-10'>HTTP Request</h3>
+<p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</code></p>
+<h3 id='path-6'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+<tr>
+<td>:rule_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h2 id='disable-rule'>Disable Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON::</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows you to disable an existing Rule</p>
+<h3 id='http-request-11'>HTTP Request</h3>
+<p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable</code></p>
+<h3 id='path-7'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+<tr>
+<td>:rule_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
 </tr>
 </tbody></table>
 
