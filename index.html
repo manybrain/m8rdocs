@@ -268,16 +268,7 @@
             <a href="#rules-api" class="toc-h1 toc-link" data-title="Rules API">Rules API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#rules-schema" class="toc-h2 toc-link" data-title="Rules Schema">Rules Schema</a>
-                  </li>
-                  <li>
-                    <a href="#conditions-schema" class="toc-h2 toc-link" data-title="Conditions Schema">Conditions Schema</a>
-                  </li>
-                  <li>
-                    <a href="#actions-schema" class="toc-h2 toc-link" data-title="Actions Schema">Actions Schema</a>
-                  </li>
-                  <li>
-                    <a href="#rule-example" class="toc-h2 toc-link" data-title="Rule Example">Rule Example</a>
+                    <a href="#schemas" class="toc-h2 toc-link" data-title="Schemas">Schemas</a>
                   </li>
                   <li>
                     <a href="#create-rule" class="toc-h2 toc-link" data-title="Create Rule">Create Rule</a>
@@ -287,6 +278,12 @@
                   </li>
                   <li>
                     <a href="#disable-rule" class="toc-h2 toc-link" data-title="Disable Rule">Disable Rule</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-rules" class="toc-h2 toc-link" data-title="Get All Rules">Get All Rules</a>
+                  </li>
+                  <li>
+                    <a href="#get-rule" class="toc-h2 toc-link" data-title="Get Rule">Get Rule</a>
                   </li>
               </ul>
           </li>
@@ -808,25 +805,26 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <p>You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).</p>
 
 <p>Rules contain one or more conditions and one or more actions.</p>
-<h3 id='rules-schema'>Rules Schema</h3>
+<h2 id='schemas'>Schemas</h2><h3 id='rules-schema'>Rules Schema</h3>
 <blockquote>
-<p>Examples:</p>
+<p>Example:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to drop all incoming mail to spamtest@myprivatedomain.com"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail starting with test* to my webhook"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spamdrop1"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testprefixpost"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PREFIX"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spamtest"</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
       </span><span class="p">}</span><span class="w">
    </span><span class="p">],</span><span class="w">
    </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"DROP"</span><span class="w">
+        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
       </span><span class="p">}</span><span class="w">
    </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -841,7 +839,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <tr>
 <td>_id</td>
 <td>no</td>
-<td>Unique Rule Id. You may use this ID to designate this specific rule</td>
+<td>System generated, unique Rule Id. You may use this ID to query a specific rule</td>
 </tr>
 <tr>
 <td>name</td>
@@ -879,26 +877,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <td>Actions must be an array of Actions objects - see below</td>
 </tr>
 </tbody></table>
-<h3 id='conditions-schema'>Conditions Schema</h3><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail starting with test* to my webhook"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testprefixpost"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PREFIX"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-   </span><span class="p">],</span><span class="w">
-   </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
-      </span><span class="p">}</span><span class="w">
-   </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<h3 id='conditions-schema'>Conditions Schema</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -927,31 +906,81 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <tr>
 <th>Field</th>
 <th>Description</th>
+<th>Valid Values</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>action</td>
-<td>Specific action to take if the rule condition was true. Valid values are:<br><em>DROP</em>, <em>WEBHOOK</em></td>
+<td>Specific action to take if the rule condition was true</td>
+<td><em>DROP</em>, <em>WEBHOOK</em></td>
 </tr>
 </tbody></table>
-<h2 id='rule-example'>Rule Example</h2><h2 id='create-rule'>Create Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/"</span>
+<h2 id='create-rule'>Create Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rule_drop"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"description"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail starting with test* to my webhook"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testprefixpost"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PREFIX"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <blockquote>
-<p>The above command returns JSON::</p>
+<p>The above command returns the created Rule:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
+   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail starting with test* to my webhook"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testprefixpost"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PREFIX"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint allows you to enable an existing Rule</p>
+<p>This endpoint allows you to create a Rule</p>
 <h3 id='http-request-9'>HTTP Request</h3>
-<p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</code></p>
+<p><code>POST https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</code></p>
 <h3 id='path-5'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+<tr>
+<td>:rule_id</td>
+<td>(none)</td>
+<td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h3 id='post-parameters-2'>POST Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -961,18 +990,56 @@ Example <strong>Private Domain</strong> inbox fetchs:
 </tr>
 </thead><tbody>
 <tr>
-<td>:stream_id</td>
+<td>name</td>
 <td>(none)</td>
 <td>true</td>
-<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+<td>Names must be lowercase and 1-15 characters. They may only contain alphanumeric, dot, and underscore.</td>
 </tr>
 <tr>
-<td>:rule_id</td>
+<td>description</td>
+<td>(none)</td>
+<td>false</td>
+<td>1-255 characters</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>true</td>
+<td>false</td>
+<td>Rules create enabled are immediately active.</td>
+</tr>
+<tr>
+<td>match</td>
+<td>ALL</td>
+<td>false</td>
+<td>Indicates condition matching type - must be ANY or ALL</td>
+</tr>
+<tr>
+<td>priority</td>
 <td>(none)</td>
 <td>true</td>
-<td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
+<td>An Integer between 1-99999 governing rule execution order. 1 is the highest priority, 99999 is the lowest.</td>
+</tr>
+<tr>
+<td>conditions</td>
+<td>(none)</td>
+<td>true</td>
+<td>Conditions must be an array Conditions objects</td>
+</tr>
+<tr>
+<td>actions</td>
+<td>(none)</td>
+<td>true</td>
+<td>Actions must be an array of Actions objects</td>
 </tr>
 </tbody></table>
+
+<aside class="notice">
+Creating rules with enabled:true activates them immediately
+</aside>
+
+<aside class="notice">
+You must create Destinations prior to using them in actions which require them (i.e., WebHooks)
+</aside>
 <h2 id='enable-rule'>Enable Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable"</span>
 </code></pre>
 <blockquote>
@@ -1039,6 +1106,105 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <td>(none)</td>
 <td>true</td>
 <td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h2 id='get-all-rules'>Get All Rules</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/"</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"rules"</span><span class="w"> </span><span class="p">:</span><span class="w"> 
+   </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail to test1 or test2, then drop the email"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"match"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ANY"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testprefixpost"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+           </span><span class="p">{</span><span class="w"> 
+             </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
+             </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+             </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test1"</span><span class="w">
+           </span><span class="p">},</span><span class="w">
+           </span><span class="p">{</span><span class="w"> 
+             </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
+             </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+             </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test2"</span><span class="w">
+           </span><span class="p">}</span><span class="w">
+         </span><span class="p">],</span><span class="w">  
+         </span><span class="s2">"actions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+           </span><span class="p">{</span><span class="w">
+             </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
+             </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+           </span><span class="p">},</span><span class="w">
+           </span><span class="p">{</span><span class="w">
+             </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"DROP"</span><span class="w">           
+           </span><span class="p">}</span><span class="w">
+         </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint fetches all Rules for a Stream</p>
+<h3 id='http-request-12'>HTTP Request</h3>
+<p><code>GET https://api.mailinator.com/streams/:stream_id/rules/</code></p>
+<h3 id='path-8'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+</tbody></table>
+<h2 id='get-rule'>Get Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id"</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail to test1 or test2, then drop the email"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"match"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ANY"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testprefixpost"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+     </span><span class="p">{</span><span class="w"> 
+      </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test1"</span><span class="w">
+     </span><span class="p">},</span><span class="w">
+     </span><span class="p">{</span><span class="w"> 
+      </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test2"</span><span class="w">
+     </span><span class="p">}</span><span class="w">
+   </span><span class="p">],</span><span class="w">  
+   </span><span class="s2">"actions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+     </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+     </span><span class="p">},</span><span class="w">
+     </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"DROP"</span><span class="w">           
+     </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint fetches a Rules for a Stream</p>
+<h3 id='http-request-13'>HTTP Request</h3>
+<p><code>GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id</code></p>
+<h3 id='path-9'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
 </tr>
 </tbody></table>
 
