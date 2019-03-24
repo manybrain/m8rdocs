@@ -231,10 +231,10 @@
             <a href="#message-api" class="toc-h1 toc-link" data-title="Message API">Message API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#inbox" class="toc-h2 toc-link" data-title="Inbox">Inbox</a>
+                    <a href="#fetch-inbox" class="toc-h2 toc-link" data-title="Fetch Inbox">Fetch Inbox</a>
                   </li>
                   <li>
-                    <a href="#fetch-a-specific-message" class="toc-h2 toc-link" data-title="Fetch a specific message">Fetch a specific message</a>
+                    <a href="#fetch-a-message" class="toc-h2 toc-link" data-title="Fetch a message">Fetch a message</a>
                   </li>
                   <li>
                     <a href="#delete-a-message" class="toc-h2 toc-link" data-title="Delete a Message">Delete a Message</a>
@@ -245,10 +245,13 @@
             <a href="#streams-api" class="toc-h1 toc-link" data-title="Streams API">Streams API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#http-request-3" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                    <a href="#create-a-stream" class="toc-h2 toc-link" data-title="Create a Stream">Create a Stream</a>
                   </li>
                   <li>
-                    <a href="#post-parameters" class="toc-h2 toc-link" data-title="POST Parameters">POST Parameters</a>
+                    <a href="#get-all-streams" class="toc-h2 toc-link" data-title="Get All Streams">Get All Streams</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-specific-stream" class="toc-h2 toc-link" data-title="Get a Specific Stream">Get a Specific Stream</a>
                   </li>
               </ul>
           </li>
@@ -333,36 +336,36 @@ curl <span class="s2">"https://api.mailinator.com/api_endpoint_here?token=YourTe
 <aside class="notice">
 You must replace <code>YourTeamAPIToken</code> with the API token found on your Team's Settings page
 </aside>
-<h1 id='message-api'>Message API</h1><h2 id='inbox'>Inbox</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&amp;to=joe"</span>
+<h1 id='message-api'>Message API</h1><h2 id='fetch-inbox'>Fetch Inbox</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&amp;to=joe"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns the list of messages for the Inbox <b>joe</b>.
 It returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-</span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
-</span><span class="s2">"messages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fit-X"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noreply@fitx.com"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548025-3982989"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fitx &lt;noreply@fitx.com&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Important information about your enquiry"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548025000</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548117-3983825"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging &lt;wirelesstest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548117000</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-     </span><span class="p">]</span><span class="w">
+  </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"messages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fit-X"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noreply@fitx.com"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548025-3982989"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fitx &lt;noreply@fitx.com&gt;"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Important information about your enquiry"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548025000</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+       </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548117-3983825"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging &lt;wirelesstest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548117000</span><span class="p">,</span><span class="w">
+       </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves both public and private-domain inboxes</p>
@@ -392,30 +395,30 @@ It returns JSON structured like this:</p>
 </tbody></table>
 
 <p>Example <strong>Public domain</strong> (i.e. @mailinator.com) inbox fetchs:
-    <br>
+<br>
     &nbsp;
     &nbsp;
     &nbsp;<br>
     <code>https://api.mailinator.com/api/inbox?to=bob&amp;token=YourTeamAPIToken</code>
-    <br>
+<br>
     &nbsp;
     &nbsp;
     &nbsp;<br>
     <code>https://api.mailinator.com/api/inbox?to=testaccount1234&amp;token=YourTeamAPIToken</code>
-    <br>
-    <br>
-    Example <strong>Private Domain</strong> inbox fetchs:
+<br>
+<br>
+Example <strong>Private Domain</strong> inbox fetchs:
+<br>
+    &nbsp;
+    &nbsp;
+    &nbsp;<br>
+<code>https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&amp;token=YourTeamAPIToken</code>
     <br>
     &nbsp;
     &nbsp;
     &nbsp;<br>
-    <code>https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&amp;token=YourTeamAPIToken</code>
-    <br>
-    &nbsp;
-    &nbsp;
-    &nbsp;<br>
-    <code>https://api.mailinator.com/api/inbox?to=test*&amp;token=YourTeamAPIToken</code></p>
-<h2 id='fetch-a-specific-message'>Fetch a specific message</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/message?token=YourAPIToken&amp;id=joe-1551548025-3982989"</span>
+<code>https://api.mailinator.com/api/inbox?to=test*&amp;token=YourTeamAPIToken</code></p>
+<h2 id='fetch-a-message'>Fetch a message</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/message?token=YourAPIToken&amp;id=joe-1551548025-3982989"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -426,7 +429,7 @@ It returns JSON structured like this:</p>
         </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">263</span><span class="p">,</span><span class="w">
         </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
         </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551549255000</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+        </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -453,10 +456,10 @@ It returns JSON structured like this:</p>
                 </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
                     </span><span class="s2">"content-transfer-encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8bit"</span><span class="p">,</span><span class="w">
                     </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html;"</span><span class="w">
-                </span><span class="p">}</span><span class="w">
-              </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;html&gt;&lt;body&gt;Fix your phone now!&lt;/body&gt;&lt;/html&gt;"</span><span class="p">,</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+              </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;html&gt;&lt;body&gt;Fix your phone now!&lt;/body&gt;&lt;/html&gt;"</span><span class="w">
             </span><span class="p">}</span><span class="w">
-        </span><span class="p">],</span><span class="w">
+        </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
@@ -527,30 +530,24 @@ It returns JSON structured like this:</p>
 </tr>
 </tbody></table>
 <h1 id='streams-api'>Streams API</h1>
-<p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams.</p>
-
-<p>## Create a Stream
-<code>shell
-curl &quot;https://api.mailinator.com/streams&quot;
-</code>
-<code>json
-{
-          &quot;name&quot;: &quot;my.test.stream&quot;,
-          &quot;description&quot; : &quot;Stream representing some testing&quot;,
-          &quot;enabled&quot; : false
-}
-</code></p>
-
+<p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams.    </p>
+<h2 id='create-a-stream'>Create a Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams"</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.test.stream"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <blockquote>
 <p>The above command returns JSON showing the newly created Stream:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-            </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.test.stream"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"ownerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59188558619b4f3879751781"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.test.stream"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ownerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59188558619b4f3879751781"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint creates streams. Stream names must be unique and cannot conflict with reserved stream names (i.e ALL, SMS, etc).</p>
@@ -588,6 +585,61 @@ curl &quot;https://api.mailinator.com/streams&quot;
 <td>(none)</td>
 <td>false</td>
 <td>You may specify rules when creating a stream but it is often easier to add them in separate API calls</td>
+</tr>
+</tbody></table>
+<h2 id='get-all-streams'>Get All Streams</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON showing the newly created Stream:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="s2">"streams"</span><span class="w"> </span><span class="p">:</span><span class="w"> 
+     </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+           </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.test.stream"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"ownerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59188558619b4f3879751781"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+       </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The endpoint fetches a list of all your streams. </p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>GET https://api.mailinator.com/streams/</code></p>
+<h2 id='get-a-specific-stream'>Get a Specific Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON showing the newly created Stream:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.test.stream"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"ownerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59188558619b4f3879751781"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The endpoint fetches a specific stream</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>GET https://api.mailinator.com/streams/:stream_id</code></p>
+<h3 id='path'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>true</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
 </tr>
 </tbody></table>
 
