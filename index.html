@@ -222,10 +222,13 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
+            <a href="#definitions" class="toc-h1 toc-link" data-title="Definitions">Definitions</a>
+          </li>
+          <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#messages" class="toc-h1 toc-link" data-title="Messages">Messages</a>
+            <a href="#message-api" class="toc-h1 toc-link" data-title="Message API">Message API</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#inbox" class="toc-h2 toc-link" data-title="Inbox">Inbox</a>
@@ -239,49 +242,98 @@
               </ul>
           </li>
           <li>
-            <a href="#rules" class="toc-h1 toc-link" data-title="Rules">Rules</a>
+            <a href="#streams-api" class="toc-h1 toc-link" data-title="Streams API">Streams API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#list-team-rules" class="toc-h2 toc-link" data-title="List Team Rules">List Team Rules</a>
+                    <a href="#http-request-3" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                  </li>
+                  <li>
+                    <a href="#post-parameters" class="toc-h2 toc-link" data-title="POST Parameters">POST Parameters</a>
                   </li>
               </ul>
           </li>
-          <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
-          </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='https://www.mailinator.com/v3/#/#pricing_table_pane'>Subscribe for Mailinator API access</a></li>
+            <li><a href='https://www.mailinator.com/'>Mailinator Home</a> - <a href='https://www.mailinator.com/v3/#/#pricing_table_pane'>Subscribe for Mailinator API access</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>The Mailinator API provides programmatic access to fetching and injecting messages into the Mailinator system. From there those messages will run through a subscriber&#39;s ruleset to determine the final destination(s) of that incoming message. Messages are typically (and historically) email messages, however, that is by no means a restriction. Any data with the general format of to, from, subject, and (optionally) body are applicable. This includes (at least) email, SMS, Http Post messages.</p>
+<p>The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message streams within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.</p>
 
 <p>Subscribers can read messages in both the Public and their own Private Mailinator email systems with the API. They may also inject messages but only to their Private Mailinator domains.</p>
 
-<p>In addition to message focused APIs, the API allows a programmatic to create and delete message routing rules (This may also be done in the Mailinator Web Interface).</p>
-
 <p>Access to the API (and messages in general) are subject to your subscription plan&#39;s rate limits.</p>
+<h1 id='definitions'>Definitions</h1>
+<ul>
+<li><b>Messages</b></li>
+</ul>
+
+<p>Messages within Mailinator are typically thought of as emails - however, messages can enter the system in a variety of ways including email, SMS, or HTTP Post. In general, the schema of messages contains a TO, FROM, SUBJECT, and message body. Message bodies can be simple string of text or as is allowed by email standards, a complicated multi-part, multi-encoded schema.</p>
+
+<ul>
+<li><b>Streams</b></li>
+</ul>
+
+<p>Streams identify a specific source for messages. Emails automatically are assigned to their domain to represent their Stream. Expectedly, each of your Private Domains represent a specific source for messages. Incoming SMS messages arrive to the reserved stream of <b>SMS</b>. For HTTP Posts, you can arbitrarily assign incoming messages to any stream name you choose.</p>
+
+<p>Streams are merely a source designation for incoming messages. You can then assign rule sets of how to operate upon incoming messages to that stream as you choose.</p>
+
+<p>Several Streams exist immediately with your Subscription:</p>
+
+<table><thead>
+<tr>
+<th>Stream Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ALL</td>
+<td>This stream represents ALL messages that arrive to any of your streams. Rules added to this stream apply to all incoming messages.</td>
+</tr>
+<tr>
+<td>SMS</td>
+<td>Any message arriving to one of your account&#39;s SMS inboxes are assigned to this stream</td>
+</tr>
+<tr>
+<td>Each Private Domain</td>
+<td>Each of your private domains has it&#39;s own stream and consequently, an available individual rule set</td>
+</tr>
+</tbody></table>
+
+<p>Note that all Streams are available for real-time viewing in the Mailinator UI. Instead of searching for an inbox, search for <b>stream</b>:</b>:stream_name</b></p>
+
+<ul>
+<li><b>Destinations</b></li>
+</ul>
+
+<p>Mailinator routing rules allow immediate routing actions to take place on incoming messages. For example, you may wish to designate all incoming email messages to &quot;Joe@YourPrivateDomain.com&quot; should be forwarded to your work email. You could also designate that all incoming messages to &quot;Bob@YourPrivateDomain.com&quot; should be Posted via WebHook to an endpoint on your testing server.</p>
+
+<p>Each place where you want Mailinator to send/post a message must be defined as a Destination.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To authorize, use this code:</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># REST calls require your team's API token in every call</span>
-curl <span class="s2">"api_endpoint_here?token=YourTeamAPIToken"</span>
+curl <span class="s2">"https://api.mailinator.com/api_endpoint_here?token=YourTeamAPIToken"</span>
+</code></pre>
+<blockquote>
+<p>or</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl --header <span class="s2">"Authorization: YourTeamAPIToken"</span> <span class="s2">"https://api.mailinator.com/api_endpoint_here"</span> 
 </code></pre>
 <blockquote>
 <p>Replace YourTeamAPIToken with the API Token found on your Team&#39;s settings page</p>
 </blockquote>
 
-<p>Mailinator uses API tokens for authentication. All calls to the API must include the token query parameter</p>
+<p>Mailinator uses API tokens for authentication. All calls to the API must include the token query parameter OR included as an HTTP Authorization header.</p>
 
 <aside class="notice">
-You must replace <code>YourTeamAPIToken</code> with the API token found on your team's settings page
+You must replace <code>YourTeamAPIToken</code> with the API token found on your Team's Settings page
 </aside>
-<h1 id='messages'>Messages</h1><h2 id='inbox'>Inbox</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http:/api/inbox?token=YourTeamAPIToken&amp;to=joe"</span>
+<h1 id='message-api'>Message API</h1><h2 id='inbox'>Inbox</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&amp;to=joe"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns the list of messages for the Inbox <b>joe</b>.
@@ -315,7 +367,7 @@ It returns JSON structured like this:</p>
 </span></code></pre>
 <p>This endpoint retrieves both public and private-domain inboxes</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://api.mailinator.com/api/inbox</code></p>
+<p><code>GET https://api.mailinator.com/api/inbox</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
@@ -411,7 +463,7 @@ It returns JSON structured like this:</p>
 </span></code></pre>
 <p>This endpoint retrieves a specific message by id.</p>
 
-<p><code>GET http://api.mailinator.com/api/message</code></p>
+<p><code>GET https://api.mailinator.com/api/message</code></p>
 <h3 id='query-parameters-2'>Query Parameters</h3>
 <table><thead>
 <tr>
@@ -474,23 +526,37 @@ It returns JSON structured like this:</p>
 <td>if <strong>delete_all=true</strong> is specified, ALL email will be deleted from your Team&#39;s private domain</td>
 </tr>
 </tbody></table>
-<h1 id='rules'>Rules</h1>
-<p>Mailinator provides a great deal of flexibility in routing messages through it&#39;s system. By default, Public messages (if they pass spam checks) arrive in public inboxes, and private domain messages arrive in private domain team inboxes.</p>
+<h1 id='streams-api'>Streams API</h1>
+<p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams.</p>
 
-<p>This behavior can be changed and/or augmented to route messages from and to many destinations.</p>
-<h2 id='list-team-rules'>List Team Rules</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/delete?token=YourTeamAPIToken&amp;id=joe-1551548025-3982989"</span>
-</code></pre>
+<p>## Create a Stream
+<code>shell
+curl &quot;https://api.mailinator.com/streams&quot;
+</code>
+<code>json
+{
+          &quot;name&quot;: &quot;my.test.stream&quot;,
+          &quot;description&quot; : &quot;Stream representing some testing&quot;,
+          &quot;enabled&quot; : false
+}
+</code></p>
+
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>The above command returns JSON showing the newly created Stream:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.test.stream"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"ownerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59188558619b4f3879751781"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint returns a list of all rules for this team (both active and disabled)</p>
+<p>The endpoint creates streams. Stream names must be unique and cannot conflict with reserved stream names (i.e ALL, SMS, etc).</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE https://api.mailinator.com/api/delete&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<p><code>POST https://api.mailinator.com/streams/</code></p>
+<h3 id='post-parameters'>POST Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -500,60 +566,28 @@ It returns JSON structured like this:</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
-<td>false</td>
+<td>name</td>
+<td>(none)</td>
 <td>true</td>
-<td>You must provide your API token with each request</td>
+<td>Names must be lowercase and 1-15 characters. They may only contain alphanumeric, dot, and underscore.</td>
 </tr>
 <tr>
-<td>id</td>
+<td>description</td>
+<td>(none)</td>
 <td>false</td>
+<td>1-255 characters</td>
+</tr>
+<tr>
+<td>enabled</td>
 <td>true</td>
-<td>The message id (usually found in a previous inbox api call) to delete</td>
-</tr>
-<tr>
-<td>delete_all</td>
 <td>false</td>
+<td>Enabled rules are immediately active.</td>
+</tr>
+<tr>
+<td>rules</td>
+<td>(none)</td>
 <td>false</td>
-<td>if <strong>delete_all=true</strong> is specified, ALL email will be deleted from your Team&#39;s private domain</td>
-</tr>
-</tbody></table>
-<h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Invalid API Token</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Message Not Found</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+<td>You may specify rules when creating a stream but it is often easier to add them in separate API calls</td>
 </tr>
 </tbody></table>
 
