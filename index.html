@@ -245,22 +245,10 @@
             <a href="#streams-api" class="toc-h1 toc-link" data-title="Streams API">Streams API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#create-a-stream" class="toc-h2 toc-link" data-title="Create a Stream">Create a Stream</a>
-                  </li>
-                  <li>
                     <a href="#get-all-streams" class="toc-h2 toc-link" data-title="Get All Streams">Get All Streams</a>
                   </li>
                   <li>
                     <a href="#get-stream" class="toc-h2 toc-link" data-title="Get Stream">Get Stream</a>
-                  </li>
-                  <li>
-                    <a href="#replace-stream" class="toc-h2 toc-link" data-title="Replace Stream">Replace Stream</a>
-                  </li>
-                  <li>
-                    <a href="#enable-stream" class="toc-h2 toc-link" data-title="Enable Stream">Enable Stream</a>
-                  </li>
-                  <li>
-                    <a href="#disable-stream" class="toc-h2 toc-link" data-title="Disable Stream">Disable Stream</a>
                   </li>
               </ul>
           </li>
@@ -268,7 +256,13 @@
             <a href="#rules-api" class="toc-h1 toc-link" data-title="Rules API">Rules API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#schemas" class="toc-h2 toc-link" data-title="Schemas">Schemas</a>
+                    <a href="#rules-schema" class="toc-h2 toc-link" data-title="Rules Schema">Rules Schema</a>
+                  </li>
+                  <li>
+                    <a href="#conditions-schema" class="toc-h2 toc-link" data-title="Conditions Schema">Conditions Schema</a>
+                  </li>
+                  <li>
+                    <a href="#actions-schema" class="toc-h2 toc-link" data-title="Actions Schema">Actions Schema</a>
                   </li>
                   <li>
                     <a href="#create-rule" class="toc-h2 toc-link" data-title="Create Rule">Create Rule</a>
@@ -285,11 +279,15 @@
                   <li>
                     <a href="#get-rule" class="toc-h2 toc-link" data-title="Get Rule">Get Rule</a>
                   </li>
+                  <li>
+                    <a href="#delete-rule" class="toc-h2 toc-link" data-title="Delete Rule">Delete Rule</a>
+                  </li>
               </ul>
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='https://www.mailinator.com/'>Mailinator Home</a> - <a href='https://www.mailinator.com/v3/#/#pricing_table_pane'>Subscribe for Mailinator API access</a></li>
+            <li><a href='https://www.mailinator.com/'>Mailinator Home</a></li>
+            <li><a href='https://www.mailinator.com/v3/#/#pricing_table_pane'>Subscribe for Mailinator API access</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -298,7 +296,7 @@
         <h1 id='introduction'>Introduction</h1>
 <p>The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message streams within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.</p>
 
-<p>Subscribers can read messages in both the Public and their own Private Mailinator email systems with the API. They may also inject messages but only to their Private Mailinator domains.</p>
+<p>Subscribers can read messages in both the Public and their own Private Mailinator email systems with the API. They may also route/inject messages but only to their Private Mailinator domains.</p>
 
 <p>Access to the API (and messages in general) are subject to your subscription plan&#39;s rate limits.</p>
 <h1 id='definitions'>Definitions</h1>
@@ -309,14 +307,10 @@
 <p>Messages within Mailinator are typically thought of as emails - however, messages can enter the system in a variety of ways including email, SMS, or HTTP Post. In general, the schema of messages contains a TO, FROM, SUBJECT, and message body. Message bodies can be simple string of text or as is allowed by email standards, a complicated multi-part, multi-encoded schema.</p>
 
 <ul>
-<li><b>Streams</b></li>
+<li><b>Private Domains / Streams</b></li>
 </ul>
 
-<p>Streams identify a specific source for messages. Emails automatically are assigned to their domain to represent their Stream. Expectedly, each of your Private Domains represent a specific source for messages. Incoming SMS messages arrive to the reserved stream of <b>SMS</b>. For HTTP Posts, you can arbitrarily assign incoming messages to any stream name you choose.</p>
-
-<p>Streams are merely a source designation for incoming messages. You can then assign rule sets of how to operate upon incoming messages to that stream as you choose.</p>
-
-<p>Several Streams exist immediately with your Subscription:</p>
+<p>Streams identify a specific source for messages. Emails automatically are assigned to the domain of their &quot;to&quot; address. Expectedly, each of your Private Domains represent a specific source for messages. Incoming SMS messages arrive to the reserved stream of <b>SMS</b>. </p>
 
 <table><thead>
 <tr>
@@ -324,10 +318,6 @@
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>ALL</td>
-<td>This stream represents ALL messages that arrive to any of your streams. Rules added to this stream apply to all incoming messages.</td>
-</tr>
 <tr>
 <td>SMS</td>
 <td>Any message arriving to one of your account&#39;s SMS inboxes are assigned to this stream</td>
@@ -338,15 +328,13 @@
 </tr>
 </tbody></table>
 
-<p>Note that all Streams are available for real-time viewing in the Mailinator UI. Instead of searching for an inbox, search for <b>stream</b>:</b>:stream_name</b></p>
-
 <ul>
 <li><b>Destinations</b></li>
 </ul>
 
 <p>Mailinator routing rules allow immediate routing actions to take place on incoming messages. For example, you may wish to designate all incoming email messages to &quot;Joe@YourPrivateDomain.com&quot; should be forwarded to your work email. You could also designate that all incoming messages to &quot;Bob@YourPrivateDomain.com&quot; should be Posted via WebHook to an endpoint on your testing server.</p>
 
-<p>Each place where you want Mailinator to send/post a message must be defined as a Destination.</p>
+<p>You may define a set of Destinations to be reused by your rules.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To authorize, use this code:</p>
@@ -374,30 +362,30 @@ You must replace <code>YourTeamAPIToken</code> with the API token found on your 
 <p>The above command returns the list of messages for the Inbox <b>joe</b>.
 It returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"messages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
+ </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="p">,</span><span class="w">
+ </span><span class="s2">"messages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-       </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fit-X"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noreply@fitx.com"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548025-3982989"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fitx &lt;noreply@fitx.com&gt;"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Important information about your enquiry"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548025000</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+     </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fit-X"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noreply@fitx.com"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548025-3982989"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fitx &lt;noreply@fitx.com&gt;"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Important information about your enquiry"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548025000</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-       </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548117-3983825"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging &lt;wirelesstest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548117000</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+   </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548117-3983825"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging &lt;wirelesstest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548117000</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+ </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves both public and private-domain inboxes</p>
@@ -422,9 +410,14 @@ It returns JSON structured like this:</p>
 <td>to</td>
 <td>false</td>
 <td>public only</td>
-<td>The inbox you wish to fetch<br>This may be a wildcard (i.e. <b>test*</b>) for fetching from your private domain<br>To fetch from a private domain, append the domain to this parameter (i.e. joe@myprivatedomain.com)<br>Public email fetches should only include the inbox itself</td>
+<td>The inbox you wish to fetch<br></td>
 </tr>
 </tbody></table>
+
+<p><br>
+    To fetch from a private domain, append the domain to this parameter (i.e. joe@myprivatedomain.com)<br>Public email fetches should only include the inbox itself<br>
+    <br>
+    This may be a wildcard (i.e. <b>test*</b>) for fetching from your private domain<br></p>
 
 <p>Example <strong>Public domain</strong> (i.e. @mailinator.com) inbox fetchs:
 <br>
@@ -562,63 +555,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 </tr>
 </tbody></table>
 <h1 id='streams-api'>Streams API</h1>
-<p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams.    </p>
-<h2 id='create-a-stream'>Create a Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams"</span>
-</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.test.stream"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"description"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<blockquote>
-<p>The above command returns JSON showing the newly created Stream:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my.test.stream"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ownerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59188558619b4f3879751781"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>The endpoint creates streams. Stream names must be unique and cannot conflict with reserved stream names (i.e ALL, SMS, etc).</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>POST https://api.mailinator.com/streams/</code></p>
-<h3 id='post-parameters'>POST Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>name</td>
-<td>(none)</td>
-<td>true</td>
-<td>Names must be lowercase and 1-15 characters. They may only contain alphanumeric, dot, and underscore.</td>
-</tr>
-<tr>
-<td>description</td>
-<td>(none)</td>
-<td>false</td>
-<td>1-255 characters</td>
-</tr>
-<tr>
-<td>enabled</td>
-<td>true</td>
-<td>false</td>
-<td>Enabled rules are immediately active.</td>
-</tr>
-<tr>
-<td>rules</td>
-<td>(none)</td>
-<td>false</td>
-<td>You may specify rules when creating a stream but it is often easier to add them in separate API calls</td>
-</tr>
-</tbody></table>
+<p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. Apart from SMS, Streams are synonymous with Private Domains. You may add or replace Private Domains in your Team Settings panel.</p>
 <h2 id='get-all-streams'>Get All Streams</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams"</span>
 </code></pre>
 <blockquote>
@@ -639,13 +576,11 @@ Example <strong>Private Domain</strong> inbox fetchs:
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint fetches a list of all your streams. </p>
-<h3 id='http-request-4'>HTTP Request</h3>
+<h3 id='http-request-3'>HTTP Request</h3>
 <p><code>GET https://api.mailinator.com/streams/</code></p>
 <h2 id='get-stream'>Get Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
 </code></pre>
-<blockquote>
-<p>The above command returns JSON showing the newly created Stream:</p>
-</blockquote>
+<p>&gt; The above command returns JSON showing the newly created Stream:</p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Stream representing some testing"</span><span class="p">,</span><span class="w">
@@ -656,136 +591,9 @@ Example <strong>Private Domain</strong> inbox fetchs:
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint fetches a specific stream</p>
-<h3 id='http-request-5'>HTTP Request</h3>
+<h3 id='http-request-4'>HTTP Request</h3>
 <p><code>GET https://api.mailinator.com/streams/:stream_id</code></p>
 <h3 id='path'>PATH</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>:stream_id</td>
-<td>(none)</td>
-<td>true</td>
-<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
-</tr>
-</tbody></table>
-<h2 id='replace-stream'>Replace Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
-</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"description"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"My new description"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mynewname"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<blockquote>
-<p>The above command returns JSON showing the newly created Stream:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My new description"</span><span class="w">
-   </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mynewname"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"ownerid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"59188558619b4f3879751781"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint allows you to replace an existing stream</p>
-<h3 id='http-request-6'>HTTP Request</h3>
-<p><code>PUT https://api.mailinator.com/streams/:stream_id</code></p>
-<h3 id='path-2'>PATH</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>:stream_id</td>
-<td>(none)</td>
-<td>true</td>
-<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
-</tr>
-</tbody></table>
-<h3 id='put-parameters'>PUT Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>name</td>
-<td>(none)</td>
-<td>true</td>
-<td>Names must be lowercase and 1-15 characters. They may only contain alphanumeric, dot, and underscore.</td>
-</tr>
-<tr>
-<td>description</td>
-<td>(none)</td>
-<td>false</td>
-<td>1-255 characters</td>
-</tr>
-<tr>
-<td>enabled</td>
-<td>true</td>
-<td>false</td>
-<td>Enabled rules are immediately active.</td>
-</tr>
-<tr>
-<td>rules</td>
-<td>(none)</td>
-<td>false</td>
-<td>You may specify rules when creating a stream but it is often easier to add them in separate API calls</td>
-</tr>
-</tbody></table>
-<h2 id='enable-stream'>Enable Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/enable"</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON::</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint allows you to enable an existing Stream</p>
-<h3 id='http-request-7'>HTTP Request</h3>
-<p><code>PUT https://api.mailinator.com/streams/:stream_id/enable</code></p>
-<h3 id='path-3'>PATH</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>:stream_id</td>
-<td>(none)</td>
-<td>true</td>
-<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
-</tr>
-</tbody></table>
-<h2 id='disable-stream'>Disable Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/disable"</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON::</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint allows you to disable an existing Stream</p>
-<h3 id='http-request-8'>HTTP Request</h3>
-<p><code>PUT https://api.mailinator.com/streams/:stream_id/disable</code></p>
-<h3 id='path-4'>PATH</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -805,7 +613,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <p>You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).</p>
 
 <p>Rules contain one or more conditions and one or more actions.</p>
-<h2 id='schemas'>Schemas</h2><h3 id='rules-schema'>Rules Schema</h3>
+<h2 id='rules-schema'>Rules Schema</h2>
 <blockquote>
 <p>Example:</p>
 </blockquote>
@@ -844,7 +652,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <tr>
 <td>name</td>
 <td>yes</td>
-<td>Names must be lowercase and 1-15 characters. They may only contain alphanumeric, dot, and underscore.</td>
+<td>Names must be lowercase and 1-20 characters. They may only contain alphanumeric, dot, and underscore.</td>
 </tr>
 <tr>
 <td>description</td>
@@ -859,7 +667,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <tr>
 <td>match</td>
 <td>yes</td>
-<td>Indicates condition matching type - must be ANY or ALL</td>
+<td>Indicates condition matching type - must be ANY, ALL, or ALWAYS_MATCH</td>
 </tr>
 <tr>
 <td>priority</td>
@@ -877,7 +685,33 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <td>Actions must be an array of Actions objects - see below</td>
 </tr>
 </tbody></table>
-<h3 id='conditions-schema'>Conditions Schema</h3>
+
+<aside class="notice">
+Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic if-statement. As in, <b>if CONDITION then ACTION</b>
+</aside>
+<h2 id='conditions-schema'>Conditions Schema</h2>
+<p>Conditions are executed to determine if a particular incoming message matches this rule.</p>
+<h3 id='match-type'>Match Type</h3>
+<table><thead>
+<tr>
+<th>Match</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ANY</td>
+<td>Matches if ANY of the conditions are true</td>
+</tr>
+<tr>
+<td>ALL</td>
+<td>Matches if ALL of the conditions are true</td>
+</tr>
+<tr>
+<td>ALWAYS_MATCH</td>
+<td>Always matches</td>
+</tr>
+</tbody></table>
+<h3 id='conditions-schema-2'>Conditions Schema</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -901,22 +735,79 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <td>Any - E.g., &quot;joe&quot;, &quot;bob&quot;</td>
 </tr>
 </tbody></table>
-<h3 id='actions-schema'>Actions Schema</h3>
+<h3 id='condition-operations'>Condition Operations</h3>
+<table><thead>
+<tr>
+<th>Operation</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>EQUALS</td>
+<td>Matches when the field (e.g. &quot;to&quot;) exactly matches an inbox (e.g. &quot;joe&quot;)</td>
+</tr>
+<tr>
+<td>PREFIX</td>
+<td>Matches when the field (e.g. &quot;to&quot;) starts with a string (e.g. &quot;test&quot; matches &quot;test&quot;, &quot;test1&quot;, &quot;test9999&quot;)</td>
+</tr>
+</tbody></table>
+<h2 id='actions-schema'>Actions Schema</h2>
+<p>Actions are executed if the condition set returns true</p>
+<h3 id='actions-schema-2'>Actions Schema</h3>
 <table><thead>
 <tr>
 <th>Field</th>
 <th>Description</th>
-<th>Valid Values</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>action</td>
 <td>Specific action to take if the rule condition was true</td>
-<td><em>DROP</em>, <em>WEBHOOK</em></td>
+</tr>
+<tr>
+<td>action_data</td>
+<td>A JsonObject containting action specific data (see below)</td>
 </tr>
 </tbody></table>
-<h2 id='create-rule'>Create Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/"</span>
-</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<h3 id='actions'>Actions</h3>
+<table><thead>
+<tr>
+<th>Action</th>
+<th>Description</th>
+<th>Action Data</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>WEBHOOK</td>
+<td>POST JSON version of message to HTTP Rest Endpoint</td>
+<td>url : your HTTP Rest Endpoint url</td>
+</tr>
+<tr>
+<td>DROP</td>
+<td>Drop this email. No further rules will execute</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<aside class='notice'>
+A dropped email will not be saved in your Team Inbox. This is the only way to prevent an email from being saved in your Team Inbox (regardless of other rules that were executed)
+</aside>
+
+<aside class="notice">
+A quick way to test webhooks is setup a free, disposable webhook at https://requestbin.com
+</aside>
+<h2 id='create-rule'>Create Rule</h2>
+<blockquote>
+<p>Create Rule</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"content-type: application/json"</span> 
+     -X POST <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/"</span> 
+     -d <span class="s2">"@data.json"</span>
+</code></pre>
+<blockquote>
+<p>file: data.json</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail starting with test* to my webhook"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testprefixpost"</span><span class="p">,</span><span class="w">
@@ -930,7 +821,9 @@ Example <strong>Private Domain</strong> inbox fetchs:
    </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+        </span><span class="s2">"action_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+           </span><span class="s2">"url"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.mywebsite.com/restendpoint"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
       </span><span class="p">}</span><span class="w">
    </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -953,15 +846,17 @@ Example <strong>Private Domain</strong> inbox fetchs:
    </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+        </span><span class="s2">"action_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+           </span><span class="s2">"url"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.mywebsite.com/restendpoint"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
       </span><span class="p">}</span><span class="w">
    </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint allows you to create a Rule</p>
-<h3 id='http-request-9'>HTTP Request</h3>
-<p><code>POST https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</code></p>
-<h3 id='path-5'>PATH</h3>
+<p>This endpoint allows you to create a Rule. Note that in the examples, &quot;:stream_id&quot; can be one of your private domains.</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST https://api.mailinator.com/streams/:stream_id/rules/</code></p>
+<h3 id='path-2'>PATH</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -972,15 +867,10 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <tr>
 <td>:stream_id</td>
 <td>(none)</td>
-<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
-</tr>
-<tr>
-<td>:rule_id</td>
-<td>(none)</td>
-<td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em> (i.e. your private domain)</td>
 </tr>
 </tbody></table>
-<h3 id='post-parameters-2'>POST Parameters</h3>
+<h3 id='post-parameters'>POST Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1036,11 +926,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <aside class="notice">
 Creating rules with enabled:true activates them immediately
 </aside>
-
-<aside class="notice">
-You must create Destinations prior to using them in actions which require them (i.e., WebHooks)
-</aside>
-<h2 id='enable-rule'>Enable Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable"</span>
+<h2 id='enable-rule'>Enable Rule</h2><pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON::</p>
@@ -1050,9 +936,9 @@ You must create Destinations prior to using them in actions which require them (
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to enable an existing Rule</p>
-<h3 id='http-request-10'>HTTP Request</h3>
+<h3 id='http-request-6'>HTTP Request</h3>
 <p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</code></p>
-<h3 id='path-6'>PATH</h3>
+<h3 id='path-3'>PATH</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1074,7 +960,7 @@ You must create Destinations prior to using them in actions which require them (
 <td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
 </tr>
 </tbody></table>
-<h2 id='disable-rule'>Disable Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable"</span>
+<h2 id='disable-rule'>Disable Rule</h2><pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON::</p>
@@ -1084,9 +970,9 @@ You must create Destinations prior to using them in actions which require them (
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to disable an existing Rule</p>
-<h3 id='http-request-11'>HTTP Request</h3>
+<h3 id='http-request-7'>HTTP Request</h3>
 <p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable</code></p>
-<h3 id='path-7'>PATH</h3>
+<h3 id='path-4'>PATH</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1133,7 +1019,9 @@ You must create Destinations prior to using them in actions which require them (
          </span><span class="s2">"actions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
            </span><span class="p">{</span><span class="w">
              </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
-             </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+             </span><span class="s2">"action_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"url"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.mywebsite.com/restendpoint"</span><span class="w">
+             </span><span class="p">}</span><span class="w">
            </span><span class="p">},</span><span class="w">
            </span><span class="p">{</span><span class="w">
              </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"DROP"</span><span class="w">           
@@ -1144,9 +1032,9 @@ You must create Destinations prior to using them in actions which require them (
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint fetches all Rules for a Stream</p>
-<h3 id='http-request-12'>HTTP Request</h3>
+<h3 id='http-request-8'>HTTP Request</h3>
 <p><code>GET https://api.mailinator.com/streams/:stream_id/rules/</code></p>
-<h3 id='path-8'>PATH</h3>
+<h3 id='path-5'>PATH</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1182,7 +1070,9 @@ You must create Destinations prior to using them in actions which require them (
    </span><span class="s2">"actions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
      </span><span class="p">{</span><span class="w">
        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WEBHOOK"</span><span class="p">,</span><span class="w">
-       </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_webhook1"</span><span class="w">
+       </span><span class="s2">"action_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"url"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.mywebsite.com/restendpoint"</span><span class="w">
+       </span><span class="p">}</span><span class="w">
      </span><span class="p">},</span><span class="w">
      </span><span class="p">{</span><span class="w">
        </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"DROP"</span><span class="w">           
@@ -1191,9 +1081,9 @@ You must create Destinations prior to using them in actions which require them (
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint fetches a Rules for a Stream</p>
-<h3 id='http-request-13'>HTTP Request</h3>
+<h3 id='http-request-9'>HTTP Request</h3>
 <p><code>GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id</code></p>
-<h3 id='path-9'>PATH</h3>
+<h3 id='path-6'>PATH</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1205,6 +1095,38 @@ You must create Destinations prior to using them in actions which require them (
 <td>:stream_id</td>
 <td>(none)</td>
 <td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+<tr>
+<td>:rule_id</td>
+<td>(none)</td>
+<td>This must be the rule <em>name</em> or the Rule <em>id</em></td>
+</tr>
+</tbody></table>
+<h2 id='delete-rule'>Delete Rule</h2><pre class="highlight shell tab-shell"><code>curl -X DELETE <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id"</span>
+</code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+   </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint deletes a specific Rule from a Stream</p>
+<h3 id='http-request-10'>HTTP Request</h3>
+<p><code>DELETE https://api.mailinator.com/streams/:stream_id/rules/:rule_id</code></p>
+<h3 id='path-7'>PATH</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:stream_id</td>
+<td>(none)</td>
+<td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
+</tr>
+<tr>
+<td>:rule_id</td>
+<td>(none)</td>
+<td>This must be the rule <em>name</em> or the Rule <em>id</em></td>
 </tr>
 </tbody></table>
 
