@@ -345,7 +345,8 @@ curl <span class="s2">"https://api.mailinator.com/api_endpoint_here?token=YourTe
 <blockquote>
 <p>or</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>curl --header <span class="s2">"Authorization: YourTeamAPIToken"</span> <span class="s2">"https://api.mailinator.com/api_endpoint_here"</span> 
+<pre class="highlight shell tab-shell"><code>curl --header <span class="s2">"Authorization: YourTeamAPIToken"</span> 
+     <span class="s2">"https://api.mailinator.com/api_endpoint_here"</span> 
 </code></pre>
 <blockquote>
 <p>Replace YourTeamAPIToken with the API Token found on your Team&#39;s settings page</p>
@@ -555,7 +556,11 @@ Example <strong>Private Domain</strong> inbox fetchs:
 </tr>
 </tbody></table>
 <h1 id='streams-api'>Streams API</h1>
-<p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. Apart from SMS, Streams are synonymous with Private Domains. You may add or replace Private Domains in your Team Settings panel.</p>
+<p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.</p>
+
+<aside class="notice">
+In general, "Streams" are synonymous with "Private Domains". When you add or delete a Private Domain, a corresponding Stream is also added or deleted.
+</aside>
 <h2 id='get-all-streams'>Get All Streams</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams"</span>
 </code></pre>
 <blockquote>
