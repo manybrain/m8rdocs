@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Mailinator API Reference</title>
+    <title>Mailinator Documentation</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -219,62 +219,47 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-          </li>
-          <li>
-            <a href="#definitions" class="toc-h1 toc-link" data-title="Definitions">Definitions</a>
-          </li>
-          <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#message-api" class="toc-h1 toc-link" data-title="Message API">Message API</a>
+            <a href="#mailinator" class="toc-h1 toc-link" data-title="Mailinator">Mailinator</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#fetch-inbox" class="toc-h2 toc-link" data-title="Fetch Inbox">Fetch Inbox</a>
+                    <a href="#public-mailinator" class="toc-h2 toc-link" data-title="Public Mailinator">Public Mailinator</a>
                   </li>
                   <li>
-                    <a href="#fetch-a-message" class="toc-h2 toc-link" data-title="Fetch a message">Fetch a message</a>
-                  </li>
-                  <li>
-                    <a href="#delete-a-message" class="toc-h2 toc-link" data-title="Delete a Message">Delete a Message</a>
+                    <a href="#private-mailinator" class="toc-h2 toc-link" data-title="Private Mailinator">Private Mailinator</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#streams-api" class="toc-h1 toc-link" data-title="Streams API">Streams API</a>
+            <a href="#message-access" class="toc-h1 toc-link" data-title="Message Access">Message Access</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-streams" class="toc-h2 toc-link" data-title="Get All Streams">Get All Streams</a>
+                    <a href="#web" class="toc-h2 toc-link" data-title="Web">Web</a>
                   </li>
                   <li>
-                    <a href="#get-stream" class="toc-h2 toc-link" data-title="Get Stream">Get Stream</a>
+                    <a href="#api" class="toc-h2 toc-link" data-title="API">API</a>
+                  </li>
+                  <li>
+                    <a href="#rules" class="toc-h2 toc-link" data-title="Rules">Rules</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#rules-api" class="toc-h1 toc-link" data-title="Rules API">Rules API</a>
+            <a href="#the-mailinator-api" class="toc-h1 toc-link" data-title="The Mailinator API">The Mailinator API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#rules-schema" class="toc-h2 toc-link" data-title="Rules Schema">Rules Schema</a>
+                    <a href="#definitions" class="toc-h2 toc-link" data-title="Definitions">Definitions</a>
                   </li>
                   <li>
-                    <a href="#conditions-schema" class="toc-h2 toc-link" data-title="Conditions Schema">Conditions Schema</a>
+                    <a href="#api-authentication" class="toc-h2 toc-link" data-title="API Authentication">API Authentication</a>
                   </li>
                   <li>
-                    <a href="#actions-schema" class="toc-h2 toc-link" data-title="Actions Schema">Actions Schema</a>
+                    <a href="#message-api" class="toc-h2 toc-link" data-title="Message API">Message API</a>
                   </li>
                   <li>
-                    <a href="#create-rule" class="toc-h2 toc-link" data-title="Create Rule">Create Rule</a>
+                    <a href="#streams-api" class="toc-h2 toc-link" data-title="Streams API">Streams API</a>
                   </li>
                   <li>
-                    <a href="#enable-rule" class="toc-h2 toc-link" data-title="Enable Rule">Enable Rule</a>
-                  </li>
-                  <li>
-                    <a href="#disable-rule" class="toc-h2 toc-link" data-title="Disable Rule">Disable Rule</a>
-                  </li>
-                  <li>
-                    <a href="#get-all-rules" class="toc-h2 toc-link" data-title="Get All Rules">Get All Rules</a>
+                    <a href="#rules-api" class="toc-h2 toc-link" data-title="Rules API">Rules API</a>
                   </li>
                   <li>
                     <a href="#get-rule" class="toc-h2 toc-link" data-title="Get Rule">Get Rule</a>
@@ -293,13 +278,49 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
+        <h1 id='mailinator'>Mailinator</h1>
+<p>Mailinator is an email system that accepts email for any inbox with no sign-up, login, or account creation involved. Whereas most email systems revolve around &quot;account ownership&quot; which is centered on a given inbox (e.g. your_email@gmail.com), Mailinator is centered around entire domains.</p>
+<h2 id='public-mailinator'>Public Mailinator</h2>
+<p>The public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain and readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.</p>
+
+<p>In addition, all emails in the public Mailinator sytem auto-delete after a few hours. They are un-retrievable after this happens.</p>
+
+<p>Finally, it&#39;s important to note that the Mailinator system is RECEIVE-ONLY. <b>No one can send an email from Mailinator.</b> (Any email appearing to have arrived from an @mailinator address has had it&#39;s &quot;From&quot; field forged to appear as such).</p>
+
+<p>There is no need to sign-up to use the public Mailinator system. Simply go to the home page and enter an inbox name (i.e. anything you wish up to 50 characters) to check a particular inbox.</p>
+
+<p>Again, the public Mailinator is intended for personal and occasional use hence usage limits apply. Please see our Upgrade plans for corporate users.</p>
+<h2 id='private-mailinator'>Private Mailinator</h2>
+<p>Mailinator offers upgraded subscriptions for corporate users wishing to use the Mailinator system. This offers many benefits.</p>
+
+<p>Subscribers receive one or more &quot;Private Domains&quot; which provide a private version of Mailinator. That is, you control all inboxes for a given domain (i.e. either one your provide or the system will provide one for you). You may view all such inboxes in one &quot;super inbox&quot; which lists every email coming into the domain in realtime. Emails in Private domains are not automatically deleted until your team&#39;s storage is exhausted. At this time, new emails push out old emails. Otherwise, emails in private domains are persistent as long as the account is active.</p>
+
+<p>In addition, Private users gain API access to messages within the Mailinator system. Subscribers may use the API to access all email in their Private Domain(s) in addition to the Public Mailinator system.</p>
+<h1 id='message-access'>Message Access</h1><h2 id='web'>Web</h2>
+<p>The web interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s).</p>
+<h2 id='api'>API</h2>
+<p>Subscribers may use programmatic access to poll inboxes and retrieve emails in JSON format. Documentation for the API can be found below.</p>
+<h2 id='rules'>Rules</h2>
+<p>Instead of pulling emails via the API, Subscribers may set rules for Mailinator to &quot;push&quot; messages to them as they arrive. The rule system may be configured via the Web interface (i.e. Mailinator Routing Rules) or programmatically via the API (see API documentation below).</p>
+
+<p>The Rule system allows subscribers to match on inbox and act upon every email that matches the conditional criteria.</p>
+
+<p><img src='images/ruleshot.png'></p>
+
+<p>For example, a rule might be:</p>
+
+<p>IF <b>TO = joe</b> THEN <b>Post Webhook To https://mywebsite.com/endpoint</b></p>
+
+<p>For a given Private domain, all emails that arrive to the &quot;joe&quot; inbox will be converted to JSON, and HTTP Posted to the designated endpoint.</p>
+
+<p>Note that the Rule System is only available for Private Domains at this time. For more information on configuring Rules, see the Rules API documentation below (The Mailinator Web interface is merely a front-end for this API).</p>
+<h1 id='the-mailinator-api'>The Mailinator API</h1>
 <p>The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message streams within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.</p>
 
 <p>Subscribers can read messages in both the Public and their own Private Mailinator email systems with the API. They may also route/inject messages but only to their Private Mailinator domains.</p>
 
 <p>Access to the API (and messages in general) are subject to your subscription plan&#39;s rate limits.</p>
-<h1 id='definitions'>Definitions</h1>
+<h2 id='definitions'>Definitions</h2>
 <ul>
 <li><b>Messages</b></li>
 </ul>
@@ -335,7 +356,7 @@
 <p>Mailinator routing rules allow immediate routing actions to take place on incoming messages. For example, you may wish to designate all incoming email messages to &quot;Joe@YourPrivateDomain.com&quot; should be forwarded to your work email. You could also designate that all incoming messages to &quot;Bob@YourPrivateDomain.com&quot; should be Posted via WebHook to an endpoint on your testing server.</p>
 
 <p>You may define a set of Destinations to be reused by your rules.</p>
-<h1 id='authentication'>Authentication</h1>
+<h2 id='api-authentication'>API Authentication</h2>
 <blockquote>
 <p>To authorize, use this code:</p>
 </blockquote>
@@ -357,7 +378,7 @@ curl <span class="s2">"https://api.mailinator.com/api_endpoint_here?token=YourTe
 <aside class="notice">
 You must replace <code>YourTeamAPIToken</code> with the API token found on your Team's Settings page
 </aside>
-<h1 id='message-api'>Message API</h1><h2 id='fetch-inbox'>Fetch Inbox</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&amp;to=joe"</span>
+<h2 id='message-api'>Message API</h2><h3 id='fetch-inbox'>Fetch Inbox</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&amp;to=joe"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns the list of messages for the Inbox <b>joe</b>.
@@ -390,9 +411,9 @@ It returns JSON structured like this:</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves both public and private-domain inboxes</p>
-<h3 id='http-request'>HTTP Request</h3>
+<h4 id='http-request'>HTTP Request</h4>
 <p><code>GET https://api.mailinator.com/api/inbox</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
+<h4 id='query-parameters'>Query Parameters</h4>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -444,7 +465,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
     &nbsp;
     &nbsp;<br>
 <code>https://api.mailinator.com/api/inbox?to=test*&amp;token=YourTeamAPIToken</code></p>
-<h2 id='fetch-a-message'>Fetch a message</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/message?token=YourAPIToken&amp;id=joe-1551548025-3982989"</span>
+<h3 id='fetch-a-message'>Fetch a message</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/message?token=YourAPIToken&amp;id=joe-1551548025-3982989"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -493,7 +514,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <p>This endpoint retrieves a specific message by id.</p>
 
 <p><code>GET https://api.mailinator.com/api/message</code></p>
-<h3 id='query-parameters-2'>Query Parameters</h3>
+<h4 id='query-parameters-2'>Query Parameters</h4>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -515,7 +536,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <td>The message id (usually found in a previous inbox api call) to retrieve</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-message'>Delete a Message</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/delete?token=YourTeamAPIToken&amp;id=joe-1551548025-3982989"</span>
+<h3 id='delete-a-message'>Delete a Message</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/delete?token=YourTeamAPIToken&amp;id=joe-1551548025-3982989"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -525,9 +546,9 @@ Example <strong>Private Domain</strong> inbox fetchs:
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint deletes a specific message.</p>
-<h3 id='http-request-2'>HTTP Request</h3>
+<h4 id='http-request-2'>HTTP Request</h4>
 <p><code>DELETE https://api.mailinator.com/api/delete</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
+<h4 id='url-parameters'>URL Parameters</h4>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -555,13 +576,13 @@ Example <strong>Private Domain</strong> inbox fetchs:
 <td>if <strong>delete_all=true</strong> is specified, ALL email will be deleted from your Team&#39;s private domain</td>
 </tr>
 </tbody></table>
-<h1 id='streams-api'>Streams API</h1>
+<h2 id='streams-api'>Streams API</h2>
 <p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.</p>
 
 <aside class="notice">
 In general, "Streams" are synonymous with "Private Domains". When you add or delete a Private Domain, a corresponding Stream is also added or deleted.
 </aside>
-<h2 id='get-all-streams'>Get All Streams</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams"</span>
+<h3 id='get-all-streams'>Get All Streams</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON showing the newly created Stream:</p>
@@ -581,9 +602,9 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint fetches a list of all your streams. </p>
-<h3 id='http-request-3'>HTTP Request</h3>
+<h4 id='http-request-3'>HTTP Request</h4>
 <p><code>GET https://api.mailinator.com/streams/</code></p>
-<h2 id='get-stream'>Get Stream</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
+<h3 id='get-stream'>Get Stream</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
 </code></pre>
 <p>&gt; The above command returns JSON showing the newly created Stream:</p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
@@ -596,9 +617,9 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint fetches a specific stream</p>
-<h3 id='http-request-4'>HTTP Request</h3>
+<h4 id='http-request-4'>HTTP Request</h4>
 <p><code>GET https://api.mailinator.com/streams/:stream_id</code></p>
-<h3 id='path'>PATH</h3>
+<h4 id='path'>PATH</h4>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -614,11 +635,11 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 <td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
 </tr>
 </tbody></table>
-<h1 id='rules-api'>Rules API</h1>
+<h2 id='rules-api'>Rules API</h2>
 <p>You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).</p>
 
 <p>Rules contain one or more conditions and one or more actions.</p>
-<h2 id='rules-schema'>Rules Schema</h2>
+<h3 id='rules-schema'>Rules Schema</h3>
 <blockquote>
 <p>Example:</p>
 </blockquote>
@@ -694,9 +715,9 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 <aside class="notice">
 Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic if-statement. As in, <b>if CONDITION then ACTION</b>
 </aside>
-<h2 id='conditions-schema'>Conditions Schema</h2>
+<h3 id='conditions-schema'>Conditions Schema</h3>
 <p>Conditions are executed to determine if a particular incoming message matches this rule.</p>
-<h3 id='match-type'>Match Type</h3>
+<h4 id='match-type'>Match Type</h4>
 <table><thead>
 <tr>
 <th>Match</th>
@@ -716,7 +737,7 @@ Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic 
 <td>Always matches</td>
 </tr>
 </tbody></table>
-<h3 id='conditions-schema-2'>Conditions Schema</h3>
+<h4 id='conditions-schema-2'>Conditions Schema</h4>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -740,7 +761,7 @@ Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic 
 <td>Any - E.g., &quot;joe&quot;, &quot;bob&quot;</td>
 </tr>
 </tbody></table>
-<h3 id='condition-operations'>Condition Operations</h3>
+<h4 id='condition-operations'>Condition Operations</h4>
 <table><thead>
 <tr>
 <th>Operation</th>
@@ -756,9 +777,9 @@ Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic 
 <td>Matches when the field (e.g. &quot;to&quot;) starts with a string (e.g. &quot;test&quot; matches &quot;test&quot;, &quot;test1&quot;, &quot;test9999&quot;)</td>
 </tr>
 </tbody></table>
-<h2 id='actions-schema'>Actions Schema</h2>
+<h3 id='actions-schema'>Actions Schema</h3>
 <p>Actions are executed if the condition set returns true</p>
-<h3 id='actions-schema-2'>Actions Schema</h3>
+<h4 id='actions-schema-2'>Actions Schema</h4>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -774,7 +795,7 @@ Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic 
 <td>A JsonObject containting action specific data (see below)</td>
 </tr>
 </tbody></table>
-<h3 id='actions'>Actions</h3>
+<h4 id='actions'>Actions</h4>
 <table><thead>
 <tr>
 <th>Action</th>
@@ -801,7 +822,7 @@ A dropped email will not be saved in your Team Inbox. This is the only way to pr
 <aside class="notice">
 A quick way to test webhooks is setup a free, disposable webhook at https://requestbin.com
 </aside>
-<h2 id='create-rule'>Create Rule</h2>
+<h3 id='create-rule'>Create Rule</h3>
 <blockquote>
 <p>Create Rule</p>
 </blockquote>
@@ -859,9 +880,9 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to create a Rule. Note that in the examples, &quot;:stream_id&quot; can be one of your private domains.</p>
-<h3 id='http-request-5'>HTTP Request</h3>
+<h4 id='http-request-5'>HTTP Request</h4>
 <p><code>POST https://api.mailinator.com/streams/:stream_id/rules/</code></p>
-<h3 id='path-2'>PATH</h3>
+<h4 id='path-2'>PATH</h4>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -875,7 +896,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 <td>This must be the Stream <em>name</em> or the Stream <em>id</em> (i.e. your private domain)</td>
 </tr>
 </tbody></table>
-<h3 id='post-parameters'>POST Parameters</h3>
+<h4 id='post-parameters'>POST Parameters</h4>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -931,7 +952,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 <aside class="notice">
 Creating rules with enabled:true activates them immediately
 </aside>
-<h2 id='enable-rule'>Enable Rule</h2><pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable"</span>
+<h3 id='enable-rule'>Enable Rule</h3><pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON::</p>
@@ -941,9 +962,9 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to enable an existing Rule</p>
-<h3 id='http-request-6'>HTTP Request</h3>
+<h4 id='http-request-6'>HTTP Request</h4>
 <p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</code></p>
-<h3 id='path-3'>PATH</h3>
+<h4 id='path-3'>PATH</h4>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -965,7 +986,7 @@ Creating rules with enabled:true activates them immediately
 <td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
 </tr>
 </tbody></table>
-<h2 id='disable-rule'>Disable Rule</h2><pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable"</span>
+<h3 id='disable-rule'>Disable Rule</h3><pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON::</p>
@@ -975,9 +996,9 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to disable an existing Rule</p>
-<h3 id='http-request-7'>HTTP Request</h3>
+<h4 id='http-request-7'>HTTP Request</h4>
 <p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable</code></p>
-<h3 id='path-4'>PATH</h3>
+<h4 id='path-4'>PATH</h4>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -999,7 +1020,7 @@ Creating rules with enabled:true activates them immediately
 <td>This must be the Rule <em>name</em> or the Stream <em>id</em></td>
 </tr>
 </tbody></table>
-<h2 id='get-all-rules'>Get All Rules</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/"</span>
+<h3 id='get-all-rules'>Get All Rules</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id/rules/"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"rules"</span><span class="w"> </span><span class="p">:</span><span class="w"> 
    </span><span class="p">[</span><span class="w">
