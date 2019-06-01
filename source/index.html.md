@@ -1,5 +1,5 @@
 ---
-title: Mailinator API Reference
+title: Mailinator Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
@@ -11,14 +11,54 @@ toc_footers:
 
 search: true
 ---
+# Mailinator
 
-# Introduction
+Mailinator is an email system that accepts email for any inbox with no sign-up, login, or account creation involved. Whereas most email systems revolve around "account ownership" which is centered on a given inbox (e.g. your_email@gmail.com), Mailinator is centered around entire domains.
+
+## Public Mailinator
+
+The public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain and readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.
+
+In addition, all emails in the public Mailinator sytem auto-delete after a few hours. They are un-retrievable after this happens.
+
+Finally, it's important to note that the Mailinator system is RECEIVE-ONLY. <b>No one can send an email from Mailinator.</b> (Any email appearing to have arrived from an @mailinator address has had it's "From" field forged to appear as such).
+
+There is no need to sign-up to use the public Mailinator system. Simply go to the home page and enter an inbox name (i.e. anything you wish up to 50 characters) to check a particular inbox.
+
+Again, the public Mailinator is intended for personal and occasional use hence usage limits apply. Please see our Upgrade plans for corporate users.
+
+## Private Mailinator
+
+Mailinator offers upgraded subscriptions for corporate users wishing to use the Mailinator system. This offers many benefits.
+
+Subscribers receive one or more "Private Domains" which provide a private version of Mailinator. That is, you control all inboxes for a given domain (i.e. either one your provide or the system will provide one for you). You may view all such inboxes in one "super inbox" which lists every email coming into the domain in realtime. Emails in Private domains are not automatically deleted until your team's storage is exhausted. At this time, new emails push out old emails. Otherwise, emails in private domains are persistent as long as the account is active.
+
+In addition, Private users gain API access to messages within the Mailinator system. Subscribers may use the API to access all email in their Private Domain(s) in addition to the Public Mailinator system.
+
+# Message Access
+
+## Web
+
+The web interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s).
+
+## API
+
+Subscribers may use programmatic access to poll inboxes and retrieve emails in JSON format. Documentation for the API can be found below.
+
+## Rules
+
+Instead of pulling emails via the API, Subscribers may set rules for Mailinator to "push" messages to them as they arrive. The rule system may be configured via the Web interface (i.e. Mailinator Routing Rules) or programmatically via the API (see API documentation below).
+
+The Rule system allows subscribers to match on inbox and act upon every email 
+
+# The Mailinator API
 
 The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message streams within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.
 
 Subscribers can read messages in both the Public and their own Private Mailinator email systems with the API. They may also route/inject messages but only to their Private Mailinator domains.
 
 Access to the API (and messages in general) are subject to your subscription plan's rate limits.
+
 
 # Definitions
 
@@ -53,7 +93,8 @@ curl "https://api.mailinator.com/api_endpoint_here?token=YourTeamAPIToken"
 >or
 
 ```shell
-curl --header "Authorization: YourTeamAPIToken" "https://api.mailinator.com/api_endpoint_here" 
+curl --header "Authorization: YourTeamAPIToken" 
+     "https://api.mailinator.com/api_endpoint_here" 
 ```
 
 > Replace YourTeamAPIToken with the API Token found on your Team's settings page
@@ -238,7 +279,11 @@ delete_all | false | false | if **delete_all=true** is specified, ALL email will
 	      
 
 # Streams API
-Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. Apart from SMS, Streams are synonymous with Private Domains. You may add or replace Private Domains in your Team Settings panel.
+Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.
+
+<aside class="notice">
+In general, "Streams" are synonymous with "Private Domains". When you add or delete a Private Domain, a corresponding Stream is also added or deleted.
+</aside>
 
 ## Get All Streams
 ```shell
