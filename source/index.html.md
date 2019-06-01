@@ -49,7 +49,17 @@ Subscribers may use programmatic access to poll inboxes and retrieve emails in J
 
 Instead of pulling emails via the API, Subscribers may set rules for Mailinator to "push" messages to them as they arrive. The rule system may be configured via the Web interface (i.e. Mailinator Routing Rules) or programmatically via the API (see API documentation below).
 
-The Rule system allows subscribers to match on inbox and act upon every email 
+The Rule system allows subscribers to match on inbox and act upon every email that matches the conditional criteria.
+
+<img src='images/ruleshot.png'>
+
+For example, a rule might be:
+
+IF <b>TO = joe</b> THEN <b>Post Webhook To https://mywebsite.com/endpoint</b>
+
+For a given Private domain, all emails that arrive to the "joe" inbox will be converted to JSON, and HTTP Posted to the designated endpoint.
+
+Note that the Rule System is only available for Private Domains at this time. For more information on configuring Rules, see the Rules API documentation below (The Mailinator Web interface is merely a front-end for this API).
 
 # The Mailinator API
 
@@ -60,7 +70,7 @@ Subscribers can read messages in both the Public and their own Private Mailinato
 Access to the API (and messages in general) are subject to your subscription plan's rate limits.
 
 
-# Definitions
+## Definitions
 
 - <b>Messages</b>
 
@@ -81,7 +91,7 @@ Mailinator routing rules allow immediate routing actions to take place on incomi
 
 You may define a set of Destinations to be reused by your rules.
 
-# Authentication
+## API Authentication
 
 > To authorize, use this code:
 
@@ -105,9 +115,9 @@ Mailinator uses API tokens for authentication. All calls to the API must include
 You must replace <code>YourTeamAPIToken</code> with the API token found on your Team's Settings page
 </aside>
 
-# Message API
+## Message API
 
-## Fetch Inbox
+### Fetch Inbox
 
 ```shell
 curl "https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&to=joe"
@@ -145,11 +155,11 @@ curl "https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&to=joe"
 ```
 This endpoint retrieves both public and private-domain inboxes
     
-### HTTP Request
+#### HTTP Request
   
 `GET https://api.mailinator.com/api/inbox`
     
-### Query Parameters
+#### Query Parameters
     
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -187,7 +197,7 @@ Example **Private Domain** inbox fetchs:
 `https://api.mailinator.com/api/inbox?to=test*&token=YourTeamAPIToken`
 
 
-## Fetch a message
+### Fetch a message
     
     
 ```shell
@@ -242,7 +252,7 @@ This endpoint retrieves a specific message by id.
 
 `GET https://api.mailinator.com/api/message`
 
-### Query Parameters
+#### Query Parameters
 
 Parameter | Default | Required | Description
 	      --------- | ------- | -------- | -----------
@@ -250,7 +260,7 @@ token | false | true | You must provide your API token with each request
 id | false | true | The message id (usually found in a previous inbox api call) to retrieve
 
 
-## Delete a Message
+### Delete a Message
 ```shell
 curl "https://api.mailinator.com/api/delete?token=YourTeamAPIToken&id=joe-1551548025-3982989"
 ```
@@ -265,11 +275,11 @@ curl "https://api.mailinator.com/api/delete?token=YourTeamAPIToken&id=joe-155154
 	      
 This endpoint deletes a specific message.
       
-### HTTP Request
+#### HTTP Request
      
 `DELETE https://api.mailinator.com/api/delete`
 	      
-### URL Parameters
+#### URL Parameters
 	      
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -278,14 +288,14 @@ id | false | true | The message id (usually found in a previous inbox api call) 
 delete_all | false | false | if **delete_all=true** is specified, ALL email will be deleted from your Team's private domain		
 	      
 
-# Streams API
+## Streams API
 Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.
 
 <aside class="notice">
 In general, "Streams" are synonymous with "Private Domains". When you add or delete a Private Domain, a corresponding Stream is also added or deleted.
 </aside>
 
-## Get All Streams
+### Get All Streams
 ```shell
 curl "https://api.mailinator.com/streams"
 ```
@@ -310,11 +320,11 @@ curl "https://api.mailinator.com/streams"
 
 The endpoint fetches a list of all your streams. 
 
-### HTTP Request
+#### HTTP Request
 
 `GET https://api.mailinator.com/streams/`
 	      
-## Get Stream
+### Get Stream
 ```shell
 curl "https://api.mailinator.com/streams/:stream_id"
 ```
@@ -334,22 +344,22 @@ curl "https://api.mailinator.com/streams/:stream_id"
 
 The endpoint fetches a specific stream
 
-### HTTP Request
+#### HTTP Request
 
 `GET https://api.mailinator.com/streams/:stream_id`
 	      
-### PATH 
+#### PATH 
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
 	      :stream_id | (none) | true | This must be the Stream *name* or the Stream *id*
 
 
-# Rules API
+## Rules API
 You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).
 
 Rules contain one or more conditions and one or more actions.
-## Rules Schema
+### Rules Schema
 
 > Example:
 
@@ -391,40 +401,40 @@ conditions | yes | Conditions must be an array Conditions objects - see below
 Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic if-statement. As in, <b>if CONDITION then ACTION</b>
 </aside>
 
-## Conditions Schema
+### Conditions Schema
 	      Conditions are executed to determine if a particular incoming message matches this rule.
 	      
-### Match Type
+#### Match Type
 Match        | Description
 ------------ | -----------------------------------------
 ANY          | Matches if ANY of the conditions are true 
 ALL          | Matches if ALL of the conditions are true
 ALWAYS_MATCH | Always matches
 	      	      
-### Conditions Schema
+#### Conditions Schema
 Field |  Description | Valid Values
 ----- |  ----------- | ------------
 operation | Comparison operation for field and value. | *EQUALS*, *PREFIX* 
 field | The message field to compare. | *to*
 value | The value to compare. | Any - E.g., "joe", "bob"
 
-### Condition Operations
+#### Condition Operations
 Operation | Description
 --------- | -------------------------------------
 EQUALS    | Matches when the field (e.g. "to") exactly matches an inbox (e.g. "joe")
 PREFIX    | Matches when the field (e.g. "to") starts with a string (e.g. "test" matches "test", "test1", "test9999")	     
 	      
 	      
-## Actions Schema
+### Actions Schema
 Actions are executed if the condition set returns true
 
-### Actions Schema
+#### Actions Schema
 Field       |  Description 
 ----------- |  -------------------------------------------------------- 
 action      | Specific action to take if the rule condition was true 
 action_data | A JsonObject containting action specific data (see below)
 
-### Actions
+#### Actions
 Action    | Description                                        | Action Data
 --------- | -------------------------------------------------- | -----------
 WEBHOOK   | POST JSON version of message to HTTP Rest Endpoint | url : your HTTP Rest Endpoint url
@@ -439,7 +449,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 </aside>
 
 
-## Create Rule
+### Create Rule
 
 > Create Rule
 
@@ -502,17 +512,17 @@ curl -H "content-type: application/json"
 
 This endpoint allows you to create a Rule. Note that in the examples, ":stream_id" can be one of your private domains.
 
-### HTTP Request
+#### HTTP Request
 
 `POST https://api.mailinator.com/streams/:stream_id/rules/`
 	      
-### PATH 
+#### PATH 
 
 Parameter | Default | Description
 --------- | ------- | -----------
 :stream_id | (none) | This must be the Stream *name* or the Stream *id* (i.e. your private domain)
 
-### POST Parameters
+#### POST Parameters
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -528,7 +538,7 @@ actions | (none) | true | Actions must be an array of Actions objects
 Creating rules with enabled:true activates them immediately
 </aside>
 
-## Enable Rule
+### Enable Rule
 ```shell
 curl -X PUT "https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable"
 ```
@@ -543,11 +553,11 @@ curl -X PUT "https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable
 
 This endpoint allows you to enable an existing Rule
 
-### HTTP Request
+#### HTTP Request
 
 `PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable`
 	      
-### PATH 
+#### PATH 
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -559,7 +569,7 @@ Parameter | Default | Required | Description
 
 
 
-## Disable Rule
+### Disable Rule
 ```shell
 curl -X PUT "https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable"
 ```
@@ -574,11 +584,11 @@ curl -X PUT "https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disabl
 
 This endpoint allows you to disable an existing Rule
 
-### HTTP Request
+#### HTTP Request
 
 `PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable`
 	      
-### PATH 
+#### PATH 
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -591,7 +601,7 @@ Parameter | Default | Required | Description
 
 
 
-## Get All Rules
+### Get All Rules
 ```shell
 curl "https://api.mailinator.com/streams/:stream_id/rules/"
 ```
