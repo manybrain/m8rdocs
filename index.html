@@ -432,16 +432,23 @@ It returns JSON structured like this:</p>
 <td>to</td>
 <td>false</td>
 <td>public only</td>
-<td>The inbox you wish to fetch<br></td>
+<td>The inbox you wish to fetch</td>
+</tr>
+<tr>
+<td>private_domain</td>
+<td>false</td>
+<td>false</td>
+<td>specify to only fetch messages from your private domain</td>
 </tr>
 </tbody></table>
 
 <p><br>
+    <br>
     To fetch from a private domain, append the domain to this parameter (i.e. joe@myprivatedomain.com)<br>Public email fetches should only include the inbox itself<br>
     <br>
     This may be a wildcard (i.e. <b>test*</b>) for fetching from your private domain<br></p>
 
-<p>Example <strong>Public domain</strong> (i.e. @mailinator.com) inbox fetchs:
+<p>Example <strong>Public domain</strong> (i.e. @mailinator.com) inbox fetches:
 <br>
     &nbsp;
     &nbsp;
@@ -456,6 +463,10 @@ It returns JSON structured like this:</p>
 <br>
 Example <strong>Private Domain</strong> inbox fetchs:
 <br>
+    &nbsp;
+    &nbsp;
+    &nbsp;<br>
+<code>https://api.mailinator.com/api/inbox?to=testinbox&amp;token=YourTeamAPIToken&amp;private_domain=true</code>
     &nbsp;
     &nbsp;
     &nbsp;<br>
