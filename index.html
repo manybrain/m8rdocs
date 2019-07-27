@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -214,7 +214,7 @@
               <a href="#" data-language-name="shell">shell</a>
         </div>
         <div class="search">
-          <input type="text" class="search" id="input-search" placeholder="Search">
+          <input type="text" class="search" id="input-search" placeholder="Search" aria-label="Input Search Field">
         </div>
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
@@ -242,6 +242,9 @@
                     <a href="#rules" class="toc-h2 toc-link" data-title="Rules">Rules</a>
                   </li>
               </ul>
+          </li>
+          <li>
+            <a href="#setting-up-your-mailinator-subscription" class="toc-h1 toc-link" data-title="Setting up your Mailinator Subscription">Setting up your Mailinator Subscription</a>
           </li>
           <li>
             <a href="#the-mailinator-api" class="toc-h1 toc-link" data-title="The Mailinator API">The Mailinator API</a>
@@ -305,7 +308,7 @@
 
 <p>The Rule system allows subscribers to match on inbox and act upon every email that matches the conditional criteria.</p>
 
-<p><img src='images/ruleshot.png'></p>
+<p><img src='images/ruleshot.png' alt="Image of Rule Creation Dialog"></p>
 
 <p>For example, a rule might be:</p>
 
@@ -314,6 +317,20 @@
 <p>For a given Private domain, all emails that arrive to the &quot;joe&quot; inbox will be converted to JSON, and HTTP Posted to the designated endpoint.</p>
 
 <p>Note that the Rule System is only available for Private Domains at this time. For more information on configuring Rules, see the Rules API documentation below (The Mailinator Web interface is merely a front-end for this API).</p>
+<h1 id='setting-up-your-mailinator-subscription'>Setting up your Mailinator Subscription</h1>
+<p>Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscritpion.</p>
+
+<p>You now (yes, already) have a Private domain. Every conceivable inbox is waiting for you to send email to it. Unlike the public Mailinator system however, you won&#39;t run into rate-limits or filters. The email at that domain is private to you.</p>
+
+<p>When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.mailinator.com. So any email to anything@you-yourcompany.mailinator.com will arrive in your private domain. On the left of the Web User Interface you&#39;ll see &quot;Private Team Inbox&quot;. If you click that you&#39;ll be taken to the web interface fo r your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming stream. </p>
+
+<p>To see what your current Private Domain is, go the Team Settings section of the Web interface and you&#39;ll see it listed. You can leave it as is, change it to another subdomain, or even put in a domain you already own (you must change the DNS record MX to point to our servers for this to work).</p>
+
+<p>On the Team Settings page, you&#39;ll also notice your API token. This token allows you to access all email in Mailinator (public and private) via API instead of the Web. See our API documentation below.</p>
+
+<p>The Team Management screen allows you to add co-workers to your account so they too can access your private domain emails. Also, checkout the Message Routing Rules system. While it&#39;s great to read emails via the web or API, Mailinator will push emails to you via webhooks. You can set this up in the Rules System.</p>
+
+<p>Thanks for using Mailinator and feel free to browse this documentation. As always, if you have any questions, email us at support@manybrain.com.</p>
 <h1 id='the-mailinator-api'>The Mailinator API</h1>
 <p>The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message streams within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.</p>
 
@@ -432,29 +449,16 @@ It returns JSON structured like this:</p>
 <td>to</td>
 <td>false</td>
 <td>public only</td>
-<td>The inbox you wish to fetch</td>
-</tr>
-<tr>
-<td>private_domain</td>
-<td>false</td>
-<td>false</td>
-<td>specify to only fetch messages from your private domain</td>
-</tr>
-<tr>
-<td>decode_subject</td>
-<td>true</td>
-<td>false</td>
-<td>instruct the API to decode UTF-8 subjects</td>
+<td>The inbox you wish to fetch<br></td>
 </tr>
 </tbody></table>
 
 <p><br>
-    <br>
     To fetch from a private domain, append the domain to this parameter (i.e. joe@myprivatedomain.com)<br>Public email fetches should only include the inbox itself<br>
     <br>
     This may be a wildcard (i.e. <b>test*</b>) for fetching from your private domain<br></p>
 
-<p>Example <strong>Public domain</strong> (i.e. @mailinator.com) inbox fetches:
+<p>Example <strong>Public domain</strong> (i.e. @mailinator.com) inbox fetchs:
 <br>
     &nbsp;
     &nbsp;
@@ -469,10 +473,6 @@ It returns JSON structured like this:</p>
 <br>
 Example <strong>Private Domain</strong> inbox fetchs:
 <br>
-    &nbsp;
-    &nbsp;
-    &nbsp;<br>
-<code>https://api.mailinator.com/api/inbox?to=testinbox&amp;token=YourTeamAPIToken&amp;private_domain=true</code>
     &nbsp;
     &nbsp;
     &nbsp;<br>
@@ -824,11 +824,6 @@ Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic 
 <td>WEBHOOK</td>
 <td>POST JSON version of message to HTTP Rest Endpoint</td>
 <td>url : your HTTP Rest Endpoint url</td>
-</tr>
-<tr>
-<td>CLICK_ALL_LINKS</td>
-<td>Issue a HTTP GET to all links found in the message</td>
-<td></td>
 </tr>
 <tr>
 <td>DROP</td>
