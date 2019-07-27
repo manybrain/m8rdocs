@@ -51,7 +51,7 @@ Instead of pulling emails via the API, Subscribers may set rules for Mailinator 
 
 The Rule system allows subscribers to match on inbox and act upon every email that matches the conditional criteria.
 
-<img src='images/ruleshot.png'>
+<img src='images/ruleshot.png' alt="Rule Creation Dialog">
 
 For example, a rule might be:
 
