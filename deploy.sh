@@ -25,6 +25,14 @@ run_build() {
 }
 
 parse_args() {
+    echo "DO NOT DEPLOY WITHOUT FIXING ADA REQUIREMENTS"
+    echo "DO NOT DEPLOY WITHOUT FIXING ADA REQUIREMENTS"
+    echo "DO NOT DEPLOY WITHOUT FIXING ADA REQUIREMENTS"
+    echo "DO NOT DEPLOY WITHOUT FIXING ADA REQUIREMENTS"
+    echo "lang='en' on HTML tag"
+    echo "few other fixes - check Chrome Accessibility in dev tools and Tota11y"
+
+    
   # Set args from a local environment file.
   if [ -e ".env" ]; then
     source .env
