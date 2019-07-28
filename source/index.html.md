@@ -1,6 +1,13 @@
 ---
 title: Mailinator Documentation
 
+<style>
+  code {
+      color: #fff;
+      background-color:#000;
+  }
+  </style>
+
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
 

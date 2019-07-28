@@ -1,0 +1,6 @@
+- add lang='en' to html tag
+- remove max-magnification in first few lines
+- add to <style> tag
+
+code { color: #000 }
+
