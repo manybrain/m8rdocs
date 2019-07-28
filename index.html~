@@ -14,8 +14,8 @@
   color: #999999;
 }
 code {
-    color:#fff;
-    background-color:#000;
+    color:#000;
+
 }
 .highlight .sr {
   color: #f6aa11;
