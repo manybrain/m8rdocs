@@ -136,7 +136,7 @@ curl --header "Authorization: YourTeamAPIToken"
 Mailinator uses API tokens for authentication. All calls to the API must include the token query parameter OR included as an HTTP Authorization header.
 
 <aside class="notice">
-You must replace YourTeamAPIToken with the API token found on your Team's Settings page
+You must replace <code>YourTeamAPIToken</code> with the API token found on your Team's Settings page
 </aside>
 
 ## Message API
@@ -181,7 +181,7 @@ This endpoint retrieves both public and private-domain inboxes
     
 #### HTTP Request
   
-GET https://api.mailinator.com/api/inbox
+`GET https://api.mailinator.com/api/inbox`
     
 #### Query Parameters
     
@@ -200,12 +200,12 @@ Example **Public domain** (i.e. @mailinator.com) inbox fetchs:
     &nbsp;
     &nbsp;
     &nbsp;    
-    https://api.mailinator.com/api/inbox?to=bob&token=YourTeamAPIToken
+    `https://api.mailinator.com/api/inbox?to=bob&token=YourTeamAPIToken`
 <br>
     &nbsp;
     &nbsp;
     &nbsp;    
-    https://api.mailinator.com/api/inbox?to=testaccount1234&token=YourTeamAPIToken
+    `https://api.mailinator.com/api/inbox?to=testaccount1234&token=YourTeamAPIToken`
 <br>
 <br>
 Example **Private Domain** inbox fetchs:
@@ -213,12 +213,12 @@ Example **Private Domain** inbox fetchs:
     &nbsp;
     &nbsp;
     &nbsp;    
-https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&token=YourTeamAPIToken
+`https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&token=YourTeamAPIToken`
     <br>
     &nbsp;
     &nbsp;
     &nbsp;    
-https://api.mailinator.com/api/inbox?to=test*&token=YourTeamAPIToken
+`https://api.mailinator.com/api/inbox?to=test*&token=YourTeamAPIToken`
 
 
 ### Fetch a message
@@ -274,7 +274,7 @@ curl "https://api.mailinator.com/api/message?token=YourAPIToken&id=joe-155154802
 
 This endpoint retrieves a specific message by id.
 
-GET https://api.mailinator.com/api/message
+`GET https://api.mailinator.com/api/message`
 
 #### Query Parameters
 
@@ -301,7 +301,7 @@ This endpoint deletes a specific message.
       
 #### HTTP Request
      
-DELETE https://api.mailinator.com/api/delete
+`DELETE https://api.mailinator.com/api/delete`
 	      
 #### URL Parameters
 	      
@@ -346,7 +346,7 @@ The endpoint fetches a list of all your streams.
 
 #### HTTP Request
 
-GET https://api.mailinator.com/streams/
+`GET https://api.mailinator.com/streams/`
 	      
 ### Get Stream
 ```shell
@@ -370,7 +370,7 @@ The endpoint fetches a specific stream
 
 #### HTTP Request
 
-GET https://api.mailinator.com/streams/:stream_id
+`GET https://api.mailinator.com/streams/:stream_id`
 	      
 #### PATH 
 
@@ -538,7 +538,7 @@ This endpoint allows you to create a Rule. Note that in the examples, ":stream_i
 
 #### HTTP Request
 
-POST https://api.mailinator.com/streams/:stream_id/rules/
+`POST https://api.mailinator.com/streams/:stream_id/rules/`
 	      
 #### PATH 
 
@@ -579,7 +579,7 @@ This endpoint allows you to enable an existing Rule
 
 #### HTTP Request
 
-PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable
+`PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable`
 	      
 #### PATH 
 
@@ -610,7 +610,7 @@ This endpoint allows you to disable an existing Rule
 
 #### HTTP Request
 
-PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable
+`PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable`
 	      
 #### PATH 
 
@@ -671,7 +671,7 @@ This endpoint fetches all Rules for a Stream
 
 ### HTTP Request
 
-GET https://api.mailinator.com/streams/:stream_id/rules/
+`GET https://api.mailinator.com/streams/:stream_id/rules/`
 	      
 ### PATH 
 
@@ -723,7 +723,7 @@ This endpoint fetches a Rules for a Stream
 
 ### HTTP Request
 
-GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id
+`GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id`
 	      
 ### PATH 
 
@@ -747,7 +747,7 @@ This endpoint deletes a specific Rule from a Stream
 
 ### HTTP Request
 
-DELETE https://api.mailinator.com/streams/:stream_id/rules/:rule_id
+`DELETE https://api.mailinator.com/streams/:stream_id/rules/:rule_id`
 	      
 ### PATH 
 
