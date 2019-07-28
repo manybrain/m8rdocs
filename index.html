@@ -418,7 +418,7 @@ It returns JSON structured like this:</p>
 </span></code></pre>
 <p>This endpoint retrieves both public and private-domain inboxes</p>
 <h4 id='http-request'>HTTP Request</h4>
-<p><code>GET https://api.mailinator.com/api/inbox</code></p>
+<p>GET https://api.mailinator.com/api/inbox</p>
 <h4 id='query-parameters'>Query Parameters</h4>
 <table><thead>
 <tr>
@@ -452,12 +452,12 @@ It returns JSON structured like this:</p>
     &nbsp;
     &nbsp;
     &nbsp;<br>
-    <code>https://api.mailinator.com/api/inbox?to=bob&amp;token=YourTeamAPIToken</code>
+    https://api.mailinator.com/api/inbox?to=bob&amp;token=YourTeamAPIToken
 <br>
     &nbsp;
     &nbsp;
     &nbsp;<br>
-    <code>https://api.mailinator.com/api/inbox?to=testaccount1234&amp;token=YourTeamAPIToken</code>
+    https://api.mailinator.com/api/inbox?to=testaccount1234&amp;token=YourTeamAPIToken
 <br>
 <br>
 Example <strong>Private Domain</strong> inbox fetchs:
@@ -465,12 +465,12 @@ Example <strong>Private Domain</strong> inbox fetchs:
     &nbsp;
     &nbsp;
     &nbsp;<br>
-<code>https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&amp;token=YourTeamAPIToken</code>
+https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&amp;token=YourTeamAPIToken
     <br>
     &nbsp;
     &nbsp;
     &nbsp;<br>
-<code>https://api.mailinator.com/api/inbox?to=test*&amp;token=YourTeamAPIToken</code></p>
+https://api.mailinator.com/api/inbox?to=test*&amp;token=YourTeamAPIToken</p>
 <h3 id='fetch-a-message'>Fetch a message</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/message?token=YourAPIToken&amp;id=joe-1551548025-3982989"</span>
 </code></pre>
 <blockquote>
@@ -519,7 +519,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 </span></code></pre>
 <p>This endpoint retrieves a specific message by id.</p>
 
-<p><code>GET https://api.mailinator.com/api/message</code></p>
+<p>GET https://api.mailinator.com/api/message</p>
 <h4 id='query-parameters-2'>Query Parameters</h4>
 <table><thead>
 <tr>
@@ -553,7 +553,7 @@ Example <strong>Private Domain</strong> inbox fetchs:
 </span></code></pre>
 <p>This endpoint deletes a specific message.</p>
 <h4 id='http-request-2'>HTTP Request</h4>
-<p><code>DELETE https://api.mailinator.com/api/delete</code></p>
+<p>DELETE https://api.mailinator.com/api/delete</p>
 <h4 id='url-parameters'>URL Parameters</h4>
 <table><thead>
 <tr>
@@ -609,7 +609,7 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 </span></code></pre>
 <p>The endpoint fetches a list of all your streams. </p>
 <h4 id='http-request-3'>HTTP Request</h4>
-<p><code>GET https://api.mailinator.com/streams/</code></p>
+<p>GET https://api.mailinator.com/streams/</p>
 <h3 id='get-stream'>Get Stream</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
 </code></pre>
 <p>&gt; The above command returns JSON showing the newly created Stream:</p>
@@ -624,7 +624,7 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 </span></code></pre>
 <p>The endpoint fetches a specific stream</p>
 <h4 id='http-request-4'>HTTP Request</h4>
-<p><code>GET https://api.mailinator.com/streams/:stream_id</code></p>
+<p>GET https://api.mailinator.com/streams/:stream_id</p>
 <h4 id='path'>PATH</h4>
 <table><thead>
 <tr>
@@ -887,7 +887,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 </span></code></pre>
 <p>This endpoint allows you to create a Rule. Note that in the examples, &quot;:stream_id&quot; can be one of your private domains.</p>
 <h4 id='http-request-5'>HTTP Request</h4>
-<p><code>POST https://api.mailinator.com/streams/:stream_id/rules/</code></p>
+<p>POST https://api.mailinator.com/streams/:stream_id/rules/</p>
 <h4 id='path-2'>PATH</h4>
 <table><thead>
 <tr>
@@ -969,7 +969,7 @@ Creating rules with enabled:true activates them immediately
 </span></code></pre>
 <p>This endpoint allows you to enable an existing Rule</p>
 <h4 id='http-request-6'>HTTP Request</h4>
-<p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</code></p>
+<p>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</p>
 <h4 id='path-3'>PATH</h4>
 <table><thead>
 <tr>
@@ -1003,7 +1003,7 @@ Creating rules with enabled:true activates them immediately
 </span></code></pre>
 <p>This endpoint allows you to disable an existing Rule</p>
 <h4 id='http-request-7'>HTTP Request</h4>
-<p><code>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable</code></p>
+<p>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable</p>
 <h4 id='path-4'>PATH</h4>
 <table><thead>
 <tr>
@@ -1065,7 +1065,7 @@ Creating rules with enabled:true activates them immediately
 </span></code></pre>
 <p>This endpoint fetches all Rules for a Stream</p>
 <h3 id='http-request-8'>HTTP Request</h3>
-<p><code>GET https://api.mailinator.com/streams/:stream_id/rules/</code></p>
+<p>GET https://api.mailinator.com/streams/:stream_id/rules/</p>
 <h3 id='path-5'>PATH</h3>
 <table><thead>
 <tr>
@@ -1114,7 +1114,7 @@ Creating rules with enabled:true activates them immediately
 </span></code></pre>
 <p>This endpoint fetches a Rules for a Stream</p>
 <h3 id='http-request-9'>HTTP Request</h3>
-<p><code>GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id</code></p>
+<p>GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id</p>
 <h3 id='path-6'>PATH</h3>
 <table><thead>
 <tr>
@@ -1141,7 +1141,7 @@ Creating rules with enabled:true activates them immediately
 </span></code></pre>
 <p>This endpoint deletes a specific Rule from a Stream</p>
 <h3 id='http-request-10'>HTTP Request</h3>
-<p><code>DELETE https://api.mailinator.com/streams/:stream_id/rules/:rule_id</code></p>
+<p>DELETE https://api.mailinator.com/streams/:stream_id/rules/:rule_id</p>
 <h3 id='path-7'>PATH</h3>
 <table><thead>
 <tr>
