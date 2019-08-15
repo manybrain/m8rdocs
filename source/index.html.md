@@ -188,7 +188,10 @@ GET https://api.mailinator.com/api/inbox
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
 token | false | true | You must provide your API token with each request
-    to | false | public only | The inbox you wish to fetch<br>
+    to | false | no | The inbox you wish to fetch<br>
+   private_domain | false | no | fetch from your Private Domain (not public Mailinator)
+   skip | 0 | no | skip this many emails in your Private Domain
+   limit | 50 | no | number of emails to fetch from your Private Domain  
     <br>
     To fetch from a private domain, append the domain to this parameter (i.e. joe@myprivatedomain.com)<br>Public email fetches should only include the inbox itself<br>
     <br>
