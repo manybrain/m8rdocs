@@ -1,10 +1,10 @@
 
 <!doctype html>
-<html lang='en'>
+<html>
   <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>API Documentation</title>
 
     <style>
@@ -437,8 +437,26 @@ It returns JSON structured like this:</p>
 <tr>
 <td>to</td>
 <td>false</td>
-<td>public only</td>
+<td>no</td>
 <td>The inbox you wish to fetch<br></td>
+</tr>
+<tr>
+<td>private_domain</td>
+<td>false</td>
+<td>no</td>
+<td>fetch from your Private Domain (not public Mailinator)</td>
+</tr>
+<tr>
+<td>skip</td>
+<td>0</td>
+<td>no</td>
+<td>skip this many emails in your Private Domain</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>50</td>
+<td>no</td>
+<td>number of emails to fetch from your Private Domain</td>
 </tr>
 </tbody></table>
 
