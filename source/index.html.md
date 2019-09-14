@@ -136,7 +136,7 @@ curl --header "Authorization: YourTeamAPIToken"
 Mailinator uses API tokens for authentication. All calls to the API must include the token query parameter OR included as an HTTP Authorization header.
 
 <aside class="notice">
-You must replace YourTeamAPIToken with the API token found on your Team's Settings page
+You must replace <b>YourTeamAPIToken</b> with the API token found on your Team's Settings page
 </aside>
 
 ## Message API
@@ -304,7 +304,7 @@ This endpoint deletes a specific message.
       
 #### HTTP Request
      
-DELETE https://api.mailinator.com/api/delete
+GET https://api.mailinator.com/api/delete
 	      
 #### URL Parameters
 	      
@@ -356,7 +356,7 @@ GET https://api.mailinator.com/streams/
 curl "https://api.mailinator.com/streams/:stream_id"
 ```
 
-	      > The above command returns JSON showing the newly created Stream:
+> The above command returns JSON showing the newly created Stream:
 
 ```json
 {
@@ -742,7 +742,7 @@ curl -X DELETE "https://api.mailinator.com/streams/:stream_id/rules/:rule_id"
 ```
 ```json
 {
-   "status" : "ok",
+   "status" : "ok"
 }
 ```
 
