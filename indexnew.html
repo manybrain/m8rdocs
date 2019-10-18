@@ -373,7 +373,7 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <p>Full format (you will often only use parts of this)</p>
 </blockquote>
 
-<p>GET/POST/DELETE https://api.mailinator.com/v2/api/domains/:domain/inboxes/:inbox/messages/:message_id/attachments/:attachment_name</p>
+<p>GET/POST/DELETE https://api.mailinator.com/v2/api/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b></p>
 
 <p>Fetching Messages, Inbox, Message Summaries, Attachments, etc. all follow the same &quot;sub-unit&quot; format. See below for specific calls to fetch distinct messages, or parts thereof.</p>
 
@@ -419,8 +419,22 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <td>[joe*]</td>
 <td>All Messages in that domain in all inboxes starting with the specified string</td>
 </tr>
+<tr>
+<td>:message_id</td>
+<td>[joe-123-456]</td>
+<td>Specific Message</td>
+</tr>
+<tr>
+<td>:attachment_id</td>
+<td>[invoice.pdf]</td>
+<td>Specific Attachment name</td>
+</tr>
 </tbody></table>
-<h3 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h3><pre class="highlight shell tab-shell"><code>curl https://api.mailinator.com/v2/api/domains/private/inboxes/testinbox
+
+<p>See below for more specific examples</p>
+<h3 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h3><h4 id='http-request'>HTTP Request</h4>
+<p>GET https://api.mailinator.com/v2/api/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
+<pre class="highlight shell tab-shell"><code>curl https://api.mailinator.com/v2/api/domains/private/inboxes/testinbox
 </code></pre>
 <blockquote>
 <p>The above command returns the list of messages for the Inbox <b>joe</b>.
@@ -453,11 +467,49 @@ It returns JSON structured like this:</p>
  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Examples:</p>
-
-<p>+ </p>
-<h4 id='http-request'>HTTP Request</h4>
-<p>GET https://api.mailinator.com/api/inbox</p>
+<table><thead>
+<tr>
+<th>Path Element</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:domain</td>
+<td>public</td>
+<td>Fetch Message Summaries from the Public Mailinator System</td>
+</tr>
+<tr>
+<td></td>
+<td>private</td>
+<td>Fetch Message Summaries from all Your Private Domains</td>
+</tr>
+<tr>
+<td></td>
+<td>[your_private_domain.com]</td>
+<td>Fetch Message Summaries from a specific Private Domain</td>
+</tr>
+<tr>
+<td>:inbox</td>
+<td>null</td>
+<td>Fetch All Messages summaries</td>
+</tr>
+<tr>
+<td></td>
+<td>*</td>
+<td>Fetch All Messages summaries</td>
+</tr>
+<tr>
+<td></td>
+<td>[joe]</td>
+<td>Fetch All Messages summaries for a given Inbox</td>
+</tr>
+<tr>
+<td></td>
+<td>[joe*]</td>
+<td>Fetch All Messages summaries for a given Inbox Prefix</td>
+</tr>
+</tbody></table>
 <h4 id='query-parameters'>Query Parameters</h4>
 <table><thead>
 <tr>
@@ -467,24 +519,6 @@ It returns JSON structured like this:</p>
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>token</td>
-<td>false</td>
-<td>true</td>
-<td>You must provide your API token with each request</td>
-</tr>
-<tr>
-<td>to</td>
-<td>false</td>
-<td>no</td>
-<td>The inbox you wish to fetch<br></td>
-</tr>
-<tr>
-<td>private_domain</td>
-<td>false</td>
-<td>no</td>
-<td>fetch from your Private Domain (not public Mailinator)</td>
-</tr>
 <tr>
 <td>skip</td>
 <td>0</td>
@@ -498,36 +532,6 @@ It returns JSON structured like this:</p>
 <td>number of emails to fetch from your Private Domain</td>
 </tr>
 </tbody></table>
-
-<p><br>
-    To fetch from a private domain, append the domain to this parameter (i.e. joe@myprivatedomain.com)<br>Public email fetches should only include the inbox itself<br>
-    <br>
-    This may be a wildcard (i.e. <b>test*</b>) for fetching from your private domain<br></p>
-
-<p>Example <strong>Public domain</strong> (i.e. @mailinator.com) inbox fetchs:
-<br>
-    &nbsp;
-    &nbsp;
-    &nbsp;<br>
-    https://api.mailinator.com/api/inbox?to=bob&amp;token=YourTeamAPIToken
-<br>
-    &nbsp;
-    &nbsp;
-    &nbsp;<br>
-    https://api.mailinator.com/api/inbox?to=testaccount1234&amp;token=YourTeamAPIToken
-<br>
-<br>
-Example <strong>Private Domain</strong> inbox fetchs:
-<br>
-    &nbsp;
-    &nbsp;
-    &nbsp;<br>
-https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&amp;token=YourTeamAPIToken
-    <br>
-    &nbsp;
-    &nbsp;
-    &nbsp;<br>
-https://api.mailinator.com/api/inbox?to=test*&amp;token=YourTeamAPIToken</p>
 <h3 id='fetch-a-message'>Fetch a message</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/message?token=YourAPIToken&amp;id=joe-1551548025-3982989"</span>
 </code></pre>
 <blockquote>
