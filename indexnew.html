@@ -215,24 +215,16 @@
             <a href="#mailinator" class="toc-h1 toc-link" data-title="Mailinator">Mailinator</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#public-mailinator" class="toc-h2 toc-link" data-title="Public Mailinator">Public Mailinator</a>
+                    <a href="#public-mailinator-all-email-mailinator-com" class="toc-h2 toc-link" data-title="Public Mailinator (all email @mailinator.com)">Public Mailinator (all email @mailinator.com)</a>
                   </li>
                   <li>
                     <a href="#private-mailinator" class="toc-h2 toc-link" data-title="Private Mailinator">Private Mailinator</a>
                   </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#message-access" class="toc-h1 toc-link" data-title="Message Access">Message Access</a>
-              <ul class="toc-list-h2">
                   <li>
-                    <a href="#web" class="toc-h2 toc-link" data-title="Web">Web</a>
+                    <a href="#message-delivery" class="toc-h2 toc-link" data-title="Message Delivery">Message Delivery</a>
                   </li>
                   <li>
-                    <a href="#api" class="toc-h2 toc-link" data-title="API">API</a>
-                  </li>
-                  <li>
-                    <a href="#rules" class="toc-h2 toc-link" data-title="Rules">Rules</a>
+                    <a href="#message-access" class="toc-h2 toc-link" data-title="Message Access">Message Access</a>
                   </li>
               </ul>
           </li>
@@ -272,10 +264,10 @@
       <div class="content">
         <h1 id='mailinator'>Mailinator</h1>
 <p>Mailinator is an email system that accepts email for any inbox with no sign-up, login, or account creation involved. Whereas most email systems revolve around &quot;account ownership&quot; which is centered on a given inbox (e.g. your_email@gmail.com), Mailinator is centered around entire domains.</p>
-<h2 id='public-mailinator'>Public Mailinator</h2>
-<p>The public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain and readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.</p>
+<h2 id='public-mailinator-all-email-mailinator-com'>Public Mailinator (all email @mailinator.com)</h2>
+<p>The public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain. They are readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.</p>
 
-<p>In addition, all emails in the public Mailinator sytem auto-delete after a few hours. They are un-retrievable after this happens.</p>
+<p>In addition, all emails in the public Mailinator system auto-delete after a few hours. They are un-retrievable after this happens. Public Mailinator emails also may not contain attachments (if they do, they will either not be delivered, or have their attachments stripped before delivery).</p>
 
 <p>Finally, it&#39;s important to note that the Mailinator system is RECEIVE-ONLY. <b>No one can send an email from Mailinator.</b> (Any email appearing to have arrived from an @mailinator address has had it&#39;s &quot;From&quot; field forged to appear as such).</p>
 
@@ -288,11 +280,21 @@
 <p>Subscribers receive one or more &quot;Private Domains&quot; which provide a private version of Mailinator. That is, you control all inboxes for a given domain (i.e. either one your provide or the system will provide one for you). You may view all such inboxes in one &quot;super inbox&quot; which lists every email coming into the domain in realtime. Emails in Private domains are not automatically deleted until your team&#39;s storage is exhausted. At this time, new emails push out old emails. Otherwise, emails in private domains are persistent as long as the account is active.</p>
 
 <p>In addition, Private users gain API access to messages within the Mailinator system. Subscribers may use the API to access all email in their Private Domain(s) in addition to the Public Mailinator system.</p>
-<h1 id='message-access'>Message Access</h1><h2 id='web'>Web</h2>
-<p>The web interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s).</p>
-<h2 id='api'>API</h2>
+<h2 id='message-delivery'>Message Delivery</h2>
+<p>Messages arrive in the Mailinator system several ways.</p>
+
+<ul>
+<li>Email</li>
+<li>SMS</li>
+<li>HTTP Post</li>
+</ul>
+
+<p>The classic way is they arrive as email. However, messages may also enter the system via SMS (i.e. text message), or HTTP Post. Regardless of how a message arrives, it lands in a designated inbox and is then available for retrieval or manipulation/re-delivery via the rule systesm.</p>
+<h2 id='message-access'>Message Access</h2><h3 id='web'>Web</h3>
+<p>The web interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s). The Web interface will first attempt to show a message as an email. However, if the formatting of the message does not follow email conventions (i.e. maybe it arrived as an HTTP Post with a custom format), the message will be displayed in raw JSON.</p>
+<h3 id='api'>API</h3>
 <p>Subscribers may use programmatic access to poll inboxes and retrieve emails in JSON format. Documentation for the API can be found below.</p>
-<h2 id='rules'>Rules</h2>
+<h3 id='rules'>Rules</h3>
 <p>Instead of pulling emails via the API, Subscribers may set rules for Mailinator to &quot;push&quot; messages to them as they arrive. The rule system may be configured via the Web interface (i.e. Mailinator Routing Rules) or programmatically via the API (see API documentation below).</p>
 
 <p>The Rule system allows subscribers to match on inbox and act upon every email that matches the conditional criteria.</p>
@@ -305,21 +307,19 @@
 
 <p>For a given Private domain, all emails that arrive to the &quot;joe&quot; inbox will be converted to JSON, and HTTP Posted to the designated endpoint.</p>
 
-<p>Note that the Rule System is only available for Private Domains at this time. For more information on configuring Rules, see the Rules API documentation below (The Mailinator Web interface is merely a front-end for this API).</p>
+<p>For more information on configuring Rules, see the Rules API documentation below (The Mailinator Web interface is merely a front-end for this API).</p>
 <h1 id='setting-up-your-mailinator-subscription'>Setting up your Mailinator Subscription</h1>
 <p>Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscritpion.</p>
 
 <p>You now (yes, already) have a Private domain. Every conceivable inbox is waiting for you to send email to it. Unlike the public Mailinator system however, you won&#39;t run into rate-limits or filters. The email at that domain is private to you.</p>
 
-<p>When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.mailinator.com. So any email to anything@you-yourcompany.mailinator.com will arrive in your private domain. On the left of the Web User Interface you&#39;ll see &quot;Private Team Inbox&quot;. If you click that you&#39;ll be taken to the web interface fo r your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming stream. </p>
+<p>When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.mailinator.com. So any email to anything@you-yourcompany.mailinator.com will arrive in your private domain. On the left of the Web User Interface you&#39;ll see &quot;Private Team Inbox&quot;. If you click that you&#39;ll be taken to the web interface for your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming stream. </p>
 
 <p>To see what your current Private Domain is, go the Team Settings section of the Web interface and you&#39;ll see it listed. You can leave it as is, change it to another subdomain, or even put in a domain you already own (you must change the DNS record MX to point to our servers for this to work).</p>
 
 <p>On the Team Settings page, you&#39;ll also notice your API token. This token allows you to access all email in Mailinator (public and private) via API instead of the Web. See our API documentation below.</p>
 
 <p>The Team Management screen allows you to add co-workers to your account so they too can access your private domain emails. Also, checkout the Message Routing Rules system. While it&#39;s great to read emails via the web or API, Mailinator will push emails to you via webhooks. You can set this up in the Rules System.</p>
-
-<p>Thanks for using Mailinator and feel free to browse this documentation. As always, if you have any questions, email us at support@manybrain.com.</p>
 <h1 id='the-mailinator-api'>The Mailinator API</h1>
 <p>The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message streams within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.</p>
 
@@ -334,34 +334,18 @@
 <p>Messages within Mailinator are typically thought of as emails - however, messages can enter the system in a variety of ways including email, SMS, or HTTP Post. In general, the schema of messages contains a TO, FROM, SUBJECT, and message body. Message bodies can be simple string of text or as is allowed by email standards, a complicated multi-part, multi-encoded schema.</p>
 
 <ul>
-<li><b>Private Domains / Streams</b></li>
+<li><b>Domains / Streams</b></li>
 </ul>
 
-<p>Streams identify a specific source for messages. Emails automatically are assigned to the domain of their &quot;to&quot; address. Expectedly, each of your Private Domains represent a specific source for messages. Incoming SMS messages arrive to the reserved stream of <b>SMS</b>. </p>
+<p>Domains (aka Streams) identify a specific source for messages. Emails automatically are assigned to the domain of their &quot;to&quot; address. Expectedly, each of your Private Domains represent a specific source for messages. Each Domain may have it&#39;s own set of rules.</p>
 
-<table><thead>
-<tr>
-<th>Stream Name</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>SMS</td>
-<td>Any message arriving to one of your account&#39;s SMS inboxes are assigned to this stream</td>
-</tr>
-<tr>
-<td>Each Private Domain</td>
-<td>Each of your private domains has it&#39;s own stream and consequently, an available individual rule set</td>
-</tr>
-</tbody></table>
+<!-- 
+- <b>Destinations</b>
 
-<ul>
-<li><b>Destinations</b></li>
-</ul>
+Mailinator routing rules allow immediate routing actions to take place on incoming messages. For example, you may wish to designate all incoming email messages to "Joe@YourPrivateDomain.com" should be forwarded to your work email. You could also designate that all incoming messages to "Bob@YourPrivateDomain.com" should be Posted via WebHook to an endpoint on your testing server.
 
-<p>Mailinator routing rules allow immediate routing actions to take place on incoming messages. For example, you may wish to designate all incoming email messages to &quot;Joe@YourPrivateDomain.com&quot; should be forwarded to your work email. You could also designate that all incoming messages to &quot;Bob@YourPrivateDomain.com&quot; should be Posted via WebHook to an endpoint on your testing server.</p>
-
-<p>You may define a set of Destinations to be reused by your rules.</p>
+You may define a set of Destinations to be reused by your rules.
+-->
 <h2 id='api-authentication'>API Authentication</h2>
 <blockquote>
 <p>To authorize, use this code:</p>
