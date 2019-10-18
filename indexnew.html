@@ -366,37 +366,41 @@ curl <span class="s2">"https://api.mailinator.com/api_endpoint_here?token=YourTe
 <p>Mailinator uses API tokens for authentication. All calls to the API must include the token query parameter OR included as an HTTP Authorization header.</p>
 
 <aside class="notice">
-You must replace <b>YourTeamAPIToken</b> with the API token found on your Team's Settings page
+You must replace <b>YourTeamAPIToken</b> with the API token found on your Team Settings page
 </aside>
-<h2 id='message-api'>Message API</h2><h3 id='fetch-inbox'>Fetch Inbox</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&amp;to=joe"</span>
+<h2 id='message-api'>Message API</h2><h3 id='format'>Format</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/api/domains/:domain/inboxes/:inbox/messages/:message_id/attachments/:attachment_name"</span>
+</code></pre>
+<p>Fetching Messages, Inbox, Message Summaries, Attachments, etc. all follow the same &quot;sub-unit&quot; format. See below for specific calls to fetch distinct messages, or parts thereof.</p>
+<h3 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/api/domains/&lt;b&gt;private&lt;/b&gt;/inboxes/&lt;b&gt;testinbox&lt;/b&gt;"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns the list of messages for the Inbox <b>joe</b>.
 It returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> 
- </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="p">,</span><span class="w">
- </span><span class="s2">"messages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-     </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fit-X"</span><span class="p">,</span><span class="w">
-     </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noreply@fitx.com"</span><span class="p">,</span><span class="w">
-     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548025-3982989"</span><span class="p">,</span><span class="w">
-     </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fitx &lt;noreply@fitx.com&gt;"</span><span class="p">,</span><span class="w">
-     </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">138</span><span class="p">,</span><span class="w">
-     </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Important information about your enquiry"</span><span class="p">,</span><span class="w">
-     </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548025000</span><span class="p">,</span><span class="w">
-     </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-   </span><span class="p">{</span><span class="w">
-   </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551548117-3983825"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging &lt;wirelesstest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">46</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551548117000</span><span class="p">,</span><span class="w">
-   </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="w">
-   </span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"msgs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"this is a test email with attachment"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yourprivatedomain.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our Qa Tester &lt;qatester@company.com&gt;"</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox-1571155952-33840774"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1571155952000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">258277</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is my test email [with attachment]"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yourprivatedomain.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our Qa Tester &lt;qatester@company.com&gt;"</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox-1570635306-12914603"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1570635306000</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">778923</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yourprivatedomain.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox"</span><span class="w">
+   </span><span class="p">}</span><span class="w">  
  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
