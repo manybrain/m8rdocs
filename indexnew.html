@@ -372,8 +372,9 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <blockquote>
 <p>Full format (you will often only use parts of this)</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/api/domains/:domain/inboxes/:inbox/messages/:message_id/attachments/:attachment_name"</span>
-</code></pre>
+
+<p>GET/POST/DELETE https://api.mailinator.com/v2/api/domains/:domain/inboxes/:inbox/messages/:message_id/attachments/:attachment_name</p>
+
 <p>Fetching Messages, Inbox, Message Summaries, Attachments, etc. all follow the same &quot;sub-unit&quot; format. See below for specific calls to fetch distinct messages, or parts thereof.</p>
 
 <table><thead>
@@ -409,17 +410,17 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <td>All Messages in that domain</td>
 </tr>
 <tr>
+<td></td>
 <td>[joe]</td>
 <td>All Messages in that domain in the inbox specified</td>
-<td></td>
 </tr>
 <tr>
+<td></td>
 <td>[joe*]</td>
 <td>All Messages in that domain in all inboxes starting with the specified string</td>
-<td></td>
 </tr>
 </tbody></table>
-<h3 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/api/domains/private/inboxes/testinbox"</span>
+<h3 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h3><pre class="highlight shell tab-shell"><code>curl https://api.mailinator.com/v2/api/domains/private/inboxes/testinbox
 </code></pre>
 <blockquote>
 <p>The above command returns the list of messages for the Inbox <b>joe</b>.
@@ -428,7 +429,7 @@ It returns JSON structured like this:</p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"msgs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"this is a test email with attachment"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"this is a test email 1"</span><span class="p">,</span><span class="w">
             </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yourprivatedomain.com"</span><span class="p">,</span><span class="w">
             </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our Qa Tester &lt;qatester@company.com&gt;"</span><span class="w">
             </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox-1571155952-33840774"</span><span class="p">,</span><span class="w">
