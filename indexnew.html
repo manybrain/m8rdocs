@@ -368,10 +368,58 @@ curl <span class="s2">"https://api.mailinator.com/api_endpoint_here?token=YourTe
 <aside class="notice">
 You must replace <b>YourTeamAPIToken</b> with the API token found on your Team Settings page
 </aside>
-<h2 id='message-api'>Message API</h2><h3 id='format'>Format</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/api/domains/:domain/inboxes/:inbox/messages/:message_id/attachments/:attachment_name"</span>
+<h2 id='message-api'>Message API</h2><h3 id='format'>Format</h3>
+<blockquote>
+<p>Full format (you will often only use parts of this)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/api/domains/:domain/inboxes/:inbox/messages/:message_id/attachments/:attachment_name"</span>
 </code></pre>
 <p>Fetching Messages, Inbox, Message Summaries, Attachments, etc. all follow the same &quot;sub-unit&quot; format. See below for specific calls to fetch distinct messages, or parts thereof.</p>
-<h3 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/api/domains/&lt;b&gt;private&lt;/b&gt;/inboxes/&lt;b&gt;testinbox&lt;/b&gt;"</span>
+
+<table><thead>
+<tr>
+<th>Path Element</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:domain</td>
+<td>public</td>
+<td>The Public Mailinator system</td>
+</tr>
+<tr>
+<td></td>
+<td>private</td>
+<td>All your Private Domains</td>
+</tr>
+<tr>
+<td></td>
+<td>[your_private_domain.com]</td>
+<td>Specify a specific Private Domain (if you have more than one)</td>
+</tr>
+<tr>
+<td>:inbox</td>
+<td>null</td>
+<td>All Messages in that domain</td>
+</tr>
+<tr>
+<td></td>
+<td>*</td>
+<td>All Messages in that domain</td>
+</tr>
+<tr>
+<td>[joe]</td>
+<td>All Messages in that domain in the inbox specified</td>
+<td></td>
+</tr>
+<tr>
+<td>[joe*]</td>
+<td>All Messages in that domain in all inboxes starting with the specified string</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/api/domains/private/inboxes/testinbox"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns the list of messages for the Inbox <b>joe</b>.
@@ -404,7 +452,9 @@ It returns JSON structured like this:</p>
  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves both public and private-domain inboxes</p>
+<p>Examples:</p>
+
+<p>+ </p>
 <h4 id='http-request'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/api/inbox</p>
 <h4 id='query-parameters'>Query Parameters</h4>
