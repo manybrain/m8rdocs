@@ -280,36 +280,121 @@ Path Element |  Value | Description
 
 
 
-
-
-
-## Delete a Message
+## Fetch List of Attachments
+This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
+      
 ```shell
-curl "https://api.mailinator.com/api/delete?token=YourTeamAPIToken&id=joe-1551548025-3982989"
+curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"
 ```
-
 > The above command returns JSON structured like this:
 
 ```json
+
 {
-  "status": "ok"
+vxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 }
+
 ```
-	      
-This endpoint deletes a specific message.
-      
+
 ### HTTP Request
-     
-GET https://api.mailinator.com/api/delete
-	      
-### URL Parameters
-	      
-Parameter | Default | Required | Description
+<b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
+
+
+
+
+## Delete ALL Messages (by Domain)
+This endpoint deletes <b>ALL</b> messages from a Private Domain. Caution: This action is irreversible.
+
+```shell
+curl "https://api.mailinator.com/api/domains/private/inboxes/"
+```
+> The above command returns JSON structured like this:
+
+```json
+
+{
+    "status" : "ok",
+    "messages_deleted" : 1048
+}
+}
+
+```
+
+<b>DELETE</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/
+
+Path Element |  Value | Description
 --------- | ------- | -------- | -----------
-token | false | true | You must provide your API token with each request
-id | false | true | The message id (usually found in a previous inbox api call) to delete
-delete_all | false | false | if **delete_all=true** is specified, ALL email will be deleted from your Private Domain		
-	      
+:domain   | private  | Delete ALL messages in all your private domains
+          | [your_private_domain.com] |  Delete all messages in a specific private domain
+:inbox    | null    | Delete from all inboxes, or
+          | *       | Delete from all inboxes
+
+
+
+## Delete ALL Messages (by Inbox)
+This endpoint deletes <b>ALL</b> messages from a specific private inbox.
+
+```shell
+curl "https://api.mailinator.com/api/domains/private/inboxes/testinbox"
+```
+> The above command returns JSON structured like this:
+
+```json
+
+{
+    "status" : "ok",
+    "messages_deleted" : 11
+}
+}
+
+```
+
+<b>DELETE</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
+
+Path Element |  Value | Description
+--------- | ------- | -------- | -----------
+:domain   | private  | Delete all messages from an inbox from any private domain
+          | [your_private_domain.com] |  Delete all messages from an inbox from a specific private domain
+:inbox    | [inbox_name]    | Delete all messages from a specific inbox
+
+
+## Delete a Message
+This endpoint deletes a specific messages
+
+```shell
+curl "https://api.mailinator.com/api/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
+```
+> The above command returns JSON structured like this:
+
+```json
+
+{
+    "status" : "ok",
+    "messages_deleted" : 1
+}
+}
+
+```
+
+<b>DELETE</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
+
+Path Element |  Value | Description
+--------- | ------- | -------- | -----------
+:domain   | private  | Delete message from any private domain
+          | [your_private_domain.com] |  Delete message from a specific private domain
+:inbox    | [inbox_name]    | Delete message from a specific inbox
+:message_id | [message_id] | Delete message with this ID
+
+
+
+
+
+
+
+
+
+
+
 
 ## Streams API
 Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.
