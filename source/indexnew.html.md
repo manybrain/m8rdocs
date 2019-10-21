@@ -103,7 +103,7 @@ Subscribers can read messages in both the Public and their own Private Mailinato
 Access to the API (and messages in general) are subject to your subscription plan's rate limits.
 
 
-## Definitions
+# Definitions
 
 - <b>Messages</b>
 
@@ -121,7 +121,7 @@ Mailinator routing rules allow immediate routing actions to take place on incomi
 You may define a set of Destinations to be reused by your rules.
 -->
 
-## API Authentication
+# API Authentication
 
 > To authorize, use this code:
 
@@ -146,23 +146,23 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 </aside>
 
 
-## Message API
+# Message API
 
-### Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)
-
-#### HTTP Request
-
-GET https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
-
+## Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)
+This endpoint retrieves a list of messages summaries. You can retreive a list by inbox, inboxes, or entire domain.
+ 
 ```shell  
-curl https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox
+curl "https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox?limit=2&sort=descending"
 ```
-  
-> The above command returns the list of messages for the Inbox <b>joe</b>.
-> It returns JSON structured like this:
+### HTTP Request
+<b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
+
+> The above command returns the list of messages for the Inbox <b>joe</b>. It returns JSON structured like this:
 
   ```json
 {
+    "domain": "yourprivatedomain.com",
+    "to": "testinbox"
     "msgs": [
         {
             "subject": "this is a test email 1",
@@ -183,10 +183,7 @@ curl https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox
             "seconds_ago": 778923
         }
     ],
-    "domain": "yourprivatedomain.com",
-    "to": "testinbox"
    }  
- ]
 }
 ```
 
@@ -195,26 +192,29 @@ Path Element |  Value | Description
 :domain   | public  | Fetch Message Summaries from the Public Mailinator System
           | private | Fetch Message Summaries from all Your Private Domains
           | [your_private_domain.com] |  Fetch Message Summaries from a specific Private Domain
-:inbox    | null    | Fetch All Messages summaries
-          | *       | Fetch All Messages summaries
-          | [joe]   | Fetch All Messages summaries for a given Inbox
-          | [joe*]  | Fetch All Messages summaries for a given Inbox Prefix
+:inbox    | null    | Fetch All Messages summaries for an entire domain
+          | *       | Fetch All Messages summaries for an entire domain
+          | [inbox_name]   | Fetch All Messages summaries for a given Inbox
+          | [inbox_name*]  | Fetch All Messages summaries for a given Inbox Prefix
 
-#### Query Parameters
+### Query Parameters
     
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
 skip | 0 | no | skip this many emails in your Private Domain
 limit | 50 | no | number of emails to fetch from your Private Domain  
+sort | descending | no | Sort results by ascending or descending
+decode_subject | false | no | true: decode encoded subjects
 
 
-      <!-- ------------------------------------------------------------------------------ -->
-### Fetch a message
 
-#### HTTP Request
 
-GET https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
-    
+
+      
+
+## Fetch Message
+This endpoint retrieves a specific message by id.
+      
 ```shell
 curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
 ```
@@ -228,7 +228,7 @@ curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/message
         "mime-version": "1.0",
         "date": "Tue, 15 Oct 2019 12:12:20 -0400",
         "subject": "this is a test email 1",
-        "content-type": "multipart/mixed; boundary=\"000000000000618f300594f540a1\"",
+        "content-type": "multipart/mixed",
     },
     "subject": "this is a test email 1",
     "parts": [
@@ -242,7 +242,9 @@ curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/message
             "headers": {
                 "content-type": "text/html; charset=\"UTF-8\""
             },
-            "body": "<div dir=\"ltr\"><div class=\"gmail_default\" style=\"font-family:tahoma,sans-serif;font-size:large\">here&#39;s the test email</div></div>\r\n"
+            "body": "<div dir=\"ltr\"><div class=\"gmail_default\" 
+                     style=\"font-family:tahoma,sans-serif;font-size:large\">
+                     here&#39;s the test email</div></div>\r\n"
         },
         {
             "headers": {
@@ -250,21 +252,38 @@ curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/message
                 "content-transfer-encoding": "base64",
                 "content-type": "image/png; name=\"xyz.png\"",
             },
-        "body": "iVBORw0KGgoAAAANSUhEUgAAAIgAAABFCAYAAACRzK44AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAB3RJTUUH3wofFwUsO7B2YQAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAABDBSURBVHja7V19bFPVG342tvVOYlrGsFOBi0w6g9oiLF0cWiRhQw2tZqZLQIomrOofrf+4JYRUE2VGk85o6MBpC9E1frV8djCh24TVzy6CdiTEFkJoFGwRxy0jeivb3t8f6+e+uo4P==="
+        "body": "iVBO4JYRUE2VGk85o6MBpC9E1frV8djCh24TVzy6CdiTEFkJoFGwRxy0jeivb3t8f6+e+uo4P==="
         }
     ],
     "from": "Our Qa Tester",
     "to": "testinbox",
-    "id": testinbox-1570635306-12914603",
+    "id": "testinbox-1570635306-12914603",
     "time": 1571155952000,
     "seconds_ago": 260276
 }
 
 ```
 
-This endpoint retrieves a specific message by id.
+### HTTP Request
+<b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
-### Delete a Message
+Path Element |  Value | Description
+--------- | ------- | -------- | -----------
+:domain   | public  | Fetch Message Summaries from the Public Mailinator System
+          | private | Fetch Message Summaries from any Private Domains
+          | [your_private_domain.com] |  Fetch Message from a specific Private Domain
+:inbox    | [inbox_name]   | Fetch Message for this inbox
+:message_id | [msg_id] | Fetch Message with this ID (found via previous Message Summary call)
+
+
+
+
+
+
+
+
+
+## Delete a Message
 ```shell
 curl "https://api.mailinator.com/api/delete?token=YourTeamAPIToken&id=joe-1551548025-3982989"
 ```
@@ -279,17 +298,17 @@ curl "https://api.mailinator.com/api/delete?token=YourTeamAPIToken&id=joe-155154
 	      
 This endpoint deletes a specific message.
       
-#### HTTP Request
+### HTTP Request
      
 GET https://api.mailinator.com/api/delete
 	      
-#### URL Parameters
+### URL Parameters
 	      
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
 token | false | true | You must provide your API token with each request
 id | false | true | The message id (usually found in a previous inbox api call) to delete
-delete_all | false | false | if **delete_all=true** is specified, ALL email will be deleted from your Team's private domain		
+delete_all | false | false | if **delete_all=true** is specified, ALL email will be deleted from your Private Domain		
 	      
 
 ## Streams API
