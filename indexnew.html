@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3">
     <title>API Documentation</title>
 
     <style>
@@ -265,6 +265,9 @@
                   </li>
                   <li>
                     <a href="#delete-a-message" class="toc-h2 toc-link" data-title="Delete a Message">Delete a Message</a>
+                  </li>
+                  <li>
+                    <a href="#inject-a-message-http-post-messages" class="toc-h2 toc-link" data-title="Inject a Message (HTTP Post messages)">Inject a Message (HTTP Post messages)</a>
                   </li>
               </ul>
           </li>
@@ -650,8 +653,8 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <p><b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments</p>
 <h2 id='fetch-attachment'>Fetch Attachment</h2>
 <p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf
-</span></code></pre>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"</span>
+</code></pre>
 <blockquote>
 <p>The above command returns the attachment file. In this example, it would return a pdf.</p>
 </blockquote>
@@ -661,7 +664,7 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <p>Note that alternatively, you specify the &quot;attachment-id&quot; value instead of the attachment name.</p>
 <h2 id='delete-all-messages-by-domain'>Delete ALL Messages (by Domain)</h2>
 <p>This endpoint deletes <b>ALL</b> messages from a Private Domain. Caution: This action is irreversible.</p>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/domains/private/inboxes/"</span>
+<pre class="highlight shell tab-shell"><code>curl  -X DELETE <span class="s2">"https://api.mailinator.com/api/v2/domains/private/inboxes/"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -705,7 +708,7 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 </tbody></table>
 <h2 id='delete-all-messages-by-inbox'>Delete ALL Messages (by Inbox)</h2>
 <p>This endpoint deletes <b>ALL</b> messages from a specific private inbox.</p>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/domains/private/inboxes/testinbox"</span>
+<pre class="highlight shell tab-shell"><code>curl  -X DELETE <span class="s2">"https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -745,18 +748,15 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 </tbody></table>
 <h2 id='delete-a-message'>Delete a Message</h2>
 <p>This endpoint deletes a specific messages</p>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"</span>
+<pre class="highlight shell tab-shell"><code>curl -X DELETE <span class="s2">"https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="w">
-</span><span class="p">{</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"messages_deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <p><b>DELETE</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b></p>
 
@@ -786,6 +786,47 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <td>:message_id</td>
 <td>[message_id]</td>
 <td>Delete message with this ID</td>
+</tr>
+</tbody></table>
+<h2 id='inject-a-message-http-post-messages'>Inject a Message (HTTP Post messages)</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'{"from":"ourtest@xyz.com", "subject":"testing message", "text" : "hello world" }'</span>
+     -H <span class="s2">"Content-Type: application/json"</span>
+     -X POST <span class="s2">"https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox-3282929-109191"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This endpoint allows you to deliver a JSON message into your private domain. This is similar to simply emailing a message to your private domain, except that you use HTTP Post and can programmatically inject the message.</p>
+
+<p>Note that injected JSON Messages can have any schema they choose. However, if you want the Web interface to display them, they must follow a general email format with the fields of From, Subject, and Parts (see &quot;Fetch Message&quot; above).</p>
+
+<p><b>POST</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
+
+<table><thead>
+<tr>
+<th>Path Element</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:domain</td>
+<td>private</td>
+<td>Inject to any (i.e. first) private domain</td>
+</tr>
+<tr>
+<td></td>
+<td>[your_private_domain.com]</td>
+<td>Inject to specific private domain</td>
+</tr>
+<tr>
+<td>:inbox</td>
+<td>[inbox_name]</td>
+<td>TO destination for injected message</td>
 </tr>
 </tbody></table>
 <h1 id='streams-api'>Streams API</h1>
