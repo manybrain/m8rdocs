@@ -22,7 +22,9 @@ search: true
 ---
 # Mailinator
 
-Mailinator is an email system that accepts email for any inbox with no sign-up, login, or account creation involved. Whereas most email systems revolve around "account ownership" which is centered on a given inbox (e.g. your_email@gmail.com), Mailinator is centered around entire domains.
+Whereas most email systems are bulit around the concept of "account/inbox ownership", Mailinator is an email system built around "entire domain inbox ownership". This allows companies to have instant access to millions of email addresses for system and automation testing of their software.
+
+Mailinator also provides a "public" domain for personal use where all email addresses (@mailinator.com) are completely public and usable by anyone.
 
 ## Public Mailinator (all email @mailinator.com)
 
@@ -103,7 +105,7 @@ Subscribers can read messages in both the Public and their own Private Mailinato
 Access to the API (and messages in general) are subject to your subscription plan's rate limits.
 
 
-# Definitions
+## Definitions
 
 - <b>Messages</b>
 
@@ -121,7 +123,7 @@ Mailinator routing rules allow immediate routing actions to take place on incomi
 You may define a set of Destinations to be reused by your rules.
 -->
 
-# API Authentication
+## API Authentication
 
 > To authorize, use this code:
 
@@ -248,9 +250,9 @@ curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/message
         },
         {
             "headers": {
-                "content-disposition": "attachment; filename=\"xyz.png\"",
+                "content-disposition": "attachment; filename=\"notes.pdf\"",
                 "content-transfer-encoding": "base64",
-                "content-type": "image/png; name=\"xyz.png\"",
+                "content-type": "application/pdf; name=\"notes.pdf\"",
             },
         "body": "iVBO4JYRUE2VGk85o6MBpC9E1frV8djCh24TVzy6CdiTEFkJoFGwRxy0jeivb3t8f6+e+uo4P==="
         }
@@ -276,10 +278,6 @@ Path Element |  Value | Description
 :message_id | [msg_id] | Fetch Message with this ID (found via previous Message Summary call)
 
 
-
-
-
-
 ## Fetch List of Attachments
 This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
       
@@ -291,7 +289,15 @@ curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/message
 ```json
 
 {
-vxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+   "attachments": [
+        {
+            "filename": "notes.pdf",
+            "content-disposition": "attachment; filename=\"notes.pdf\"",
+            "content-transfer-encoding": "base64",
+            "content-type": "application/pdf",
+            "attachment-id": 0
+        }
+    ]
 }
 
 ```
@@ -299,6 +305,20 @@ vxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 ### HTTP Request
 <b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
 
+
+## Fetch Attachment
+This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
+      
+```shell
+curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf
+```
+> The above command returns the attachment file. In this example, it would return a pdf.
+
+
+### HTTP Request
+<b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b>
+
+Note that alternatively, you specify the "attachment-id" value instead of the attachment name.
 
 
 
@@ -315,7 +335,6 @@ curl "https://api.mailinator.com/api/domains/private/inboxes/"
 {
     "status" : "ok",
     "messages_deleted" : 1048
-}
 }
 
 ```
@@ -345,7 +364,7 @@ curl "https://api.mailinator.com/api/domains/private/inboxes/testinbox"
     "status" : "ok",
     "messages_deleted" : 11
 }
-}
+
 
 ```
 
@@ -396,7 +415,7 @@ Path Element |  Value | Description
 
 
 
-## Streams API
+# Streams API
 Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.
 
 <aside class="notice">
@@ -463,7 +482,7 @@ Parameter | Default | Required | Description
 	      :stream_id | (none) | true | This must be the Stream *name* or the Stream *id*
 
 
-## Rules API
+# Rules API
 You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).
 
 Rules contain one or more conditions and one or more actions.
