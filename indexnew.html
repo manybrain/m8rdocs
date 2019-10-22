@@ -1,10 +1,10 @@
 
 <!doctype html>
-<html>
+<html lang='en'>
   <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <title>API Documentation</title>
 
     <style>
@@ -240,14 +240,74 @@
                   <li>
                     <a href="#api-authentication" class="toc-h2 toc-link" data-title="API Authentication">API Authentication</a>
                   </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#message-api" class="toc-h1 toc-link" data-title="Message API">Message API</a>
+              <ul class="toc-list-h2">
                   <li>
-                    <a href="#message-api" class="toc-h2 toc-link" data-title="Message API">Message API</a>
+                    <a href="#fetch-inbox-aka-fetch-message-summaries" class="toc-h2 toc-link" data-title="Fetch Inbox (aka Fetch Message Summaries)">Fetch Inbox <span style="font-size:.8em">(aka Fetch Message Summaries)</span></a>
                   </li>
                   <li>
-                    <a href="#streams-api" class="toc-h2 toc-link" data-title="Streams API">Streams API</a>
+                    <a href="#fetch-message" class="toc-h2 toc-link" data-title="Fetch Message">Fetch Message</a>
                   </li>
                   <li>
-                    <a href="#rules-api" class="toc-h2 toc-link" data-title="Rules API">Rules API</a>
+                    <a href="#fetch-list-of-attachments" class="toc-h2 toc-link" data-title="Fetch List of Attachments">Fetch List of Attachments</a>
+                  </li>
+                  <li>
+                    <a href="#fetch-attachment" class="toc-h2 toc-link" data-title="Fetch Attachment">Fetch Attachment</a>
+                  </li>
+                  <li>
+                    <a href="#delete-all-messages-by-domain" class="toc-h2 toc-link" data-title="Delete ALL Messages (by Domain)">Delete ALL Messages (by Domain)</a>
+                  </li>
+                  <li>
+                    <a href="#delete-all-messages-by-inbox" class="toc-h2 toc-link" data-title="Delete ALL Messages (by Inbox)">Delete ALL Messages (by Inbox)</a>
+                  </li>
+                  <li>
+                    <a href="#delete-a-message" class="toc-h2 toc-link" data-title="Delete a Message">Delete a Message</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#streams-api" class="toc-h1 toc-link" data-title="Streams API">Streams API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-all-streams" class="toc-h2 toc-link" data-title="Get All Streams">Get All Streams</a>
+                  </li>
+                  <li>
+                    <a href="#get-stream" class="toc-h2 toc-link" data-title="Get Stream">Get Stream</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#rules-api" class="toc-h1 toc-link" data-title="Rules API">Rules API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#rules-schema" class="toc-h2 toc-link" data-title="Rules Schema">Rules Schema</a>
+                  </li>
+                  <li>
+                    <a href="#conditions-schema" class="toc-h2 toc-link" data-title="Conditions Schema">Conditions Schema</a>
+                  </li>
+                  <li>
+                    <a href="#actions-schema" class="toc-h2 toc-link" data-title="Actions Schema">Actions Schema</a>
+                  </li>
+                  <li>
+                    <a href="#create-rule" class="toc-h2 toc-link" data-title="Create Rule">Create Rule</a>
+                  </li>
+                  <li>
+                    <a href="#enable-rule" class="toc-h2 toc-link" data-title="Enable Rule">Enable Rule</a>
+                  </li>
+                  <li>
+                    <a href="#disable-rule" class="toc-h2 toc-link" data-title="Disable Rule">Disable Rule</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-rules" class="toc-h2 toc-link" data-title="Get All Rules">Get All Rules</a>
+                  </li>
+                  <li>
+                    <a href="#http-request-10" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                  </li>
+                  <li>
+                    <a href="#path-5" class="toc-h2 toc-link" data-title="PATH">PATH</a>
                   </li>
                   <li>
                     <a href="#get-rule" class="toc-h2 toc-link" data-title="Get Rule">Get Rule</a>
@@ -263,7 +323,9 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='mailinator'>Mailinator</h1>
-<p>Mailinator is an email system that accepts email for any inbox with no sign-up, login, or account creation involved. Whereas most email systems revolve around &quot;account ownership&quot; which is centered on a given inbox (e.g. your_email@gmail.com), Mailinator is centered around entire domains.</p>
+<p>Whereas most email systems are bulit around the concept of &quot;account/inbox ownership&quot;, Mailinator is an email system built around &quot;entire domain inbox ownership&quot;. This allows companies to have instant access to millions of email addresses for system and automation testing of their software.</p>
+
+<p>Mailinator also provides a &quot;public&quot; domain for personal use where all email addresses (@mailinator.com) are completely public and usable by anyone.</p>
 <h2 id='public-mailinator-all-email-mailinator-com'>Public Mailinator (all email @mailinator.com)</h2>
 <p>The public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain. They are readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.</p>
 
@@ -368,79 +430,18 @@ curl <span class="s2">"https://api.mailinator.com/api_endpoint_here?token=YourTe
 <aside class="notice">
 You must replace <b>YourTeamAPIToken</b> with the API token found on your Team Settings page
 </aside>
-<h2 id='message-api'>Message API</h2><h3 id='format'>Format</h3>
+<h1 id='message-api'>Message API</h1><h2 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h2>
+<p>This endpoint retrieves a list of messages summaries. You can retreive a list by inbox, inboxes, or entire domain.</p>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox?limit=2&amp;sort=descending"</span>
+</code></pre><h3 id='http-request'>HTTP Request</h3>
+<p><b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
+
 <blockquote>
-<p>Full format (you will often only use parts of this)</p>
-</blockquote>
-
-<p>GET/POST/DELETE https://api.mailinator.com/v2/api/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b></p>
-
-<p>Fetching Messages, Inbox, Message Summaries, Attachments, etc. all follow the same &quot;sub-unit&quot; format. See below for specific calls to fetch distinct messages, or parts thereof.</p>
-
-<table><thead>
-<tr>
-<th>Path Element</th>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>:domain</td>
-<td>public</td>
-<td>The Public Mailinator system</td>
-</tr>
-<tr>
-<td></td>
-<td>private</td>
-<td>All your Private Domains</td>
-</tr>
-<tr>
-<td></td>
-<td>[your_private_domain.com]</td>
-<td>Specify a specific Private Domain (if you have more than one)</td>
-</tr>
-<tr>
-<td>:inbox</td>
-<td>null</td>
-<td>All Messages in that domain</td>
-</tr>
-<tr>
-<td></td>
-<td>*</td>
-<td>All Messages in that domain</td>
-</tr>
-<tr>
-<td></td>
-<td>[joe]</td>
-<td>All Messages in that domain in the inbox specified</td>
-</tr>
-<tr>
-<td></td>
-<td>[joe*]</td>
-<td>All Messages in that domain in all inboxes starting with the specified string</td>
-</tr>
-<tr>
-<td>:message_id</td>
-<td>[joe-123-456]</td>
-<td>Specific Message</td>
-</tr>
-<tr>
-<td>:attachment_id</td>
-<td>[invoice.pdf]</td>
-<td>Specific Attachment name</td>
-</tr>
-</tbody></table>
-
-<p>See below for more specific examples</p>
-<h3 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h3><h4 id='http-request'>HTTP Request</h4>
-<p>GET https://api.mailinator.com/v2/api/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
-<pre class="highlight shell tab-shell"><code>curl https://api.mailinator.com/v2/api/domains/private/inboxes/testinbox
-</code></pre>
-<blockquote>
-<p>The above command returns the list of messages for the Inbox <b>joe</b>.
-It returns JSON structured like this:</p>
+<p>The above command returns the list of messages for the Inbox <b>joe</b>. It returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yourprivatedomain.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox"</span><span class="w">
     </span><span class="s2">"msgs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
             </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"this is a test email 1"</span><span class="p">,</span><span class="w">
@@ -461,10 +462,7 @@ It returns JSON structured like this:</p>
             </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">778923</span><span class="w">
         </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yourprivatedomain.com"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox"</span><span class="w">
    </span><span class="p">}</span><span class="w">  
- </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <table><thead>
@@ -492,25 +490,25 @@ It returns JSON structured like this:</p>
 <tr>
 <td>:inbox</td>
 <td>null</td>
-<td>Fetch All Messages summaries</td>
+<td>Fetch All Messages summaries for an entire domain</td>
 </tr>
 <tr>
 <td></td>
 <td>*</td>
-<td>Fetch All Messages summaries</td>
+<td>Fetch All Messages summaries for an entire domain</td>
 </tr>
 <tr>
 <td></td>
-<td>[joe]</td>
+<td>[inbox_name]</td>
 <td>Fetch All Messages summaries for a given Inbox</td>
 </tr>
 <tr>
 <td></td>
-<td>[joe*]</td>
+<td>[inbox_name*]</td>
 <td>Fetch All Messages summaries for a given Inbox Prefix</td>
 </tr>
 </tbody></table>
-<h4 id='query-parameters'>Query Parameters</h4>
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -531,119 +529,266 @@ It returns JSON structured like this:</p>
 <td>no</td>
 <td>number of emails to fetch from your Private Domain</td>
 </tr>
+<tr>
+<td>sort</td>
+<td>descending</td>
+<td>no</td>
+<td>Sort results by ascending or descending</td>
+</tr>
+<tr>
+<td>decode_subject</td>
+<td>false</td>
+<td>no</td>
+<td>true: decode encoded subjects</td>
+</tr>
 </tbody></table>
-<h3 id='fetch-a-message'>Fetch a message</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/message?token=YourAPIToken&amp;id=joe-1551548025-3982989"</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"requestId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"425041"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">263</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1551549255000</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WirelessTest@egtest.com"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"multipart/alternative; boundary=</span><span class="se">\"</span><span class="s2">d9f1e7876ccd20ca69a4286c31823fa2</span><span class="se">\"</span><span class="s2">"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sat, 2 Mar 2019 12:51:10 -0500"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\"</span><span class="s2">Wireless Charging</span><span class="se">\"</span><span class="s2"> &lt;WirelessTest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"message-id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;0ockv6sqfejl43fl-wlc9g9fho39kkla1-652@egtest.com&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"mime-version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"received"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from ([50.3.73.178])</span><span class="se">\r\n</span><span class="s2">        by mail.mailinator.com with SMTP (Postfix)</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"reply-to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"</span><span class="se">\"</span><span class="s2">Wireless Charging</span><span class="se">\"</span><span class="s2"> &lt;WirelessTest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Don't Throw Your Phone Away Just Yet! You can fix it."</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;joe@mailinator.com&gt;"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"joe-1551549255-4004891"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"origfrom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wireless Charging &lt;wirelesstest@egtest.com&gt;"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"parts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fix your phone now!"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                    </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/plain;"</span><span class="w">
-                </span><span class="p">}</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                    </span><span class="s2">"content-transfer-encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8bit"</span><span class="p">,</span><span class="w">
-                    </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html;"</span><span class="w">
-                </span><span class="p">},</span><span class="w">
-              </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;html&gt;&lt;body&gt;Fix your phone now!&lt;/body&gt;&lt;/html&gt;"</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-        </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-
-</span></code></pre>
+<h2 id='fetch-message'>Fetch Message</h2>
 <p>This endpoint retrieves a specific message by id.</p>
-
-<p>GET https://api.mailinator.com/api/message</p>
-<h4 id='query-parameters-2'>Query Parameters</h4>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>token</td>
-<td>false</td>
-<td>true</td>
-<td>You must provide your API token with each request</td>
-</tr>
-<tr>
-<td>id</td>
-<td>false</td>
-<td>true</td>
-<td>The message id (usually found in a previous inbox api call) to retrieve</td>
-</tr>
-</tbody></table>
-<h3 id='delete-a-message'>Delete a Message</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/delete?token=YourTeamAPIToken&amp;id=joe-1551548025-3982989"</span>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"fromfull"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our Qa Tester &lt;qatester.company.com&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"mime-version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tue, 15 Oct 2019 12:12:20 -0400"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"this is a test email 1"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"multipart/mixed"</span><span class="p">,</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"this is a test email 1"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"parts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/plain; charset=</span><span class="se">\"</span><span class="s2">UTF-8</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"here is our test email</span><span class="se">\r\n</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"text/html; charset=</span><span class="se">\"</span><span class="s2">UTF-8</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;div dir=</span><span class="se">\"</span><span class="s2">ltr</span><span class="se">\"</span><span class="s2">&gt;&lt;div class=</span><span class="se">\"</span><span class="s2">gmail_default</span><span class="se">\"</span><span class="s2"> 
+                     style=</span><span class="se">\"</span><span class="s2">font-family:tahoma,sans-serif;font-size:large</span><span class="se">\"</span><span class="s2">&gt;
+                     here&amp;#39;s the test email&lt;/div&gt;&lt;/div&gt;</span><span class="se">\r\n</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"headers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"content-disposition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"attachment; filename=</span><span class="se">\"</span><span class="s2">notes.pdf</span><span class="se">\"</span><span class="s2">"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"content-transfer-encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"base64"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/pdf; name=</span><span class="se">\"</span><span class="s2">notes.pdf</span><span class="se">\"</span><span class="s2">"</span><span class="p">,</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iVBO4JYRUE2VGk85o6MBpC9E1frV8djCh24TVzy6CdiTEFkJoFGwRxy0jeivb3t8f6+e+uo4P==="</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our Qa Tester"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"testinbox-1570635306-12914603"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1571155952000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"seconds_ago"</span><span class="p">:</span><span class="w"> </span><span class="mi">260276</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint deletes a specific message.</p>
-<h4 id='http-request-2'>HTTP Request</h4>
-<p>GET https://api.mailinator.com/api/delete</p>
-<h4 id='url-parameters'>URL Parameters</h4>
+
+</span></code></pre><h3 id='http-request-2'>HTTP Request</h3>
+<p><b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b></p>
+
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Required</th>
+<th>Path Element</th>
+<th>Value</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
-<td>false</td>
-<td>true</td>
-<td>You must provide your API token with each request</td>
+<td>:domain</td>
+<td>public</td>
+<td>Fetch Message Summaries from the Public Mailinator System</td>
 </tr>
 <tr>
-<td>id</td>
-<td>false</td>
-<td>true</td>
-<td>The message id (usually found in a previous inbox api call) to delete</td>
+<td></td>
+<td>private</td>
+<td>Fetch Message Summaries from any Private Domains</td>
 </tr>
 <tr>
-<td>delete_all</td>
-<td>false</td>
-<td>false</td>
-<td>if <strong>delete_all=true</strong> is specified, ALL email will be deleted from your Team&#39;s private domain</td>
+<td></td>
+<td>[your_private_domain.com]</td>
+<td>Fetch Message from a specific Private Domain</td>
+</tr>
+<tr>
+<td>:inbox</td>
+<td>[inbox_name]</td>
+<td>Fetch Message for this inbox</td>
+</tr>
+<tr>
+<td>:message_id</td>
+<td>[msg_id]</td>
+<td>Fetch Message with this ID (found via previous Message Summary call)</td>
 </tr>
 </tbody></table>
-<h2 id='streams-api'>Streams API</h2>
+<h2 id='fetch-list-of-attachments'>Fetch List of Attachments</h2>
+<p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="p">{</span><span class="w">
+   </span><span class="s2">"attachments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"notes.pdf"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"content-disposition"</span><span class="p">:</span><span class="w"> </span><span class="s2">"attachment; filename=</span><span class="se">\"</span><span class="s2">notes.pdf</span><span class="se">\"</span><span class="s2">"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"content-transfer-encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"base64"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"content-type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"application/pdf"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"attachment-id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre><h3 id='http-request-3'>HTTP Request</h3>
+<p><b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments</p>
+<h2 id='fetch-attachment'>Fetch Attachment</h2>
+<p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf
+</span></code></pre>
+<blockquote>
+<p>The above command returns the attachment file. In this example, it would return a pdf.</p>
+</blockquote>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b></p>
+
+<p>Note that alternatively, you specify the &quot;attachment-id&quot; value instead of the attachment name.</p>
+<h2 id='delete-all-messages-by-domain'>Delete ALL Messages (by Domain)</h2>
+<p>This endpoint deletes <b>ALL</b> messages from a Private Domain. Caution: This action is irreversible.</p>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/domains/private/inboxes/"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"messages_deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1048</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<p><b>DELETE</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/</p>
+
+<table><thead>
+<tr>
+<th>Path Element</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:domain</td>
+<td>private</td>
+<td>Delete ALL messages in all your private domains</td>
+</tr>
+<tr>
+<td></td>
+<td>[your_private_domain.com]</td>
+<td>Delete all messages in a specific private domain</td>
+</tr>
+<tr>
+<td>:inbox</td>
+<td>null</td>
+<td>Delete from all inboxes, or</td>
+</tr>
+<tr>
+<td></td>
+<td>*</td>
+<td>Delete from all inboxes</td>
+</tr>
+</tbody></table>
+<h2 id='delete-all-messages-by-inbox'>Delete ALL Messages (by Inbox)</h2>
+<p>This endpoint deletes <b>ALL</b> messages from a specific private inbox.</p>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/domains/private/inboxes/testinbox"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"messages_deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+
+</span></code></pre>
+<p><b>DELETE</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
+
+<table><thead>
+<tr>
+<th>Path Element</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:domain</td>
+<td>private</td>
+<td>Delete all messages from an inbox from any private domain</td>
+</tr>
+<tr>
+<td></td>
+<td>[your_private_domain.com]</td>
+<td>Delete all messages from an inbox from a specific private domain</td>
+</tr>
+<tr>
+<td>:inbox</td>
+<td>[inbox_name]</td>
+<td>Delete all messages from a specific inbox</td>
+</tr>
+</tbody></table>
+<h2 id='delete-a-message'>Delete a Message</h2>
+<p>This endpoint deletes a specific messages</p>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"messages_deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<p><b>DELETE</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b></p>
+
+<table><thead>
+<tr>
+<th>Path Element</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>:domain</td>
+<td>private</td>
+<td>Delete message from any private domain</td>
+</tr>
+<tr>
+<td></td>
+<td>[your_private_domain.com]</td>
+<td>Delete message from a specific private domain</td>
+</tr>
+<tr>
+<td>:inbox</td>
+<td>[inbox_name]</td>
+<td>Delete message from a specific inbox</td>
+</tr>
+<tr>
+<td>:message_id</td>
+<td>[message_id]</td>
+<td>Delete message with this ID</td>
+</tr>
+</tbody></table>
+<h1 id='streams-api'>Streams API</h1>
 <p>Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.</p>
 
 <aside class="notice">
@@ -669,7 +814,7 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint fetches a list of all your streams. </p>
-<h4 id='http-request-3'>HTTP Request</h4>
+<h4 id='http-request-5'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/streams/</p>
 <h3 id='get-stream'>Get Stream</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
 </code></pre>
@@ -686,7 +831,7 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint fetches a specific stream</p>
-<h4 id='http-request-4'>HTTP Request</h4>
+<h4 id='http-request-6'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/streams/:stream_id</p>
 <h4 id='path'>PATH</h4>
 <table><thead>
@@ -704,7 +849,7 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 <td>This must be the Stream <em>name</em> or the Stream <em>id</em></td>
 </tr>
 </tbody></table>
-<h2 id='rules-api'>Rules API</h2>
+<h1 id='rules-api'>Rules API</h1>
 <p>You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).</p>
 
 <p>Rules contain one or more conditions and one or more actions.</p>
@@ -949,7 +1094,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to create a Rule. Note that in the examples, &quot;:stream_id&quot; can be one of your private domains.</p>
-<h4 id='http-request-5'>HTTP Request</h4>
+<h4 id='http-request-7'>HTTP Request</h4>
 <p>POST https://api.mailinator.com/streams/:stream_id/rules/</p>
 <h4 id='path-2'>PATH</h4>
 <table><thead>
@@ -1031,7 +1176,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to enable an existing Rule</p>
-<h4 id='http-request-6'>HTTP Request</h4>
+<h4 id='http-request-8'>HTTP Request</h4>
 <p>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</p>
 <h4 id='path-3'>PATH</h4>
 <table><thead>
@@ -1065,7 +1210,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to disable an existing Rule</p>
-<h4 id='http-request-7'>HTTP Request</h4>
+<h4 id='http-request-9'>HTTP Request</h4>
 <p>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable</p>
 <h4 id='path-4'>PATH</h4>
 <table><thead>
@@ -1127,7 +1272,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint fetches all Rules for a Stream</p>
-<h3 id='http-request-8'>HTTP Request</h3>
+<h3 id='http-request-10'>HTTP Request</h3>
 <p>GET https://api.mailinator.com/streams/:stream_id/rules/</p>
 <h3 id='path-5'>PATH</h3>
 <table><thead>
@@ -1176,7 +1321,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint fetches a Rules for a Stream</p>
-<h3 id='http-request-9'>HTTP Request</h3>
+<h3 id='http-request-11'>HTTP Request</h3>
 <p>GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id</p>
 <h3 id='path-6'>PATH</h3>
 <table><thead>
@@ -1203,7 +1348,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint deletes a specific Rule from a Stream</p>
-<h3 id='http-request-10'>HTTP Request</h3>
+<h3 id='http-request-12'>HTTP Request</h3>
 <p>DELETE https://api.mailinator.com/streams/:stream_id/rules/:rule_id</p>
 <h3 id='path-7'>PATH</h3>
 <table><thead>
