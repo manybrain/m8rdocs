@@ -252,6 +252,9 @@
                     <a href="#fetch-message" class="toc-h2 toc-link" data-title="Fetch Message">Fetch Message</a>
                   </li>
                   <li>
+                    <a href="#fetch-an-sms-messages" class="toc-h2 toc-link" data-title="Fetch an SMS Messages">Fetch an SMS Messages</a>
+                  </li>
+                  <li>
                     <a href="#fetch-list-of-attachments" class="toc-h2 toc-link" data-title="Fetch List of Attachments">Fetch List of Attachments</a>
                   </li>
                   <li>
@@ -307,7 +310,7 @@
                     <a href="#get-all-rules" class="toc-h2 toc-link" data-title="Get All Rules">Get All Rules</a>
                   </li>
                   <li>
-                    <a href="#http-request-10" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                    <a href="#http-request-11" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
                   </li>
                   <li>
                     <a href="#path-5" class="toc-h2 toc-link" data-title="PATH">PATH</a>
@@ -631,6 +634,10 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <td>Fetch Message with this ID (found via previous Message Summary call)</td>
 </tr>
 </tbody></table>
+<h2 id='fetch-an-sms-messages'>Fetch an SMS Messages</h2>
+<p>SMS messages go into an inbox by the name of their phone number. Retrieving them is the same as any other message, simply use the phone number as the Inbox you are fetching.</p>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:YOUR_TEAM_SMS_NUMBER</b></p>
 <h2 id='fetch-list-of-attachments'>Fetch List of Attachments</h2>
 <p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
 <pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"</span>
@@ -651,7 +658,7 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
-</span></code></pre><h3 id='http-request-3'>HTTP Request</h3>
+</span></code></pre><h3 id='http-request-4'>HTTP Request</h3>
 <p><b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments</p>
 <h2 id='fetch-attachment'>Fetch Attachment</h2>
 <p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
@@ -660,7 +667,7 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 <blockquote>
 <p>The above command returns the attachment file. In this example, it would return a pdf.</p>
 </blockquote>
-<h3 id='http-request-4'>HTTP Request</h3>
+<h3 id='http-request-5'>HTTP Request</h3>
 <p><b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b></p>
 
 <p>Note that alternatively, you specify the &quot;attachment-id&quot; value instead of the attachment name.</p>
@@ -857,7 +864,7 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint fetches a list of all your streams. </p>
-<h4 id='http-request-5'>HTTP Request</h4>
+<h4 id='http-request-6'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/streams/</p>
 <h3 id='get-stream'>Get Stream</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/streams/:stream_id"</span>
 </code></pre>
@@ -874,7 +881,7 @@ In general, "Streams" are synonymous with "Private Domains". When you add or del
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>The endpoint fetches a specific stream</p>
-<h4 id='http-request-6'>HTTP Request</h4>
+<h4 id='http-request-7'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/streams/:stream_id</p>
 <h4 id='path'>PATH</h4>
 <table><thead>
@@ -1137,7 +1144,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to create a Rule. Note that in the examples, &quot;:stream_id&quot; can be one of your private domains.</p>
-<h4 id='http-request-7'>HTTP Request</h4>
+<h4 id='http-request-8'>HTTP Request</h4>
 <p>POST https://api.mailinator.com/streams/:stream_id/rules/</p>
 <h4 id='path-2'>PATH</h4>
 <table><thead>
@@ -1219,7 +1226,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to enable an existing Rule</p>
-<h4 id='http-request-8'>HTTP Request</h4>
+<h4 id='http-request-9'>HTTP Request</h4>
 <p>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable</p>
 <h4 id='path-3'>PATH</h4>
 <table><thead>
@@ -1253,7 +1260,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint allows you to disable an existing Rule</p>
-<h4 id='http-request-9'>HTTP Request</h4>
+<h4 id='http-request-10'>HTTP Request</h4>
 <p>PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable</p>
 <h4 id='path-4'>PATH</h4>
 <table><thead>
@@ -1315,7 +1322,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint fetches all Rules for a Stream</p>
-<h3 id='http-request-10'>HTTP Request</h3>
+<h3 id='http-request-11'>HTTP Request</h3>
 <p>GET https://api.mailinator.com/streams/:stream_id/rules/</p>
 <h3 id='path-5'>PATH</h3>
 <table><thead>
@@ -1364,7 +1371,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint fetches a Rules for a Stream</p>
-<h3 id='http-request-11'>HTTP Request</h3>
+<h3 id='http-request-12'>HTTP Request</h3>
 <p>GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id</p>
 <h3 id='path-6'>PATH</h3>
 <table><thead>
@@ -1391,7 +1398,7 @@ Creating rules with enabled:true activates them immediately
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint deletes a specific Rule from a Stream</p>
-<h3 id='http-request-12'>HTTP Request</h3>
+<h3 id='http-request-13'>HTTP Request</h3>
 <p>DELETE https://api.mailinator.com/streams/:stream_id/rules/:rule_id</p>
 <h3 id='path-7'>PATH</h3>
 <table><thead>
