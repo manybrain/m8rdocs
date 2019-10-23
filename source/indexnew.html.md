@@ -104,6 +104,7 @@ Subscribers can read messages in both the Public and their own Private Mailinato
 
 Access to the API (and messages in general) are subject to your subscription plan's rate limits.
 
+[Note: The V1 API will remain active. See the old documentation here: <a href='https://manybrain.github.io/m8rdocs/indexold.html'>HERE</a>]
 
 ## Definitions
 
@@ -278,6 +279,13 @@ Path Element |  Value | Description
 :message_id | [msg_id] | Fetch Message with this ID (found via previous Message Summary call)
 
 
+## Fetch an SMS Messages
+SMS messages go into an inbox by the name of their phone number. Retrieving them is the same as any other message, simply use the phone number as the Inbox you are fetching.
+
+### HTTP Request
+<b>GET</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:YOUR_TEAM_SMS_NUMBER</b>
+
+
 ## Fetch List of Attachments
 This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
       
@@ -310,7 +318,7 @@ curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/message
 This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
       
 ```shell
-curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf
+curl "https://api.mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"
 ```
 > The above command returns the attachment file. In this example, it would return a pdf.
 
@@ -326,7 +334,7 @@ Note that alternatively, you specify the "attachment-id" value instead of the at
 This endpoint deletes <b>ALL</b> messages from a Private Domain. Caution: This action is irreversible.
 
 ```shell
-curl "https://api.mailinator.com/api/domains/private/inboxes/"
+curl  -X DELETE "https://api.mailinator.com/api/v2/domains/private/inboxes/"
 ```
 > The above command returns JSON structured like this:
 
@@ -354,7 +362,7 @@ Path Element |  Value | Description
 This endpoint deletes <b>ALL</b> messages from a specific private inbox.
 
 ```shell
-curl "https://api.mailinator.com/api/domains/private/inboxes/testinbox"
+curl  -X DELETE "https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox"
 ```
 > The above command returns JSON structured like this:
 
@@ -381,18 +389,15 @@ Path Element |  Value | Description
 This endpoint deletes a specific messages
 
 ```shell
-curl "https://api.mailinator.com/api/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
+curl -X DELETE "https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
 ```
 > The above command returns JSON structured like this:
 
 ```json
-
 {
     "status" : "ok",
     "messages_deleted" : 1
 }
-}
-
 ```
 
 <b>DELETE</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
@@ -406,8 +411,34 @@ Path Element |  Value | Description
 
 
 
+## Inject a Message (HTTP Post messages)
+```shell
+curl -d '{"from":"ourtest@xyz.com", "subject":"testing message", "text" : "hello world" }'
+     -H "Content-Type: application/json"
+     -X POST "https://api.mailinator.com/api/v2/domains/private/inboxes/testinbox/"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "status" : "ok",
+    "id" : "testinbox-3282929-109191"
+}
+```
+
+This endpoint allows you to deliver a JSON message into your private domain. This is similar to simply emailing a message to your private domain, except that you use HTTP Post and can programmatically inject the message.
+
+Note that injected JSON Messages can have any schema they choose. However, if you want the Web interface to display them, they must follow a general email format with the fields of From, Subject, and Parts (see "Fetch Message" above).
 
 
+<b>POST</b> https://api.mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
+
+Path Element |  Value | Description
+--------- | ------- | -------- | -----------
+:domain   | private  | Inject to any (i.e. first) private domain
+          | [your_private_domain.com] |  Inject to specific private domain
+:inbox    | [inbox_name]    | TO destination for injected message
 
 
 
