@@ -16,21 +16,17 @@ toc_footers:
 
 - <a href='https://www.mailinator.com/v3/#/#pricing_table_pane'>Subscribe for Mailinator API access</a>
 
-- <a href='https://manybrain.github.io/m8rdocs/indexold.html'>Mailinator V1 API docs [OLD]</a>
-
 search: true
 ---
 # Mailinator
 
-Whereas most email systems are bulit around the concept of "account/inbox ownership", Mailinator is an email system built around "entire domain inbox ownership". This allows companies to have instant access to millions of email addresses for system and automation testing of their software.
+Mailinator is an email system that accepts email for any inbox with no sign-up, login, or account creation involved. Whereas most email systems revolve around "account ownership" which is centered on a given inbox (e.g. your_email@gmail.com), Mailinator is centered around entire domains.
 
-Mailinator also provides a "public" domain for personal use where all email addresses (@mailinator.com) are completely public and usable by anyone.
+## Public Mailinator
 
-## Public Mailinator (all email @mailinator.com)
+The public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain and readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.
 
-The public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain. They are readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.
-
-In addition, all emails in the public Mailinator system auto-delete after a few hours. They are un-retrievable after this happens. Public Mailinator emails also may not contain attachments (if they do, they will either not be delivered, or have their attachments stripped before delivery).
+In addition, all emails in the public Mailinator sytem auto-delete after a few hours. They are un-retrievable after this happens.
 
 Finally, it's important to note that the Mailinator system is RECEIVE-ONLY. <b>No one can send an email from Mailinator.</b> (Any email appearing to have arrived from an @mailinator address has had it's "From" field forged to appear as such).
 
@@ -38,7 +34,7 @@ There is no need to sign-up to use the public Mailinator system. Simply go to th
 
 Again, the public Mailinator is intended for personal and occasional use hence usage limits apply. Please see our Upgrade plans for corporate users.
 
-## Private Mailinator 
+## Private Mailinator
 
 Mailinator offers upgraded subscriptions for corporate users wishing to use the Mailinator system. This offers many benefits.
 
@@ -46,29 +42,17 @@ Subscribers receive one or more "Private Domains" which provide a private versio
 
 In addition, Private users gain API access to messages within the Mailinator system. Subscribers may use the API to access all email in their Private Domain(s) in addition to the Public Mailinator system.
 
-## Message Delivery
+# Message Access
 
-<img src='images/m8rmsgflow.png' alt='Mailinator Message Flow'>
+## Web
 
-Messages arrive in the Mailinator system several ways.
+The web interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s).
 
-+ Email
-+ SMS
-+ HTTP Post
-
-The classic way is they arrive as email. However, messages may also enter the system via SMS (i.e. text message), or HTTP Post. Regardless of how a message arrives, it lands in a designated inbox and is then available for retrieval or manipulation/re-delivery via the rule systesm.
-
-## Message Access
-
-### Web
-
-The web interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s). The Web interface will first attempt to show a message as an email. However, if the formatting of the message does not follow email conventions (i.e. maybe it arrived as an HTTP Post with a custom format), the message will be displayed in raw JSON.
-
-### API
+## API
 
 Subscribers may use programmatic access to poll inboxes and retrieve emails in JSON format. Documentation for the API can be found below.
 
-### Rules
+## Rules
 
 Instead of pulling emails via the API, Subscribers may set rules for Mailinator to "push" messages to them as they arrive. The rule system may be configured via the Web interface (i.e. Mailinator Routing Rules) or programmatically via the API (see API documentation below).
 
@@ -82,7 +66,7 @@ IF <b>TO = joe</b> THEN <b>Post Webhook To https://mywebsite.com/endpoint</b>
 
 For a given Private domain, all emails that arrive to the "joe" inbox will be converted to JSON, and HTTP Posted to the designated endpoint.
 
-For more information on configuring Rules, see the Rules API documentation below (The Mailinator Web interface is merely a front-end for this API).
+Note that the Rule System is only available for Private Domains at this time. For more information on configuring Rules, see the Rules API documentation below (The Mailinator Web interface is merely a front-end for this API).
 
 # Setting up your Mailinator Subscription
 
@@ -90,13 +74,16 @@ Thanks for being a Mailinator subscriber! This section will show you some immedi
 
 You now (yes, already) have a Private domain. Every conceivable inbox is waiting for you to send email to it. Unlike the public Mailinator system however, you won't run into rate-limits or filters. The email at that domain is private to you.
 
-When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.mailinator.com. So any email to anything@you-yourcompany.mailinator.com will arrive in your private domain. On the left of the Web User Interface you'll see "Private Team Inbox". If you click that you'll be taken to the web interface for your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming stream. 
+When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.mailinator.com. So any email to anything@you-yourcompany.mailinator.com will arrive in your private domain. On the left of the Web User Interface you'll see "Private Team Inbox". If you click that you'll be taken to the web interface fo r your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming stream. 
 
 To see what your current Private Domain is, go the Team Settings section of the Web interface and you'll see it listed. You can leave it as is, change it to another subdomain, or even put in a domain you already own (you must change the DNS record MX to point to our servers for this to work).
 
 On the Team Settings page, you'll also notice your API token. This token allows you to access all email in Mailinator (public and private) via API instead of the Web. See our API documentation below.
 
 The Team Management screen allows you to add co-workers to your account so they too can access your private domain emails. Also, checkout the Message Routing Rules system. While it's great to read emails via the web or API, Mailinator will push emails to you via webhooks. You can set this up in the Rules System.
+
+Thanks for using Mailinator and feel free to browse this documentation. As always, if you have any questions, email us at support@manybrain.com.
+
 
 # The Mailinator API
 
@@ -106,7 +93,6 @@ Subscribers can read messages in both the Public and their own Private Mailinato
 
 Access to the API (and messages in general) are subject to your subscription plan's rate limits.
 
-[Note: The V1 API will remain active. See the old documentation here: <a href='https://manybrain.github.io/m8rdocs/indexold.html'>HERE</a>]
 
 ## Definitions
 
@@ -114,17 +100,20 @@ Access to the API (and messages in general) are subject to your subscription pla
 
 Messages within Mailinator are typically thought of as emails - however, messages can enter the system in a variety of ways including email, SMS, or HTTP Post. In general, the schema of messages contains a TO, FROM, SUBJECT, and message body. Message bodies can be simple string of text or as is allowed by email standards, a complicated multi-part, multi-encoded schema.
 
-- <b>Domains / Streams</b>
+- <b>Private Domains / Streams</b>
 
-Domains (aka Streams) identify a specific source for messages. Emails automatically are assigned to the domain of their "to" address. Expectedly, each of your Private Domains represent a specific source for messages. Each Domain may have it's own set of rules.
+Streams identify a specific source for messages. Emails automatically are assigned to the domain of their "to" address. Expectedly, each of your Private Domains represent a specific source for messages. Incoming SMS messages arrive to the reserved stream of <b>SMS</b>. 
 
-<!-- 
+Stream Name | Description
+----------- | -----------
+SMS | Any message arriving to one of your account's SMS inboxes are assigned to this stream
+Each Private Domain | Each of your private domains has it's own stream and consequently, an available individual rule set
+
 - <b>Destinations</b>
 
 Mailinator routing rules allow immediate routing actions to take place on incoming messages. For example, you may wish to designate all incoming email messages to "Joe@YourPrivateDomain.com" should be forwarded to your work email. You could also designate that all incoming messages to "Bob@YourPrivateDomain.com" should be Posted via WebHook to an endpoint on your testing server.
 
 You may define a set of Destinations to be reused by your rules.
--->
 
 ## API Authentication
 
@@ -147,308 +136,186 @@ curl --header "Authorization: YourTeamAPIToken"
 Mailinator uses API tokens for authentication. All calls to the API must include the token query parameter OR included as an HTTP Authorization header.
 
 <aside class="notice">
-You must replace <b>YourTeamAPIToken</b> with the API token found on your Team Settings page
+You must replace <b>YourTeamAPIToken</b> with the API token found on your Team's Settings page
 </aside>
 
+## Message API
 
-# Message API
+### Fetch Inbox
 
-## Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)
-This endpoint retrieves a list of messages summaries. You can retreive a list by inbox, inboxes, or entire domain.
- 
-```shell  
-curl "https://api.mailinator.com/v2/domains/private/inboxes/testinbox?limit=2&sort=descending"
+```shell
+curl "https://api.mailinator.com/api/inbox?token=YourTeamAPIToken&to=joe"
 ```
-### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
-> The above command returns the list of messages for the Inbox <b>joe</b>. It returns JSON structured like this:
+> The above command returns the list of messages for the Inbox <b>joe</b>.
+> It returns JSON structured like this:
 
-  ```json
-{
-    "domain": "yourprivatedomain.com",
-    "to": "testinbox"
-    "msgs": [
-        {
-            "subject": "this is a test email 1",
-            "domain": "yourprivatedomain.com",
-            "from": "Our Qa Tester <qatester@company.com>"
-            "id": "testinbox-1571155952-33840774",
-            "to": "testinbox",
-            "time": 1571155952000,
-            "seconds_ago": 258277
-        },
-        {
-            "subject": "This is my test email [with attachment]",
-            "domain": "yourprivatedomain.com",
-            "from": "Our Qa Tester <qatester@company.com>"
-            "id": "testinbox-1570635306-12914603",
-            "to": "testinbox",
-            "time": 1570635306000,
-            "seconds_ago": 778923
-        }
-    ],
-   }  
+```json
+{ 
+ "to": "joe",
+ "messages" : [
+    {
+     "from": "Fit-X",
+     "fromfull": "noreply@fitx.com",
+     "id": "joe-1551548025-3982989",
+     "origfrom": "Fitx <noreply@fitx.com>",
+     "seconds_ago": 138,
+     "subject": "Important information about your enquiry",
+     "time": 1551548025000,
+     "to": "joe"
+    },
+   {
+   "from": "Wireless Charging",
+   "fromfull": "WirelessTest@egtest.com",
+   "id": "joe-1551548117-3983825",
+   "origfrom": "Wireless Charging <wirelesstest@egtest.com>",
+   "seconds_ago": 46,
+   "subject": "Don't Throw Your Phone Away Just Yet! You can fix it.",
+   "time": 1551548117000,
+   "to": "joe"
+   }
+ ]
 }
 ```
-
-Path Element |  Value | Description
---------- | ------- | -------- | -----------
-:domain   | public  | Fetch Message Summaries from the Public Mailinator System
-          | private | Fetch Message Summaries from all Your Private Domains
-          | [your_private_domain.com] |  Fetch Message Summaries from a specific Private Domain
-:inbox    | null    | Fetch All Messages summaries for an entire domain
-          | *       | Fetch All Messages summaries for an entire domain
-          | [inbox_name]   | Fetch All Messages summaries for a given Inbox
-          | [inbox_name*]  | Fetch All Messages summaries for a given Inbox Prefix
-
-### Query Parameters
+This endpoint retrieves both public and private-domain inboxes
+    
+#### HTTP Request
+  
+GET https://api.mailinator.com/api/inbox
+    
+#### Query Parameters
     
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
-skip | 0 | no | skip this many emails in your Private Domain
-limit | 50 | no | number of emails to fetch from your Private Domain  
-sort | descending | no | Sort results by ascending or descending
-decode_subject | false | no | true: decode encoded subjects
+token | false | true | You must provide your API token with each request
+    to | false | no | The inbox you wish to fetch<br>
+   private_domain | false | no | fetch from your Private Domain (not public Mailinator)
+   skip | 0 | no | skip this many emails in your Private Domain
+   limit | 50 | no | number of emails to fetch from your Private Domain  
+    <br>
+    To fetch from a private domain, append the domain to this parameter (i.e. joe@myprivatedomain.com)<br>Public email fetches should only include the inbox itself<br>
+    <br>
+    This may be a wildcard (i.e. <b>test*</b>) for fetching from your private domain<br>
+
+     
+Example **Public domain** (i.e. @mailinator.com) inbox fetchs:
+<br>
+    &nbsp;
+    &nbsp;
+    &nbsp;    
+    https://api.mailinator.com/api/inbox?to=bob&token=YourTeamAPIToken
+<br>
+    &nbsp;
+    &nbsp;
+    &nbsp;    
+    https://api.mailinator.com/api/inbox?to=testaccount1234&token=YourTeamAPIToken
+<br>
+<br>
+Example **Private Domain** inbox fetchs:
+<br>
+    &nbsp;
+    &nbsp;
+    &nbsp;    
+https://api.mailinator.com/api/inbox?to=testinbox@myprivatedomain.com&token=YourTeamAPIToken
+    <br>
+    &nbsp;
+    &nbsp;
+    &nbsp;    
+https://api.mailinator.com/api/inbox?to=test*&token=YourTeamAPIToken
 
 
+### Fetch a message
+    
+    
+```shell
+curl "https://api.mailinator.com/api/message?token=YourAPIToken&id=joe-1551548025-3982989"
+```
+> The above command returns JSON structured like this:
 
+```json
+{
+    "data": {
+        "requestId": "425041",
+        "seconds_ago": 263,
+        "subject": "Don't Throw Your Phone Away Just Yet! You can fix it.",
+        "time": 1551549255000,
+        "to": "joe",
+        "from": "Wireless Charging",
+        "fromfull": "WirelessTest@egtest.com",
+        "headers": {
+            "content-type": "multipart/alternative; boundary=\"d9f1e7876ccd20ca69a4286c31823fa2\"",
+            "date": "Sat, 2 Mar 2019 12:51:10 -0500",
+            "from": "\"Wireless Charging\" <WirelessTest@egtest.com>",
+            "message-id": "<0ockv6sqfejl43fl-wlc9g9fho39kkla1-652@egtest.com>",
+            "mime-version": "1.0",
+            "received": "from ([50.3.73.178])\r\n        by mail.mailinator.com with SMTP (Postfix)\r\n",
+            "reply-to": "\"Wireless Charging\" <WirelessTest@egtest.com>",
+            "subject": "Don't Throw Your Phone Away Just Yet! You can fix it.",
+            "to": "<joe@mailinator.com>"
+        },
+        "id": "joe-1551549255-4004891",
+        "origfrom": "Wireless Charging <wirelesstest@egtest.com>",
+        "parts": [
+            {
+                "body": "Fix your phone now!",
+                "headers": {
+                    "content-type": "text/plain;"
+                }
+            },
+            {
+                "headers": {
+                    "content-transfer-encoding": "8bit",
+                    "content-type": "text/html;"
+                },
+              "body": "<html><body>Fix your phone now!</body></html>"
+            }
+        ]
+    }
+}
 
+```
 
-      
-
-## Fetch Message
 This endpoint retrieves a specific message by id.
+
+GET https://api.mailinator.com/api/message
+
+#### Query Parameters
+
+Parameter | Default | Required | Description
+	      --------- | ------- | -------- | -----------
+token | false | true | You must provide your API token with each request
+id | false | true | The message id (usually found in a previous inbox api call) to retrieve
+
+
+### Delete a Message
+```shell
+curl "https://api.mailinator.com/api/delete?token=YourTeamAPIToken&id=joe-1551548025-3982989"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "status": "ok"
+}
+```
+	      
+This endpoint deletes a specific message.
       
-```shell
-curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
-```
-> The above command returns JSON structured like this:
-
-```json
-
-{
-    "fromfull": "Our Qa Tester <qatester.company.com>",
-    "headers": {
-        "mime-version": "1.0",
-        "date": "Tue, 15 Oct 2019 12:12:20 -0400",
-        "subject": "this is a test email 1",
-        "content-type": "multipart/mixed",
-    },
-    "subject": "this is a test email 1",
-    "parts": [
-        {
-            "headers": {
-                "content-type": "text/plain; charset=\"UTF-8\""
-            },
-            "body": "here is our test email\r\n"
-        },
-        {
-            "headers": {
-                "content-type": "text/html; charset=\"UTF-8\""
-            },
-            "body": "<div dir=\"ltr\"><div class=\"gmail_default\" 
-                     style=\"font-family:tahoma,sans-serif;font-size:large\">
-                     here&#39;s the test email</div></div>\r\n"
-        },
-        {
-            "headers": {
-                "content-disposition": "attachment; filename=\"notes.pdf\"",
-                "content-transfer-encoding": "base64",
-                "content-type": "application/pdf; name=\"notes.pdf\"",
-            },
-        "body": "iVBO4JYRUE2VGk85o6MBpC9E1frV8djCh24TVzy6CdiTEFkJoFGwRxy0jeivb3t8f6+e+uo4P==="
-        }
-    ],
-    "from": "Our Qa Tester",
-    "to": "testinbox",
-    "id": "testinbox-1570635306-12914603",
-    "time": 1571155952000,
-    "seconds_ago": 260276
-}
-
-```
-
-### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
-
-Path Element |  Value | Description
+#### HTTP Request
+     
+GET https://api.mailinator.com/api/delete
+	      
+#### URL Parameters
+	      
+Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
-:domain   | public  | Fetch Message Summaries from the Public Mailinator System
-          | private | Fetch Message Summaries from any Private Domains
-          | [your_private_domain.com] |  Fetch Message from a specific Private Domain
-:inbox    | [inbox_name]   | Fetch Message for this inbox
-:message_id | [msg_id] | Fetch Message with this ID (found via previous Message Summary call)
+token | false | true | You must provide your API token with each request
+id | false | true | The message id (usually found in a previous inbox api call) to delete
+delete_all | false | false | if **delete_all=true** is specified, ALL email will be deleted from your Team's private domain		
+	      
 
-
-## Fetch an SMS Messages
-SMS messages go into an inbox by the name of their phone number. Retrieving them is the same as any other message, simply use the phone number as the Inbox you are fetching.
-
-### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:YOUR_TEAM_SMS_NUMBER</b>
-
-
-## Fetch List of Attachments
-This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
-      
-```shell
-curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"
-```
-> The above command returns JSON structured like this:
-
-```json
-
-{
-   "attachments": [
-        {
-            "filename": "notes.pdf",
-            "content-disposition": "attachment; filename=\"notes.pdf\"",
-            "content-transfer-encoding": "base64",
-            "content-type": "application/pdf",
-            "attachment-id": 0
-        }
-    ]
-}
-
-```
-
-### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
-
-
-## Fetch Attachment
-This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
-      
-```shell
-curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"
-```
-> The above command returns the attachment file. In this example, it would return a pdf.
-
-
-### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b>
-
-Note that alternatively, you specify the "attachment-id" value instead of the attachment name.
-
-
-
-## Delete ALL Messages (by Domain)
-This endpoint deletes <b>ALL</b> messages from a Private Domain. Caution: This action is irreversible.
-
-```shell
-curl  -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/"
-```
-> The above command returns JSON structured like this:
-
-```json
-
-{
-    "status" : "ok",
-    "messages_deleted" : 1048
-}
-
-```
-
-<b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/
-
-Path Element |  Value | Description
---------- | ------- | -------- | -----------
-:domain   | private  | Delete ALL messages in all your private domains
-          | [your_private_domain.com] |  Delete all messages in a specific private domain
-:inbox    | null    | Delete from all inboxes, or
-          | *       | Delete from all inboxes
-
-
-
-## Delete ALL Messages (by Inbox)
-This endpoint deletes <b>ALL</b> messages from a specific private inbox.
-
-```shell
-curl  -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/testinbox"
-```
-> The above command returns JSON structured like this:
-
-```json
-
-{
-    "status" : "ok",
-    "messages_deleted" : 11
-}
-
-
-```
-
-<b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
-
-Path Element |  Value | Description
---------- | ------- | -------- | -----------
-:domain   | private  | Delete all messages from an inbox from any private domain
-          | [your_private_domain.com] |  Delete all messages from an inbox from a specific private domain
-:inbox    | [inbox_name]    | Delete all messages from a specific inbox
-
-
-## Delete a Message
-This endpoint deletes a specific messages
-
-```shell
-curl -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
-```
-> The above command returns JSON structured like this:
-
-```json
-{
-    "status" : "ok",
-    "messages_deleted" : 1
-}
-```
-
-<b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
-
-Path Element |  Value | Description
---------- | ------- | -------- | -----------
-:domain   | private  | Delete message from any private domain
-          | [your_private_domain.com] |  Delete message from a specific private domain
-:inbox    | [inbox_name]    | Delete message from a specific inbox
-:message_id | [message_id] | Delete message with this ID
-
-
-
-## Inject a Message (HTTP Post messages)
-```shell
-curl -d '{"from":"ourtest@xyz.com", "subject":"testing message", "text" : "hello world" }'
-     -H "Content-Type: application/json"
-     -X POST "https://api.mailinator.com/v2/domains/private/inboxes/testinbox/"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-    "status" : "ok",
-    "id" : "testinbox-3282929-109191"
-}
-```
-
-This endpoint allows you to deliver a JSON message into your private domain. This is similar to simply emailing a message to your private domain, except that you use HTTP Post and can programmatically inject the message.
-
-Note that injected JSON Messages can have any schema they choose. However, if you want the Web interface to display them, they must follow a general email format with the fields of From, Subject, and Parts (see "Fetch Message" above).
-
-
-<b>POST</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
-
-Path Element |  Value | Description
---------- | ------- | -------- | -----------
-:domain   | private  | Inject to any (i.e. first) private domain
-          | [your_private_domain.com] |  Inject to specific private domain
-:inbox    | [inbox_name]    | TO destination for injected message
-
-
-
-
-
-
-
-# Streams API
+## Streams API
 Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.
 
 <aside class="notice">
@@ -515,7 +382,7 @@ Parameter | Default | Required | Description
 	      :stream_id | (none) | true | This must be the Stream *name* or the Stream *id*
 
 
-# Rules API
+## Rules API
 You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).
 
 Rules contain one or more conditions and one or more actions.
