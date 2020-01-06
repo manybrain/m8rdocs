@@ -90,7 +90,7 @@ Thanks for being a Mailinator subscriber! This section will show you some immedi
 
 You now (yes, already) have a Private domain. Every conceivable inbox is waiting for you to send email to it. Unlike the public Mailinator system however, you won't run into rate-limits or filters. The email at that domain is private to you.
 
-When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.mailinator.com. So any email to anything@you-yourcompany.mailinator.com will arrive in your private domain. On the left of the Web User Interface you'll see "Private Team Inbox". If you click that you'll be taken to the web interface for your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming stream. 
+When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.mailinator.com. So any email to anything@you-yourcompany.mailinator.com will arrive in your private domain. On the left of the Web User Interface you'll see "Private Team Inbox". If you click that you'll be taken to the web interface for your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming domain. 
 
 To see what your current Private Domain is, go the Team Settings section of the Web interface and you'll see it listed. You can leave it as is, change it to another subdomain, or even put in a domain you already own (you must change the DNS record MX to point to our servers for this to work).
 
@@ -100,7 +100,7 @@ The Team Management screen allows you to add co-workers to your account so they 
 
 # The Mailinator API
 
-The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message streams within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.
+The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message domains within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.
 
 Subscribers can read messages in both the Public and their own Private Mailinator email systems with the API. They may also route/inject messages but only to their Private Mailinator domains.
 
@@ -114,9 +114,9 @@ Access to the API (and messages in general) are subject to your subscription pla
 
 Messages within Mailinator are typically thought of as emails - however, messages can enter the system in a variety of ways including email, SMS, or HTTP Post. In general, the schema of messages contains a TO, FROM, SUBJECT, and message body. Message bodies can be simple string of text or as is allowed by email standards, a complicated multi-part, multi-encoded schema.
 
-- <b>Domains / Streams</b>
+- <b>Domains / domains</b>
 
-Domains (aka Streams) identify a specific source for messages. Emails automatically are assigned to the domain of their "to" address. Expectedly, each of your Private Domains represent a specific source for messages. Each Domain may have it's own set of rules.
+Domains (aka domains) identify a specific source for messages. Emails automatically are assigned to the domain of their "to" address. Expectedly, each of your Private Domains represent a specific source for messages. Each Domain may have it's own set of rules.
 
 <!-- 
 - <b>Destinations</b>
@@ -448,29 +448,26 @@ Path Element |  Value | Description
 
 
 
-# Streams API
-Several Streams are automatically created for you including ALL, SMS, and one for each of your private domains. You can also access streams without explicitly creating them, however you cannot assign rules to adhoc streams. You may add or replace Private Domains in your Team Settings panel.
+# domains API
+You may add or replace Private Domains in your Team Settings panel.
 
-<aside class="notice">
-In general, "Streams" are synonymous with "Private Domains". When you add or delete a Private Domain, a corresponding Stream is also added or deleted.
-</aside>
 
-### Get All Streams
+### Get All domains
 ```shell
-curl "https://api.mailinator.com/streams"
+curl "https://api.mailinator.com/domains"
 ```
 
-> The above command returns JSON showing the newly created Stream:
+> The above command returns JSON showing the newly created Domain:
 
 ```json
 { 
-  "streams" : 
+  "domains" : 
      [
 	     {
 	       "_id": "5c9602f5e881b5fbe91c754a",
-         "description": "Stream representing some testing",
+         "description": "Domain representing some testing",
          "enabled": true,
-         "name": "my.test.stream",
+         "name": "my.test.domain",
          "ownerid": "59188558619b4f3879751781",
          "rules": []
 	     }
@@ -478,45 +475,45 @@ curl "https://api.mailinator.com/streams"
 }
 ```
 
-The endpoint fetches a list of all your streams. 
+The endpoint fetches a list of all your domains. 
 
 #### HTTP Request
 
-GET https://api.mailinator.com/streams/
+GET https://api.mailinator.com/domains/
 	      
-### Get Stream
+### Get Domain
 ```shell
-curl "https://api.mailinator.com/streams/:stream_id"
+curl "https://api.mailinator.com/domains/:domain_id"
 ```
 
-> The above command returns JSON showing the newly created Stream:
+> The above command returns JSON showing the newly created Domain:
 
 ```json
 {
    "_id": "5c9602f5e881b5fbe91c754a",
-   "description": "Stream representing some testing",
+   "description": "Domain representing some testing",
    "enabled": true,
-   "name": "my.test.stream",
+   "name": "my.test.domain.com",
    "ownerid": "59188558619b4f3879751781",
    "rules": []
 }
 ```
 
-The endpoint fetches a specific stream
+The endpoint fetches a specific domain
 
 #### HTTP Request
 
-GET https://api.mailinator.com/streams/:stream_id
+GET https://api.mailinator.com/domains/:domain_id
 	      
 #### PATH 
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
-	      :stream_id | (none) | true | This must be the Stream *name* or the Stream *id*
+	      :domain_id | (none) | true | This must be the Domain *name* or the Domain *id*
 
 
 # Rules API
-You may define stream-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).
+You may define domain-specific rules to process incoming messages. Rules are executed in priority order (Rules with equal priority run simultaneously).
 
 Rules contain one or more conditions and one or more actions.
 ### Rules Schema
@@ -615,7 +612,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 
 ```shell
 curl -H "content-type: application/json" 
-     -X POST "https://api.mailinator.com/streams/:stream_id/rules/" 
+     -X POST "https://api.mailinator.com/domains/:domain_id/rules/" 
      -d "@data.json"
 ```
 
@@ -670,17 +667,17 @@ curl -H "content-type: application/json"
 }
 ```
 
-This endpoint allows you to create a Rule. Note that in the examples, ":stream_id" can be one of your private domains.
+This endpoint allows you to create a Rule. Note that in the examples, ":domain_id" can be one of your private domains.
 
 #### HTTP Request
 
-POST https://api.mailinator.com/streams/:stream_id/rules/
+POST https://api.mailinator.com/domains/:domain_id/rules/
 	      
 #### PATH 
 
 Parameter | Default | Description
 --------- | ------- | -----------
-:stream_id | (none) | This must be the Stream *name* or the Stream *id* (i.e. your private domain)
+:domain_id | (none) | This must be the Domain *name* or the Domain *id* (i.e. your private domain)
 
 #### POST Parameters
 
@@ -700,7 +697,7 @@ Creating rules with enabled:true activates them immediately
 
 ### Enable Rule
 ```shell
-curl -X PUT "https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable"
+curl -X PUT "https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=enable"
 ```
 
 > The above command returns JSON::
@@ -715,14 +712,14 @@ This endpoint allows you to enable an existing Rule
 
 #### HTTP Request
 
-PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/enable
+PUT https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=enable
 	      
 #### PATH 
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
-:stream_id | (none) | true | This must be the Stream *name* or the Stream *id*
-:rule_id | (none) | true | This must be the Rule *name* or the Stream *id*
+:domain_id | (none) | true | This must be the Domain *name* or the Domain *id*
+:rule_id | (none) | true | This must be the Rule *name* or the Domain *id*
 
 
 
@@ -731,7 +728,7 @@ Parameter | Default | Required | Description
 
 ### Disable Rule
 ```shell
-curl -X PUT "https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable"
+curl -X PUT "https://api.mailinator.com/domains/:domain_id/rules/:rule_id/?action=disable"
 ```
 
 > The above command returns JSON::
@@ -746,14 +743,14 @@ This endpoint allows you to disable an existing Rule
 
 #### HTTP Request
 
-PUT https://api.mailinator.com/streams/:stream_id/rules/:rule_id/disable
+PUT https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=disable
 	      
 #### PATH 
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
-:stream_id | (none) | true | This must be the Stream *name* or the Stream *id*
-:rule_id | (none) | true | This must be the Rule *name* or the Stream *id*
+:domain_id | (none) | true | This must be the Domain *name* or the Domain *id*
+:rule_id | (none) | true | This must be the Rule *name* or the Domain *id*
 
 
 
@@ -763,7 +760,7 @@ Parameter | Default | Required | Description
 
 ### Get All Rules
 ```shell
-curl "https://api.mailinator.com/streams/:stream_id/rules/"
+curl "https://api.mailinator.com/domains/:domain_id/rules/"
 ```
 ```json
 {
@@ -803,24 +800,24 @@ curl "https://api.mailinator.com/streams/:stream_id/rules/"
 }
 ```
 
-This endpoint fetches all Rules for a Stream
+This endpoint fetches all Rules for a Domain
 
 ### HTTP Request
 
-GET https://api.mailinator.com/streams/:stream_id/rules/
+GET https://api.mailinator.com/domains/:domain_id/rules/
 	      
 ### PATH 
 
 Parameter | Default | Description
 --------- | ------- | -----------
-:stream_id | (none) | This must be the Stream *name* or the Stream *id*
+:domain_id | (none) | This must be the Domain *name* or the Domain *id*
 
 
 
 
 ## Get Rule
 ```shell
-curl "https://api.mailinator.com/streams/:stream_id/rules/:rule_id"
+curl "https://api.mailinator.com/domains/:domain_id/rules/:rule_id"
 ```
 ```json
 {
@@ -855,23 +852,23 @@ curl "https://api.mailinator.com/streams/:stream_id/rules/:rule_id"
 }
 ```
 
-This endpoint fetches a Rules for a Stream
+This endpoint fetches a Rules for a Domain
 
 ### HTTP Request
 
-GET https://api.mailinator.com/streams/:stream_id/rules/:rule_id
+GET https://api.mailinator.com/domains/:domain_id/rules/:rule_id
 	      
 ### PATH 
 
 Parameter | Default | Description
 --------- | ------- | -----------
-:stream_id | (none) | This must be the Stream *name* or the Stream *id*
+:domain_id | (none) | This must be the Domain *name* or the Domain *id*
 :rule_id | (none) | This must be the rule *name* or the Rule *id*
 
 ## Delete Rule
 
 ```shell
-curl -X DELETE "https://api.mailinator.com/streams/:stream_id/rules/:rule_id"
+curl -X DELETE "https://api.mailinator.com/domains/:domain_id/rules/:rule_id"
 ```
 ```json
 {
@@ -879,15 +876,15 @@ curl -X DELETE "https://api.mailinator.com/streams/:stream_id/rules/:rule_id"
 }
 ```
 
-This endpoint deletes a specific Rule from a Stream
+This endpoint deletes a specific Rule from a Domain
 
 ### HTTP Request
 
-DELETE https://api.mailinator.com/streams/:stream_id/rules/:rule_id
+DELETE https://api.mailinator.com/domains/:domain_id/rules/:rule_id
 	      
 ### PATH 
 
 Parameter | Default | Description
 --------- | ------- | -----------
-:stream_id | (none) | This must be the Stream *name* or the Stream *id*
+:domain_id | (none) | This must be the Domain *name* or the Domain *id*
 :rule_id | (none) | This must be the rule *name* or the Rule *id*
