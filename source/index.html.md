@@ -1,21 +1,13 @@
 ---
 title: Mailinator Documentation
 
-<style>
-  code {
-      color: #fff;
-      background-color:#000;
-  }
-  </style>
-
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
+- shell: cURL
+- java
 
 toc_footers:
 - <a href='https://www.mailinator.com/'>Mailinator Home</a>
-
 - <a href='https://www.mailinator.com/v3/#/#pricing_table_pane'>Subscribe for Mailinator API access</a>
-
 - <a href='https://manybrain.github.io/m8rdocs/indexold.html'>Mailinator V1 API docs [OLD]</a>
 
 search: true
@@ -126,20 +118,42 @@ Mailinator routing rules allow immediate routing actions to take place on incomi
 You may define a set of Destinations to be reused by your rules.
 -->
 
+## SDK
+Mailinator provides several official SDKs. Please select your language in the upper right to see examples in your preferred language.
+
+Java:
+  <a href='https://github.com/manybrain/mailinator-java-client' rel=nofollow>https://github.com/manybrain/mailinator-java-client</a>
+
+``` java
+Maven:
+  <dependencies>
+    <dependency>
+      <groupId>com.manybrain</groupId>
+      <artifactId>mailinator-client</artifactId>
+      <version>1.0</version>
+    </dependency>
+  </dependencies>
+
+Gradle:
+  compile 'com.manybrain:mailinator-client:1.0'
+```
+
 ## API Authentication
 
 > To authorize, use this code:
 
-
 ```shell
 # REST calls require your team's API token in every call
 curl "https://api.mailinator.com/api_endpoint_here?token=YourTeamAPIToken"
-```
->or
 
-```shell
+or
+
 curl --header "Authorization: YourTeamAPIToken"
      "https://api.mailinator.com/api_endpoint_here"
+```
+
+```java
+MailinatorClient client = new MailinatorClient("YourTeamAPIToken");
 ```
 
 > Replace YourTeamAPIToken with the API Token found on your Team's settings page
@@ -190,6 +204,11 @@ curl "https://api.mailinator.com/v2/domains/private/inboxes/testinbox?limit=2&so
     ],
    }
 }
+```
+
+``` java
+MailinatorClient client = new MailinatorClient("YourTeamApiToken");
+client.fetch();
 ```
 
 Path Element |  Value | Description
