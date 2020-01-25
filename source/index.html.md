@@ -38,7 +38,7 @@ There is no need to sign-up to use the public Mailinator system. Simply go to th
 
 Again, the public Mailinator is intended for personal and occasional use hence usage limits apply. Please see our Upgrade plans for corporate users.
 
-## Private Mailinator 
+## Private Mailinator
 
 Mailinator offers upgraded subscriptions for corporate users wishing to use the Mailinator system. This offers many benefits.
 
@@ -78,19 +78,19 @@ The Rule system allows subscribers to match on inbox and act upon every email th
 
 For example, a rule might be:
 
-IF <b>TO = joe</b> THEN <b>Post Webhook To https://mywebsite.com/endpoint</b>
+IF <b>TO = mytestinbox</b> THEN <b>POST Webhook To https://mywebsite.com/endpoint</b>
 
-For a given Private domain, all emails that arrive to the "joe" inbox will be converted to JSON, and HTTP Posted to the designated endpoint.
+For a given Private domain, all emails that arrive to the "mytestinbox" address will be converted to JSON, and HTTP Posted to the designated endpoint.
 
-For more information on configuring Rules, see the Rules API documentation below (The Mailinator Web interface is merely a front-end for this API).
+For more information on configuring Rules, see the Rules API documentation below.
 
 # Setting up your Mailinator Subscription
 
 Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscritpion.
 
-You now (yes, already) have a Private domain. Every conceivable inbox is waiting for you to send email to it. Unlike the public Mailinator system however, you won't run into rate-limits or filters. The email at that domain is private to you.
+You now (yes, already) have a Private domain. Every conceivable inbox at that domain is waiting for you to send email to it. Unlike the public Mailinator system however, you won't run into rate-limits or filters. The email at that domain is private to you.
 
-When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.mailinator.com. So any email to anything@you-yourcompany.mailinator.com will arrive in your private domain. On the left of the Web User Interface you'll see "Private Team Inbox". If you click that you'll be taken to the web interface for your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming domain. 
+When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.m8r.co. So any email to anything@you-yourcompany.m8r.co will arrive in your private domain. On the left of the Web User Interface you'll see "Private Team Inbox". If you click that you'll be taken to the web interface for your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming domain.
 
 To see what your current Private Domain is, go the Team Settings section of the Web interface and you'll see it listed. You can leave it as is, change it to another subdomain, or even put in a domain you already own (you must change the DNS record MX to point to our servers for this to work).
 
@@ -114,11 +114,11 @@ Access to the API (and messages in general) are subject to your subscription pla
 
 Messages within Mailinator are typically thought of as emails - however, messages can enter the system in a variety of ways including email, SMS, or HTTP Post. In general, the schema of messages contains a TO, FROM, SUBJECT, and message body. Message bodies can be simple string of text or as is allowed by email standards, a complicated multi-part, multi-encoded schema.
 
-- <b>Domains / domains</b>
+- **Domains / domains**
 
 Domains (aka domains) identify a specific source for messages. Emails automatically are assigned to the domain of their "to" address. Expectedly, each of your Private Domains represent a specific source for messages. Each Domain may have it's own set of rules.
 
-<!-- 
+<!--
 - <b>Destinations</b>
 
 Mailinator routing rules allow immediate routing actions to take place on incoming messages. For example, you may wish to designate all incoming email messages to "Joe@YourPrivateDomain.com" should be forwarded to your work email. You could also designate that all incoming messages to "Bob@YourPrivateDomain.com" should be Posted via WebHook to an endpoint on your testing server.
@@ -138,8 +138,8 @@ curl "https://api.mailinator.com/api_endpoint_here?token=YourTeamAPIToken"
 >or
 
 ```shell
-curl --header "Authorization: YourTeamAPIToken" 
-     "https://api.mailinator.com/api_endpoint_here" 
+curl --header "Authorization: YourTeamAPIToken"
+     "https://api.mailinator.com/api_endpoint_here"
 ```
 
 > Replace YourTeamAPIToken with the API Token found on your Team's settings page
@@ -155,8 +155,8 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 
 ## Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)
 This endpoint retrieves a list of messages summaries. You can retreive a list by inbox, inboxes, or entire domain.
- 
-```shell  
+
+```shell
 curl "https://api.mailinator.com/v2/domains/private/inboxes/testinbox?limit=2&sort=descending"
 ```
 ### HTTP Request
@@ -188,7 +188,7 @@ curl "https://api.mailinator.com/v2/domains/private/inboxes/testinbox?limit=2&so
             "seconds_ago": 778923
         }
     ],
-   }  
+   }
 }
 ```
 
@@ -203,11 +203,11 @@ Path Element |  Value | Description
           | [inbox_name*]  | Fetch All Messages summaries for a given Inbox Prefix
 
 ### Query Parameters
-    
+
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
 skip | 0 | no | skip this many emails in your Private Domain
-limit | 50 | no | number of emails to fetch from your Private Domain  
+limit | 50 | no | number of emails to fetch from your Private Domain
 sort | descending | no | Sort results by ascending or descending
 decode_subject | false | no | true: decode encoded subjects
 
@@ -215,11 +215,11 @@ decode_subject | false | no | true: decode encoded subjects
 
 
 
-      
+
 
 ## Fetch Message
 This endpoint retrieves a specific message by id.
-      
+
 ```shell
 curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
 ```
@@ -247,7 +247,7 @@ curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/te
             "headers": {
                 "content-type": "text/html; charset=\"UTF-8\""
             },
-            "body": "<div dir=\"ltr\"><div class=\"gmail_default\" 
+            "body": "<div dir=\"ltr\"><div class=\"gmail_default\"
                      style=\"font-family:tahoma,sans-serif;font-size:large\">
                      here&#39;s the test email</div></div>\r\n"
         },
@@ -290,7 +290,7 @@ SMS messages go into an inbox by the name of their phone number. Retrieving them
 
 ## Fetch List of Attachments
 This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
-      
+
 ```shell
 curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"
 ```
@@ -318,7 +318,7 @@ curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/te
 
 ## Fetch Attachment
 This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
-      
+
 ```shell
 curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"
 ```
@@ -460,8 +460,8 @@ curl "https://api.mailinator.com/domains"
 > The above command returns JSON showing the newly created Domain:
 
 ```json
-{ 
-  "domains" : 
+{
+  "domains" :
      [
 	     {
 	       "_id": "5c9602f5e881b5fbe91c754a",
@@ -475,12 +475,12 @@ curl "https://api.mailinator.com/domains"
 }
 ```
 
-The endpoint fetches a list of all your domains. 
+The endpoint fetches a list of all your domains.
 
 #### HTTP Request
 
 GET https://api.mailinator.com/domains/
-	      
+
 ### Get Domain
 ```shell
 curl "https://api.mailinator.com/domains/:domain_id"
@@ -504,8 +504,8 @@ The endpoint fetches a specific domain
 #### HTTP Request
 
 GET https://api.mailinator.com/domains/:domain_id
-	      
-#### PATH 
+
+#### PATH
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -560,18 +560,18 @@ Note that <b>Conditions</b> and <b>Actions</b> make up IF and THEN in a classic 
 
 ### Conditions Schema
 	      Conditions are executed to determine if a particular incoming message matches this rule.
-	      
+
 #### Match Type
 Match        | Description
 ------------ | -----------------------------------------
-ANY          | Matches if ANY of the conditions are true 
+ANY          | Matches if ANY of the conditions are true
 ALL          | Matches if ALL of the conditions are true
 ALWAYS_MATCH | Always matches
-	      	      
+
 #### Conditions Schema
 Field |  Description | Valid Values
 ----- |  ----------- | ------------
-operation | Comparison operation for field and value. | *EQUALS*, *PREFIX* 
+operation | Comparison operation for field and value. | *EQUALS*, *PREFIX*
 field | The message field to compare. | *to*
 value | The value to compare. | Any - E.g., "joe", "bob"
 
@@ -579,16 +579,16 @@ value | The value to compare. | Any - E.g., "joe", "bob"
 Operation | Description
 --------- | -------------------------------------
 EQUALS    | Matches when the field (e.g. "to") exactly matches an inbox (e.g. "joe")
-PREFIX    | Matches when the field (e.g. "to") starts with a string (e.g. "test" matches "test", "test1", "test9999")	     
-	      
-	      
+PREFIX    | Matches when the field (e.g. "to") starts with a string (e.g. "test" matches "test", "test1", "test9999")
+
+
 ### Actions Schema
 Actions are executed if the condition set returns true
 
 #### Actions Schema
-Field       |  Description 
------------ |  -------------------------------------------------------- 
-action      | Specific action to take if the rule condition was true 
+Field       |  Description
+----------- |  --------------------------------------------------------
+action      | Specific action to take if the rule condition was true
 action_data | A JsonObject containting action specific data (see below)
 
 #### Actions
@@ -611,8 +611,8 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 > Create Rule
 
 ```shell
-curl -H "content-type: application/json" 
-     -X POST "https://api.mailinator.com/domains/:domain_id/rules/" 
+curl -H "content-type: application/json"
+     -X POST "https://api.mailinator.com/domains/:domain_id/rules/"
      -d "@data.json"
 ```
 
@@ -672,8 +672,8 @@ This endpoint allows you to create a Rule. Note that in the examples, ":domain_i
 #### HTTP Request
 
 POST https://api.mailinator.com/domains/:domain_id/rules/
-	      
-#### PATH 
+
+#### PATH
 
 Parameter | Default | Description
 --------- | ------- | -----------
@@ -688,8 +688,8 @@ description | (none)  | false | 1-255 characters
 enabled | true | false | Rules create enabled are immediately active.
 match | ALL | false | Indicates condition matching type - must be ANY or ALL
 priority | (none) | true | An Integer between 1-99999 governing rule execution order. 1 is the highest priority, 99999 is the lowest.
-conditions | (none) | true | Conditions must be an array Conditions objects 
-actions | (none) | true | Actions must be an array of Actions objects 
+conditions | (none) | true | Conditions must be an array Conditions objects
+actions | (none) | true | Actions must be an array of Actions objects
 
 <aside class="notice">
 Creating rules with enabled:true activates them immediately
@@ -713,8 +713,8 @@ This endpoint allows you to enable an existing Rule
 #### HTTP Request
 
 PUT https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=enable
-	      
-#### PATH 
+
+#### PATH
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -744,8 +744,8 @@ This endpoint allows you to disable an existing Rule
 #### HTTP Request
 
 PUT https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=disable
-	      
-#### PATH 
+
+#### PATH
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -764,7 +764,7 @@ curl "https://api.mailinator.com/domains/:domain_id/rules/"
 ```
 ```json
 {
-   "rules" : 
+   "rules" :
    [
       {
          "_id": "5c9602f5e881b5fbe91c754a",
@@ -773,17 +773,17 @@ curl "https://api.mailinator.com/domains/:domain_id/rules/"
          "match" : "ANY",
          "name": "testprefixpost",
          "conditions": [
-           { 
+           {
              "operation": "EQUALS",
              "field": "to",
              "value": "test1"
            },
-           { 
+           {
              "operation": "EQUALS",
              "field": "to",
              "value": "test2"
            }
-         ],  
+         ],
          "actions" : [
            {
              "action" : "WEBHOOK",
@@ -792,7 +792,7 @@ curl "https://api.mailinator.com/domains/:domain_id/rules/"
              }
            },
            {
-             "action" : "DROP"           
+             "action" : "DROP"
            }
          ]
       }
@@ -805,8 +805,8 @@ This endpoint fetches all Rules for a Domain
 ### HTTP Request
 
 GET https://api.mailinator.com/domains/:domain_id/rules/
-	      
-### PATH 
+
+### PATH
 
 Parameter | Default | Description
 --------- | ------- | -----------
@@ -827,17 +827,17 @@ curl "https://api.mailinator.com/domains/:domain_id/rules/:rule_id"
    "match" : "ANY",
    "name": "testprefixpost",
    "conditions": [
-     { 
+     {
       "operation": "EQUALS",
       "field": "to",
       "value": "test1"
      },
-     { 
+     {
       "operation": "EQUALS",
       "field": "to",
       "value": "test2"
      }
-   ],  
+   ],
    "actions" : [
      {
        "action" : "WEBHOOK",
@@ -846,7 +846,7 @@ curl "https://api.mailinator.com/domains/:domain_id/rules/:rule_id"
        }
      },
      {
-       "action" : "DROP"           
+       "action" : "DROP"
      }
    ]
 }
@@ -857,8 +857,8 @@ This endpoint fetches a Rules for a Domain
 ### HTTP Request
 
 GET https://api.mailinator.com/domains/:domain_id/rules/:rule_id
-	      
-### PATH 
+
+### PATH
 
 Parameter | Default | Description
 --------- | ------- | -----------
@@ -881,8 +881,8 @@ This endpoint deletes a specific Rule from a Domain
 ### HTTP Request
 
 DELETE https://api.mailinator.com/domains/:domain_id/rules/:rule_id
-	      
-### PATH 
+
+### PATH
 
 Parameter | Default | Description
 --------- | ------- | -----------
