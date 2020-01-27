@@ -3,7 +3,7 @@ title: Mailinator Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
 - shell: cURL
-- java
+- java: Java
 
 toc_footers:
 - <a href='https://www.mailinator.com/'>Mailinator Home</a>
