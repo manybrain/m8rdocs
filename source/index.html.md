@@ -153,7 +153,7 @@ curl --header "Authorization: YourTeamAPIToken"
 ```
 
 ```java
-MailinatorClient client = new MailinatorClient("YourTeamAPIToken");
+MailinatorClient mailinatorClient = new MailinatorClient("YourTeamAPIToken");
 ```
 
 > Replace YourTeamAPIToken with the API Token found on your Team's settings page
@@ -172,13 +172,8 @@ This endpoint retrieves a list of messages summaries. You can retreive a list by
 
 ```shell
 curl "https://api.mailinator.com/v2/domains/private/inboxes/testinbox?limit=2&sort=descending"
-```
-### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
-> The above command returns the list of messages for the Inbox <b>joe</b>. It returns JSON structured like this:
-
-  ```json
+Response:
 {
     "domain": "yourprivatedomain.com",
     "to": "testinbox"
@@ -204,12 +199,24 @@ curl "https://api.mailinator.com/v2/domains/private/inboxes/testinbox?limit=2&so
     ],
    }
 }
+
 ```
 
 ``` java
-MailinatorClient client = new MailinatorClient("YourTeamApiToken");
-client.fetch();
+   Inbox inbox = mailinatorClient.request(new GetInboxRequest("private"));
+   List<Message> messages = inbox.getMsgs();
+   for (Message m : messages) {
+     String subject = m.getSubject();
+     List<Part> parts = m.getParts();
+     // process message
+   }
+
 ```
+
+### HTTP Request
+<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
+
+
 
 Path Element |  Value | Description
 --------- | ------- | -------- | -----------
@@ -241,11 +248,8 @@ This endpoint retrieves a specific message by id.
 
 ```shell
 curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
-```
-> The above command returns JSON structured like this:
 
-```json
-
+Response:
 {
     "fromfull": "Our Qa Tester <qatester.company.com>",
     "headers": {
@@ -288,6 +292,17 @@ curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/te
 
 ```
 
+``` java
+  // Message m = mailinatorClient.request(
+  // new GetMessageRequest("<domain>", "<inbox-name>", "<msg-id>"));
+    Message m = mailinatorClient.request(
+      new GetMessageRequest("private", "testinbox", "testinbox-1570635306-12914603"));
+
+   List<Parts> parts = m.getParts();
+   String subject = m.getSubject();
+   Map<String, Object> headers = m.getHeaders();
+```
+
 ### HTTP Request
 <b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
@@ -312,11 +327,8 @@ This endpoint retrieves a list of attachments for a message. Note attachments ar
 
 ```shell
 curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"
-```
-> The above command returns JSON structured like this:
 
-```json
-
+Response:
 {
    "attachments": [
         {
@@ -331,6 +343,11 @@ curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/te
 
 ```
 
+``` java
+  List<Attachment> attachments = mailinatorClient.request(
+    new GetAttachmentsRequest("private", "testinbox", "testinbox-1570635306-12914603"));
+```
+
 ### HTTP Request
 <b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
 
@@ -341,8 +358,13 @@ This endpoint retrieves a list of attachments for a message. Note attachments ar
 ```shell
 curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"
 ```
-> The above command returns the attachment file. In this example, it would return a pdf.
 
+``` java
+   // Attachment attachment = mailinatorClient.request(
+   //       new GetAttachmentRequest("<domain>", "<inbox-name>", "<msg-id>", attachmentId));
+ Attachment attachment = mailinatorClient.request(
+   new GetAttachmentRequest("private", "testinbox", "testinbox-1570635306-12914603", 1));
+```
 
 ### HTTP Request
 <b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b>
@@ -352,20 +374,27 @@ Note that alternatively, you specify the "attachment-id" value instead of the at
 
 
 ## Delete ALL Messages (by Domain)
+<aside class="notice">
 This endpoint deletes <b>ALL</b> messages from a Private Domain. Caution: This action is irreversible.
+</aside>
+
+
 
 ```shell
 curl  -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/"
-```
-> The above command returns JSON structured like this:
 
-```json
-
+Response:
 {
     "status" : "ok",
     "messages_deleted" : 1048
 }
 
+```
+
+``` java
+    DeletedMessages deletedMessages = mailinatorClient.request(
+      new DeleteDomainMessagesRequest("private"));
+    System.out.println(deletedMessages.getCount() + " messages deleted");
 ```
 
 <b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/
@@ -380,15 +409,14 @@ Path Element |  Value | Description
 
 
 ## Delete ALL Messages (by Inbox)
+
 This endpoint deletes <b>ALL</b> messages from a specific private inbox.
+
 
 ```shell
 curl  -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/testinbox"
-```
-> The above command returns JSON structured like this:
 
-```json
-
+Response:
 {
     "status" : "ok",
     "messages_deleted" : 11
@@ -396,6 +424,12 @@ curl  -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/testinbox
 
 
 ```
+
+``` java
+  DeletedMessages deletedMessages = mailinatorClient.request(new DeleteInboxMessagesRequest("private", "testinbox"));
+  System.out.println(deletedMessages.getCount() + " messages deleted");
+```
+
 
 <b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
@@ -411,15 +445,19 @@ This endpoint deletes a specific messages
 
 ```shell
 curl -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
-```
-> The above command returns JSON structured like this:
 
-```json
+Response:
 {
     "status" : "ok",
     "messages_deleted" : 1
 }
 ```
+
+``` java
+    mailinatorClient.request(new DeleteMessagesRequest("private"));
+    System.out.println(deletedMessages.getCount() + " messages deleted");
+```
+
 
 <b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
@@ -437,15 +475,18 @@ Path Element |  Value | Description
 curl -d '{"from":"ourtest@xyz.com", "subject":"testing message", "text" : "hello world" }'
      -H "Content-Type: application/json"
      -X POST "https://api.mailinator.com/v2/domains/private/inboxes/testinbox/"
-```
 
-> The above command returns JSON structured like this:
-
-```json
+Response:
 {
     "status" : "ok",
     "id" : "testinbox-3282929-109191"
 }
+```
+
+``` java
+   MessageToPost msgToPost = new MessageToPost("subject", "from", "text_body");
+   mailinatorClient.request(new PostMessageRequest("private", "testinbox", msgToPost));
+
 ```
 
 This endpoint allows you to deliver a JSON message into your private domain. This is similar to simply emailing a message to your private domain, except that you use HTTP Post and can programmatically inject the message.
