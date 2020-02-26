@@ -171,7 +171,7 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 This endpoint retrieves a list of messages summaries. You can retreive a list by inbox, inboxes, or entire domain.
 
 ```shell
-curl "https://api.mailinator.com/v2/domains/private/inboxes/testinbox?limit=2&sort=descending"
+curl "https://mailinator.com/api/v2/domains/private/inboxes/testinbox?limit=2&sort=descending"
 
 Response:
 {
@@ -214,7 +214,7 @@ Response:
 ```
 
 ### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
+<b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
 
 
@@ -247,7 +247,7 @@ decode_subject | false | no | true: decode encoded subjects
 This endpoint retrieves a specific message by id.
 
 ```shell
-curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
+curl "https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
 
 Response:
 {
@@ -304,7 +304,7 @@ Response:
 ```
 
 ### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
+<b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
 Path Element |  Value | Description
 --------- | ------- | -------- | -----------
@@ -319,14 +319,14 @@ Path Element |  Value | Description
 SMS messages go into an inbox by the name of their phone number. Retrieving them is the same as any other message, simply use the phone number as the Inbox you are fetching.
 
 ### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:YOUR_TEAM_SMS_NUMBER</b>
+<b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:YOUR_TEAM_SMS_NUMBER</b>
 
 
 ## Fetch List of Attachments
 This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
 
 ```shell
-curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"
+curl "https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"
 
 Response:
 {
@@ -349,14 +349,14 @@ Response:
 ```
 
 ### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
+<b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
 
 
 ## Fetch Attachment
 This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.
 
 ```shell
-curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"
+curl "https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"
 ```
 
 ``` java
@@ -367,7 +367,7 @@ curl "https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/te
 ```
 
 ### HTTP Request
-<b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b>
+<b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b>
 
 Note that alternatively, you specify the "attachment-id" value instead of the attachment name.
 
@@ -381,7 +381,7 @@ This endpoint deletes <b>ALL</b> messages from a Private Domain. Caution: This a
 
 
 ```shell
-curl  -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/"
+curl  -X DELETE "https://mailinator.com/api/v2/domains/private/inboxes/"
 
 Response:
 {
@@ -397,7 +397,7 @@ Response:
     System.out.println(deletedMessages.getCount() + " messages deleted");
 ```
 
-<b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/
+<b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/
 
 Path Element |  Value | Description
 --------- | ------- | -------- | -----------
@@ -414,7 +414,7 @@ This endpoint deletes <b>ALL</b> messages from a specific private inbox.
 
 
 ```shell
-curl  -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/testinbox"
+curl  -X DELETE "https://mailinator.com/api/v2/domains/private/inboxes/testinbox"
 
 Response:
 {
@@ -431,7 +431,7 @@ Response:
 ```
 
 
-<b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
+<b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
 Path Element |  Value | Description
 --------- | ------- | -------- | -----------
@@ -444,7 +444,7 @@ Path Element |  Value | Description
 This endpoint deletes a specific messages
 
 ```shell
-curl -X DELETE "https://api.mailinator.com/v2/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
+curl -X DELETE "https://mailinator.com/api/v2/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"
 
 Response:
 {
@@ -459,7 +459,7 @@ Response:
 ```
 
 
-<b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
+<b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
 Path Element |  Value | Description
 --------- | ------- | -------- | -----------
@@ -474,7 +474,7 @@ Path Element |  Value | Description
 ```shell
 curl -d '{"from":"ourtest@xyz.com", "subject":"testing message", "text" : "hello world" }'
      -H "Content-Type: application/json"
-     -X POST "https://api.mailinator.com/v2/domains/private/inboxes/testinbox/"
+     -X POST "https://mailinator.com/api/v2/domains/private/inboxes/testinbox/"
 
 Response:
 {
@@ -494,7 +494,7 @@ This endpoint allows you to deliver a JSON message into your private domain. Thi
 Note that injected JSON Messages can have any schema they choose. However, if you want the Web interface to display them, they must follow a general email format with the fields of From, Subject, and Parts (see "Fetch Message" above).
 
 
-<b>POST</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
+<b>POST</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
 Path Element |  Value | Description
 --------- | ------- | -------- | -----------
@@ -686,8 +686,10 @@ curl -H "content-type: application/json"
    "conditions": [
       {
         "operation": "PREFIX",
-        "field": "to",
-        "value": "test"
+        "condition_data": {
+          "field": "to",
+          "value": "test"
+          }
       }
    ],
    "actions": [
@@ -712,8 +714,10 @@ curl -H "content-type: application/json"
    "conditions": [
       {
         "operation": "PREFIX",
-        "field": "to",
-        "value": "test"
+        "condition_data": {
+          "field": "to",
+          "value": "test"
+          }
       }
    ],
    "actions": [
@@ -835,13 +839,17 @@ curl "https://api.mailinator.com/domains/:domain_id/rules/"
          "conditions": [
            {
              "operation": "EQUALS",
-             "field": "to",
-             "value": "test1"
+             "condition_data": {
+               "field": "to",
+               "value": "test1"
+               }
            },
            {
              "operation": "EQUALS",
-             "field": "to",
-             "value": "test2"
+             "condition_data": {
+               "field": "to",
+               "value": "test2"
+               }
            }
          ],
          "actions" : [
@@ -877,7 +885,7 @@ Parameter | Default | Description
 
 ## Get Rule
 ```shell
-curl "https://api.mailinator.com/domains/:domain_id/rules/:rule_id"
+curl "https://mailinator.com/api/v2/domains/:domain_id/rules/:rule_id"
 ```
 ```json
 {
@@ -889,13 +897,17 @@ curl "https://api.mailinator.com/domains/:domain_id/rules/:rule_id"
    "conditions": [
      {
       "operation": "EQUALS",
-      "field": "to",
-      "value": "test1"
+      "condition_data": {
+        "field": "to",
+        "value": "test1"
+        }
      },
      {
       "operation": "EQUALS",
-      "field": "to",
-      "value": "test2"
+      "condition_data": {
+        "field": "to",
+        "value": "test2"
+        }
      }
    ],
    "actions" : [
