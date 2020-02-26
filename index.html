@@ -474,7 +474,7 @@ You must replace <b>YourTeamAPIToken</b> with the API token found on your Team S
 </aside>
 <h1 id='message-api'>Message API</h1><h2 id='fetch-inbox-aka-fetch-message-summaries'>Fetch Inbox <span style='font-size:.8em'>(aka Fetch Message Summaries)</h2>
 <p>This endpoint retrieves a list of messages summaries. You can retreive a list by inbox, inboxes, or entire domain.</p>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/domains/private/inboxes/testinbox?limit=2&amp;sort=descending"</span>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://mailinator.com/api/v2/domains/private/inboxes/testinbox?limit=2&amp;sort=descending"</span>
 
 Response:
 <span class="o">{</span>
@@ -512,7 +512,7 @@ Response:
    <span class="o">}</span>
 
 </code></pre><h3 id='http-request'>HTTP Request</h3>
-<p><b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
+<p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
 
 <table><thead>
 <tr>
@@ -593,7 +593,7 @@ Response:
 </tbody></table>
 <h2 id='fetch-message'>Fetch Message</h2>
 <p>This endpoint retrieves a specific message by id.</p>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"</span>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"</span>
 
 Response:
 <span class="o">{</span>
@@ -645,7 +645,7 @@ Response:
    <span class="n">String</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="na">getSubject</span><span class="o">();</span>
    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="na">getHeaders</span><span class="o">();</span>
 </code></pre><h3 id='http-request-2'>HTTP Request</h3>
-<p><b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b></p>
+<p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b></p>
 
 <table><thead>
 <tr>
@@ -683,10 +683,10 @@ Response:
 <h2 id='fetch-an-sms-messages'>Fetch an SMS Messages</h2>
 <p>SMS messages go into an inbox by the name of their phone number. Retrieving them is the same as any other message, simply use the phone number as the Inbox you are fetching.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:YOUR_TEAM_SMS_NUMBER</b></p>
+<p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:YOUR_TEAM_SMS_NUMBER</b></p>
 <h2 id='fetch-list-of-attachments'>Fetch List of Attachments</h2>
 <p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"</span>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments"</span>
 
 Response:
 <span class="o">{</span>
@@ -704,23 +704,23 @@ Response:
 </code></pre><pre class="highlight java tab-java"><code>  <span class="n">List</span><span class="o">&lt;</span><span class="n">Attachment</span><span class="o">&gt;</span> <span class="n">attachments</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="o">.</span><span class="na">request</span><span class="o">(</span>
     <span class="k">new</span> <span class="nf">GetAttachmentsRequest</span><span class="o">(</span><span class="s">"private"</span><span class="o">,</span> <span class="s">"testinbox"</span><span class="o">,</span> <span class="s">"testinbox-1570635306-12914603"</span><span class="o">));</span>
 </code></pre><h3 id='http-request-4'>HTTP Request</h3>
-<p><b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments</p>
+<p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments</p>
 <h2 id='fetch-attachment'>Fetch Attachment</h2>
 <p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"</span>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/attachments/nodes.pdf"</span>
 </code></pre><pre class="highlight java tab-java"><code>   <span class="c1">// Attachment attachment = mailinatorClient.request(</span>
    <span class="c1">//       new GetAttachmentRequest("&lt;domain&gt;", "&lt;inbox-name&gt;", "&lt;msg-id&gt;", attachmentId));</span>
  <span class="n">Attachment</span> <span class="n">attachment</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="o">.</span><span class="na">request</span><span class="o">(</span>
    <span class="k">new</span> <span class="nf">GetAttachmentRequest</span><span class="o">(</span><span class="s">"private"</span><span class="o">,</span> <span class="s">"testinbox"</span><span class="o">,</span> <span class="s">"testinbox-1570635306-12914603"</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
 </code></pre><h3 id='http-request-5'>HTTP Request</h3>
-<p><b>GET</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b></p>
+<p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b></p>
 
 <p>Note that alternatively, you specify the &quot;attachment-id&quot; value instead of the attachment name.</p>
 <h2 id='delete-all-messages-by-domain'>Delete ALL Messages (by Domain)</h2>
 <aside class="notice">
 This endpoint deletes <b>ALL</b> messages from a Private Domain. Caution: This action is irreversible.
 </aside>
-<pre class="highlight shell tab-shell"><code>curl  -X DELETE <span class="s2">"https://api.mailinator.com/v2/domains/private/inboxes/"</span>
+<pre class="highlight shell tab-shell"><code>curl  -X DELETE <span class="s2">"https://mailinator.com/api/v2/domains/private/inboxes/"</span>
 
 Response:
 <span class="o">{</span>
@@ -732,7 +732,7 @@ Response:
       <span class="k">new</span> <span class="nf">DeleteDomainMessagesRequest</span><span class="o">(</span><span class="s">"private"</span><span class="o">));</span>
     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">deletedMessages</span><span class="o">.</span><span class="na">getCount</span><span class="o">()</span> <span class="o">+</span> <span class="s">" messages deleted"</span><span class="o">);</span>
 </code></pre>
-<p><b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/</p>
+<p><b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/</p>
 
 <table><thead>
 <tr>
@@ -764,7 +764,7 @@ Response:
 </tbody></table>
 <h2 id='delete-all-messages-by-inbox'>Delete ALL Messages (by Inbox)</h2>
 <p>This endpoint deletes <b>ALL</b> messages from a specific private inbox.</p>
-<pre class="highlight shell tab-shell"><code>curl  -X DELETE <span class="s2">"https://api.mailinator.com/v2/domains/private/inboxes/testinbox"</span>
+<pre class="highlight shell tab-shell"><code>curl  -X DELETE <span class="s2">"https://mailinator.com/api/v2/domains/private/inboxes/testinbox"</span>
 
 Response:
 <span class="o">{</span>
@@ -776,7 +776,7 @@ Response:
 </code></pre><pre class="highlight java tab-java"><code>  <span class="n">DeletedMessages</span> <span class="n">deletedMessages</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="k">new</span> <span class="n">DeleteInboxMessagesRequest</span><span class="o">(</span><span class="s">"private"</span><span class="o">,</span> <span class="s">"testinbox"</span><span class="o">));</span>
   <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">deletedMessages</span><span class="o">.</span><span class="na">getCount</span><span class="o">()</span> <span class="o">+</span> <span class="s">" messages deleted"</span><span class="o">);</span>
 </code></pre>
-<p><b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
+<p><b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
 
 <table><thead>
 <tr>
@@ -803,7 +803,7 @@ Response:
 </tbody></table>
 <h2 id='delete-a-message'>Delete a Message</h2>
 <p>This endpoint deletes a specific messages</p>
-<pre class="highlight shell tab-shell"><code>curl -X DELETE <span class="s2">"https://api.mailinator.com/v2/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"</span>
+<pre class="highlight shell tab-shell"><code>curl -X DELETE <span class="s2">"https://mailinator.com/api/v2/domains/private/inboxes/testinbox/messages/testinbox-1570635306-12914603"</span>
 
 Response:
 <span class="o">{</span>
@@ -813,7 +813,7 @@ Response:
 </code></pre><pre class="highlight java tab-java"><code>    <span class="n">mailinatorClient</span><span class="o">.</span><span class="na">request</span><span class="o">(</span><span class="k">new</span> <span class="n">DeleteMessagesRequest</span><span class="o">(</span><span class="s">"private"</span><span class="o">));</span>
     <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">deletedMessages</span><span class="o">.</span><span class="na">getCount</span><span class="o">()</span> <span class="o">+</span> <span class="s">" messages deleted"</span><span class="o">);</span>
 </code></pre>
-<p><b>DELETE</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b></p>
+<p><b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b></p>
 
 <table><thead>
 <tr>
@@ -845,7 +845,7 @@ Response:
 </tbody></table>
 <h2 id='inject-a-message-http-post-messages'>Inject a Message (HTTP Post messages)</h2><pre class="highlight shell tab-shell"><code>curl -d <span class="s1">'{"from":"ourtest@xyz.com", "subject":"testing message", "text" : "hello world" }'</span>
      -H <span class="s2">"Content-Type: application/json"</span>
-     -X POST <span class="s2">"https://api.mailinator.com/v2/domains/private/inboxes/testinbox/"</span>
+     -X POST <span class="s2">"https://mailinator.com/api/v2/domains/private/inboxes/testinbox/"</span>
 
 Response:
 <span class="o">{</span>
@@ -860,7 +860,7 @@ Response:
 
 <p>Note that injected JSON Messages can have any schema they choose. However, if you want the Web interface to display them, they must follow a general email format with the fields of From, Subject, and Parts (see &quot;Fetch Message&quot; above).</p>
 
-<p><b>POST</b> https://api.mailinator.com/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
+<p><b>POST</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
 
 <table><thead>
 <tr>
@@ -1147,8 +1147,10 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
    </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PREFIX"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
+        </span><span class="s2">"condition_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
       </span><span class="p">}</span><span class="w">
    </span><span class="p">],</span><span class="w">
    </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -1172,8 +1174,10 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
    </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
         </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PREFIX"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
+        </span><span class="s2">"condition_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
       </span><span class="p">}</span><span class="w">
    </span><span class="p">],</span><span class="w">
    </span><span class="s2">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -1340,13 +1344,17 @@ Creating rules with enabled:true activates them immediately
          </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
            </span><span class="p">{</span><span class="w">
              </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
-             </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
-             </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test1"</span><span class="w">
+             </span><span class="s2">"condition_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+               </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test1"</span><span class="w">
+               </span><span class="p">}</span><span class="w">
            </span><span class="p">},</span><span class="w">
            </span><span class="p">{</span><span class="w">
              </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
-             </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
-             </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test2"</span><span class="w">
+             </span><span class="s2">"condition_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+               </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test2"</span><span class="w">
+               </span><span class="p">}</span><span class="w">
            </span><span class="p">}</span><span class="w">
          </span><span class="p">],</span><span class="w">
          </span><span class="s2">"actions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -1381,7 +1389,7 @@ Creating rules with enabled:true activates them immediately
 <td>This must be the Domain <em>name</em> or the Domain <em>id</em></td>
 </tr>
 </tbody></table>
-<h2 id='get-rule'>Get Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/domains/:domain_id/rules/:rule_id"</span>
+<h2 id='get-rule'>Get Rule</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://mailinator.com/api/v2/domains/:domain_id/rules/:rule_id"</span>
 </code></pre><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
    </span><span class="s2">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5c9602f5e881b5fbe91c754a"</span><span class="p">,</span><span class="w">
    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rule to post all incoming mail to test1 or test2, then drop the email"</span><span class="p">,</span><span class="w">
@@ -1391,13 +1399,17 @@ Creating rules with enabled:true activates them immediately
    </span><span class="s2">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
      </span><span class="p">{</span><span class="w">
       </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test1"</span><span class="w">
+      </span><span class="s2">"condition_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test1"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
      </span><span class="p">},</span><span class="w">
      </span><span class="p">{</span><span class="w">
       </span><span class="s2">"operation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EQUALS"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test2"</span><span class="w">
+      </span><span class="s2">"condition_data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"to"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test2"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
      </span><span class="p">}</span><span class="w">
    </span><span class="p">],</span><span class="w">
    </span><span class="s2">"actions"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
