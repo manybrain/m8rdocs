@@ -4,6 +4,7 @@ title: Mailinator Documentation
 language_tabs: # must be one of https://git.io/vQNgJ
 - shell: cURL
 - java: Java
+- javascript: Javascript
 
 toc_footers:
 - <a href='https://www.mailinator.com/'>Mailinator Home</a>
@@ -123,6 +124,8 @@ Mailinator provides several official SDKs. Please select your language in the up
 
 Java:
   <a href='https://github.com/manybrain/mailinator-java-client' rel=nofollow>https://github.com/manybrain/mailinator-java-client</a>
+Javascript:
+  <a href='https://github.com/manybrain/mailinator-javascript-client' rel=nofollow>https://github.com/manybrain/mailinator-javascript-client</a>
 
 ``` java
 Maven:
@@ -154,6 +157,10 @@ curl --header "Authorization: YourTeamAPIToken"
 
 ```java
 MailinatorClient mailinatorClient = new MailinatorClient("YourTeamAPIToken");
+```
+
+```javascript
+const mailinatorClient = new MailinatorClient("YourTeamAPIToken");
 ```
 
 > Replace YourTeamAPIToken with the API Token found on your Team's settings page
@@ -210,7 +217,21 @@ Response:
      List<Part> parts = m.getParts();
      // process message
    }
+```
 
+``` javascript
+        mailinatorClient.request(new GetInboxRequest(domain.name))
+                .then(response => {
+                    const result = response.result;
+                    const msgs = result?.msgs;
+                    if (msgs !== undefined) {
+                        msgs.forEach((msg) => {
+                            const subject = msg.subject;
+                            const parts = msg.parts;
+                            // process message
+                        })
+                    }
+                });
 ```
 
 ### HTTP Request
@@ -303,6 +324,16 @@ Response:
    Map<String, Object> headers = m.getHeaders();
 ```
 
+``` javascript
+    mailinatorClient.request(new GetMessageRequest("<domain>", "<inbox-name>", "<msg-id>"))
+            .then(response => {
+                const result = response.result;
+                const parts = result?.parts;
+                const subject = result?.subject;
+                const headers = result?.headers;
+            });
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
@@ -348,6 +379,19 @@ Response:
     new GetAttachmentsRequest("private", "testinbox", "testinbox-1570635306-12914603"));
 ```
 
+``` javascript
+    mailinatorClient.request(new GetAttachmentsRequest("private", "testinbox", "testinbox-1570635306-12914603"))
+            .then(response => {
+                const result = response.result;
+                const attachments = result?.attachments;
+                if (attachments !== undefined) {
+                    attachments.forEach((element)=>{
+                        const filename = element.filename;
+                    });
+                }
+            });
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
 
@@ -364,6 +408,14 @@ curl "https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/te
    //       new GetAttachmentRequest("<domain>", "<inbox-name>", "<msg-id>", attachmentId));
  Attachment attachment = mailinatorClient.request(
    new GetAttachmentRequest("private", "testinbox", "testinbox-1570635306-12914603", 1));
+```
+
+``` javascript
+        const file = fs.createWriteStream("filename");
+        mailinatorClient.request(new GetAttachmentRequest("<domain>", "<inbox-name>", "<msg-id>", attachmentId))
+            .then(response => {
+                response.result!.pipe(file);
+            });
 ```
 
 ### HTTP Request
@@ -395,6 +447,13 @@ Response:
     DeletedMessages deletedMessages = mailinatorClient.request(
       new DeleteDomainMessagesRequest("private"));
     System.out.println(deletedMessages.getCount() + " messages deleted");
+```
+
+``` javascript
+    mailinatorClient.request(new DeleteDomainMessagesRequest("private"))
+            .then(response => {
+                const count = response.result!.count;
+            });
 ```
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/
@@ -430,6 +489,13 @@ Response:
   System.out.println(deletedMessages.getCount() + " messages deleted");
 ```
 
+``` javascript
+    mailinatorClient.request(new DeleteInboxMessagesRequest("private", "testinbox"))
+            .then(response => {
+                const count = response.result!.count;
+            });
+```
+
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
@@ -458,6 +524,12 @@ Response:
     System.out.println(deletedMessages.getCount() + " messages deleted");
 ```
 
+``` javascript
+    mailinatorClient.request(new DeleteMessageRequest("private", "testinbox", "testinbox-1570635306-12914603"))
+            .then(response => {
+                const count = response.result!.count;
+            });
+```
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
@@ -489,6 +561,14 @@ Response:
 
 ```
 
+``` javascript
+        const msg = new MessageToPost("subject", "from", "text")
+        mailinatorClient.request(new PostMessageRequest("private", "testinbox", msg))
+            .then(response => {
+                const count = response.result!.id;
+            });
+```
+
 This endpoint allows you to deliver a JSON message into your private domain. This is similar to simply emailing a message to your private domain, except that you use HTTP Post and can programmatically inject the message.
 
 Note that injected JSON Messages can have any schema they choose. However, if you want the Web interface to display them, they must follow a general email format with the fields of From, Subject, and Parts (see "Fetch Message" above).
@@ -515,11 +595,8 @@ You may add or replace Private Domains in your Team Settings panel.
 ### Get All domains
 ```shell
 curl "https://api.mailinator.com/domains"
-```
 
-> The above command returns JSON showing the newly created Domain:
-
-```json
+Response:
 {
   "domains" :
      [
@@ -535,6 +612,17 @@ curl "https://api.mailinator.com/domains"
 }
 ```
 
+``` javascript
+        mailinatorClient.request(new GetDomainsRequest())
+            .then(r => {
+                const domains = r.result;
+                domains?.domains.forEach((domain) => {
+                    const name = domain.name;
+                    // ...
+                })
+            });
+```
+
 The endpoint fetches a list of all your domains.
 
 #### HTTP Request
@@ -544,11 +632,8 @@ GET https://api.mailinator.com/domains/
 ### Get Domain
 ```shell
 curl "https://api.mailinator.com/domains/:domain_id"
-```
 
-> The above command returns JSON showing the newly created Domain:
-
-```json
+Response:
 {
    "_id": "5c9602f5e881b5fbe91c754a",
    "description": "Domain representing some testing",
@@ -557,6 +642,15 @@ curl "https://api.mailinator.com/domains/:domain_id"
    "ownerid": "59188558619b4f3879751781",
    "rules": []
 }
+```
+
+``` javascript
+        mailinatorClient.request(new GetDomainRequest("domain_id"))
+            .then(r => {
+                const domain = r.result;
+                const name = domain?.name;
+                // ...
+            });
 ```
 
 The endpoint fetches a specific domain
@@ -674,11 +768,8 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 curl -H "content-type: application/json"
      -X POST "https://api.mailinator.com/domains/:domain_id/rules/"
      -d "@data.json"
-```
 
-> file: data.json
-
-```json
+(data.json):
 {
    "description": "Rule to post all incoming mail starting with test* to my webhook",
    "enabled": true,
@@ -701,11 +792,8 @@ curl -H "content-type: application/json"
       }
    ]
 }
-```
 
-> The above command returns the created Rule:
-
-```json
+Response:
 {
    "_id": "5c9602f5e881b5fbe91c754a",
    "description": "Rule to post all incoming mail starting with test* to my webhook",
@@ -729,6 +817,30 @@ curl -H "content-type: application/json"
       }
    ]
 }
+```
+
+``` javascript
+        const actionData = new ActionData();
+        actionData.url = "https://www.mywebsite.com/restendpoint";
+        const action = new Action();
+        action.action = ActionType.WEBHOOK;
+        action.action_data = actionData;
+
+        const condition = new Condition();
+        condition.operation = OperationType.EQUALS;
+        condition.value = "raul";
+
+        const ruleToCreate = new RuleToCreate();
+        ruleToCreate.name = 'rule name';
+        ruleToCreate.priority = 15;
+        ruleToCreate.conditions = [condition];
+        ruleToCreate.actions = [action];
+        mailinatorClient.request(new CreateRuleRequest("domain_id", ruleToCreate))
+            .then(r => {
+                const rule = r.result;
+                const name = rule?.name;
+                // ...
+            });
 ```
 
 This endpoint allows you to create a Rule. Note that in the examples, ":domain_id" can be one of your private domains.
@@ -762,14 +874,19 @@ Creating rules with enabled:true activates them immediately
 ### Enable Rule
 ```shell
 curl -X PUT "https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=enable"
-```
 
-> The above command returns JSON::
-
-```json
+Response:
 {
    "status": "ok"
 }
+```
+
+``` javascript
+    mailinatorClient.request(new EnableRuleRequest("domain_id", "rule_id"))
+            .then(r => {
+                const statusCode = r.statusCode;
+                // ...
+            });
 ```
 
 This endpoint allows you to enable an existing Rule
@@ -793,14 +910,19 @@ Parameter | Default | Required | Description
 ### Disable Rule
 ```shell
 curl -X PUT "https://api.mailinator.com/domains/:domain_id/rules/:rule_id/?action=disable"
-```
 
-> The above command returns JSON::
-
-```json
+Response:
 {
    "status": "ok"
 }
+```
+
+``` javascript
+    mailinatorClient.request(new DisableRuleRequest("domain_id", "rule_id"))
+            .then(r => {
+                const statusCode = r.statusCode;
+                // ...
+            });
 ```
 
 This endpoint allows you to disable an existing Rule
@@ -825,8 +947,8 @@ Parameter | Default | Required | Description
 ### Get All Rules
 ```shell
 curl "https://api.mailinator.com/domains/:domain_id/rules/"
-```
-```json
+
+Response:
 {
    "rules" :
    [
@@ -868,6 +990,15 @@ curl "https://api.mailinator.com/domains/:domain_id/rules/"
 }
 ```
 
+``` javascript
+    mailinatorClient.request(new GetRulesRequest("domain_id"))
+            .then(r => {
+                const result = r.result;
+                const rules = result?.rules;
+                // ...
+            });
+```
+
 This endpoint fetches all Rules for a Domain
 
 ### HTTP Request
@@ -886,8 +1017,8 @@ Parameter | Default | Description
 ## Get Rule
 ```shell
 curl "https://mailinator.com/api/v2/domains/:domain_id/rules/:rule_id"
-```
-```json
+
+Response:
 {
    "_id": "5c9602f5e881b5fbe91c754a",
    "description": "Rule to post all incoming mail to test1 or test2, then drop the email",
@@ -924,6 +1055,15 @@ curl "https://mailinator.com/api/v2/domains/:domain_id/rules/:rule_id"
 }
 ```
 
+``` javascript
+    mailinatorClient.request(new GetRuleRequest("domain_id", "rule_id"))
+            .then(r => {
+                const result = r.result;
+                const name = result?.name;
+                // ...
+            });
+```
+
 This endpoint fetches a Rules for a Domain
 
 ### HTTP Request
@@ -941,11 +1081,20 @@ Parameter | Default | Description
 
 ```shell
 curl -X DELETE "https://api.mailinator.com/domains/:domain_id/rules/:rule_id"
-```
-```json
+
+Response:
 {
    "status" : "ok"
 }
+```
+
+``` javascript
+    mailinatorClient.request(new DeleteRuleRequest("domain_id", "rule_id"))
+            .then(r => {
+                const result = r.result;
+                const status = result?.status;
+                // ...
+            });
 ```
 
 This endpoint deletes a specific Rule from a Domain
