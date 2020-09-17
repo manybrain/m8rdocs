@@ -5,6 +5,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 - shell: cURL
 - java: Java
 - javascript: Javascript
+- csharp: C#
 
 toc_footers:
 - <a href='https://www.mailinator.com/'>Mailinator Home</a>
@@ -126,6 +127,8 @@ Java:
   <a href='https://github.com/manybrain/mailinator-java-client' rel=nofollow>https://github.com/manybrain/mailinator-java-client</a>
 Javascript:
   <a href='https://github.com/manybrain/mailinator-javascript-client' rel=nofollow>https://github.com/manybrain/mailinator-javascript-client</a>
+C#:
+  <a href='https://github.com/manybrain/mailinator-csharp-client' rel=nofollow>https://github.com/manybrain/mailinator-csharp-client</a>
 
 ``` java
 Maven:
@@ -161,6 +164,10 @@ MailinatorClient mailinatorClient = new MailinatorClient("YourTeamAPIToken");
 
 ```javascript
 const mailinatorClient = new MailinatorClient("YourTeamAPIToken");
+```
+
+```csharp
+MailinatorClient mailinatorClient = new MailinatorClient("YourTeamAPIToken");
 ```
 
 > Replace YourTeamAPIToken with the API Token found on your Team's settings page
@@ -232,6 +239,18 @@ Response:
                         })
                     }
                 });
+```
+
+```csharp
+    FetchInboxRequest fetchInboxRequest = new FetchInboxRequest() 
+    { 
+        Domain = "yourDomainNameHere", 
+        Inbox = "yourInboxHere", 
+        Skip = 0, 
+        Limit = 20, 
+        Sort = Sort.asc 
+    };
+    FetchInboxResponse fetchInboxResponse = await mailinatorClient.MessagesClient.FetchInboxAsync(fetchInboxRequest);
 ```
 
 ### HTTP Request
@@ -334,6 +353,16 @@ Response:
             });
 ```
 
+```csharp
+    FetchMessageRequest fetchMessageRequest = new FetchMessageRequest() 
+    { 
+        Domain = "yourDomainNameHere", 
+        Inbox = "yourInboxHere", 
+        MessageId = "yourMessageIdHere" 
+    };
+    FetchMessageResponse fetchMessageResponse = await mailinatorClient.MessagesClient.FetchMessageAsync(fetchMessageRequest);
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
@@ -392,6 +421,16 @@ Response:
             });
 ```
 
+```csharp
+    FetchAttachmentsRequest fetchAttachmentsRequest = new FetchAttachmentsRequest() 
+    { 
+        Domain = "yourDomainNameHere", 
+        Inbox = "yourInboxHere", 
+        MessageId = "yourMessageIdWithAttachmentHere" 
+    };
+    FetchAttachmentsResponse fetchAttachmentsResponse = await mailinatorClient.MessagesClient.FetchAttachmentsAsync(fetchAttachmentsRequest);
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
 
@@ -416,6 +455,17 @@ curl "https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/te
             .then(response => {
                 response.result!.pipe(file);
             });
+```
+
+```csharp
+    FetchAttachmentRequest fetchAttachmentRequest = new FetchAttachmentRequest() 
+    { 
+        Domain = "yourDomainNameHere", 
+        Inbox = "yourInboxHere", 
+        MessageId = "yourMessageIdWithAttachmentHere", 
+        AttachmentId = "yourAttachmentIdHere" 
+    };
+    FetchAttachmentResponse fetchAttachmentResponse = await mailinatorClient.MessagesClient.FetchAttachmentAsync(fetchAttachmentRequest);
 ```
 
 ### HTTP Request
@@ -454,6 +504,15 @@ Response:
             .then(response => {
                 const count = response.result!.count;
             });
+```
+
+```csharp
+    DeleteAllDomainMessagesRequest deleteAllDomainMessagesRequest = new DeleteAllDomainMessagesRequest() 
+    { 
+        Domain = "yourDomainNameHere" 
+    };
+    DeleteAllDomainMessagesResponse deleteAllDomainMessagesResponse = 
+        await mailinatorClient.MessagesClient.DeleteAllDomainMessagesAsync(deleteAllDomainMessagesRequest);
 ```
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/
@@ -496,6 +555,16 @@ Response:
             });
 ```
 
+```csharp
+    DeleteAllInboxMessagesRequest deleteAllInboxMessagesRequest = new DeleteAllInboxMessagesRequest() 
+    { 
+        Domain = "yourDomainNameHere", 
+        Inbox = "yourInboxHere" 
+    };
+    DeleteAllInboxMessagesResponse deleteAllInboxMessagesResponse = 
+        await mailinatorClient.MessagesClient.DeleteAllInboxMessagesAsync(deleteAllInboxMessagesRequest);
+```
+
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
@@ -529,6 +598,16 @@ Response:
             .then(response => {
                 const count = response.result!.count;
             });
+```
+
+```csharp
+    DeleteMessageRequest deleteMessageRequest = new DeleteMessageRequest() 
+    { 
+        Domain = "yourDomainNameHere", 
+        Inbox = "yourInboxHere", 
+        MessageId = "yourMessageIdHere" 
+    };
+    DeleteMessageResponse deleteMessageResponse = await mailinatorClient.MessagesClient.DeleteMessageAsync(deleteMessageRequest);
 ```
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
@@ -567,6 +646,22 @@ Response:
             .then(response => {
                 const count = response.result!.id;
             });
+```
+
+```csharp
+    MessageToPost messageToPost = new MessageToPost()
+            {
+                Subject = "Testing message",
+                From = "test_email@test.com",
+                Text = "Hello World!"
+            };
+    InjectMessageRequest injectMessageRequest = new InjectMessageRequest() 
+    { 
+        Domain = "yourDomainNameHere", 
+        Inbox = "yourInboxHere", 
+        Message = messageToPost 
+    };
+    InjectMessageResponse injectMessageResponse = await mailinatorClient.MessagesClient.InjectMessageAsync(injectMessageRequest);
 ```
 
 This endpoint allows you to deliver a JSON message into your private domain. This is similar to simply emailing a message to your private domain, except that you use HTTP Post and can programmatically inject the message.
@@ -623,6 +718,10 @@ Response:
             });
 ```
 
+```csharp
+    GetAllDomainsResponse getAllDomainsResponse = await mailinatorClient.DomainsClient.GetAllDomainsAsync();
+```
+
 The endpoint fetches a list of all your domains.
 
 #### HTTP Request
@@ -651,6 +750,14 @@ Response:
                 const name = domain?.name;
                 // ...
             });
+```
+
+```csharp
+    GetDomainRequest getDomainRequest = new GetDomainRequest() 
+    { 
+        DomainId = "yourDomainIdHere" 
+    };
+    GetDomainResponse getDomainResponse = await mailinatorClient.DomainsClient.GetDomainAsync(getDomainRequest);
 ```
 
 The endpoint fetches a specific domain
@@ -843,6 +950,36 @@ Response:
             });
 ```
 
+```csharp
+    RuleToCreate ruleToCreate = new RuleToCreate()
+          {
+              Name = "RuleName",
+              Priority = 15,
+              Description = "Description",
+              Conditions = new List<Condition>()
+              {
+                  new Condition()
+                  {
+                      Operation = OperationType.PREFIX,
+                      ConditionData = new ConditionData()
+                      {
+                          Field = "to",
+                          Value = "raul"
+                      }
+                  }
+              },
+              Enabled = true,
+              Match = MatchType.ANY,
+              Actions = new List<ActionRule>() { new ActionRule() { Action = ActionType.WEBHOOK, ActionData = new ActionData() { Url = "https://www.google.com" } } }
+          };
+    CreateRuleRequest createRuleRequest = new CreateRuleRequest() 
+    { 
+        DomainId = "yourDomainIdHere", 
+        Rule = ruleToCreate 
+    };
+    CreateRuleResponse createRuleResponse = await mailinatorClient.RulesClient.CreateRuleAsync(createRuleRequest);
+```
+
 This endpoint allows you to create a Rule. Note that in the examples, ":domain_id" can be one of your private domains.
 
 #### HTTP Request
@@ -889,6 +1026,15 @@ Response:
             });
 ```
 
+```csharp
+    EnableRuleRequest enableRuleRequest = new EnableRuleRequest() 
+    { 
+        DomainId = "yourDomainIdHere", 
+        RuleId = "yourRuleIdHere" 
+    };
+    EnableRuleResponse enableRuleResponse = await mailinatorClient.RulesClient.EnableRuleAsync(enableRuleRequest);
+```
+
 This endpoint allows you to enable an existing Rule
 
 #### HTTP Request
@@ -923,6 +1069,15 @@ Response:
                 const statusCode = r.statusCode;
                 // ...
             });
+```
+
+```csharp
+    DisableRuleRequest disableRuleRequest = new DisableRuleRequest() 
+    { 
+        DomainId = "yourDomainIdHere", 
+        RuleId = "yourRuleIdHere" 
+    };
+    DisableRuleResponse disableRuleResponse = await mailinatorClient.RulesClient.DisableRuleAsync(disableRuleRequest);
 ```
 
 This endpoint allows you to disable an existing Rule
@@ -999,6 +1154,14 @@ Response:
             });
 ```
 
+```csharp
+    var getAllRulesRequest = new GetAllRulesRequest() 
+    { 
+        DomainId = "yourDomainIdHere" 
+    };
+    var getAllRulesResponse = await mailinatorClient.RulesClient.GetAllRulesAsync(getAllRulesRequest);
+```
+
 This endpoint fetches all Rules for a Domain
 
 ### HTTP Request
@@ -1064,6 +1227,15 @@ Response:
             });
 ```
 
+```csharp
+    var getRuleRequest = new GetRuleRequest() 
+    { 
+        DomainId = "yourDomainIdHere", 
+        RuleId = "yourRuleIdHere" 
+    };
+    var getRuleResponse = await mailinatorClient.RulesClient.GetRuleAsync(getRuleRequest);
+```
+
 This endpoint fetches a Rules for a Domain
 
 ### HTTP Request
@@ -1095,6 +1267,15 @@ Response:
                 const status = result?.status;
                 // ...
             });
+```
+
+```csharp
+    DeleteRuleRequest deleteRuleRequest = new DeleteRuleRequest() 
+    { 
+        DomainId = "yourDomainIdHere", 
+        RuleId = "yourRuleIdHere" 
+    };
+    DeleteRuleResponse deleteRuleResponse = await mailinatorClient.RulesClient.DeleteRuleAsync(deleteRuleRequest);
 ```
 
 This endpoint deletes a specific Rule from a Domain
