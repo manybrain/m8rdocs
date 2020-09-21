@@ -9,34 +9,33 @@ language_tabs: # must be one of https://git.io/vQNgJ
 
 toc_footers:
 - <a href='https://www.mailinator.com/'>Mailinator Home</a>
-- <a href='https://www.mailinator.com/v3/#/#pricing_table_pane'>Subscribe for Mailinator API access</a>
-- <a href='https://manybrain.github.io/m8rdocs/indexold.html'>Mailinator V1 API docs [OLD]</a>
+- <a href='https://www.mailinator.com/pricing.jsp'>Subscribe for Mailinator API access</a>
 
 search: true
 ---
 # Mailinator
 
-Whereas most email systems are bulit around the concept of "account/inbox ownership", Mailinator is an email system built around "entire domain inbox ownership". This allows companies to have instant access to millions of email addresses for system and automation testing of their software.
+Whereas most email systems are bulit around the concept of "account/inbox ownership", Mailinator is an email system built around "entire domain-inbox ownership". This allows companies to have instant access to millions of email addresses for system and automation testing of their software.
 
 Mailinator also provides a "public" domain for personal use where all email addresses (@mailinator.com) are completely public and usable by anyone.
 
 ## Public Mailinator (all email @mailinator.com)
 
-The public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain. They are readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.
+The Public Mailinator system (i.e. every possible email address @mailinator.com) creates inboxes when email arrives for them. All inboxes (and emails) are in the public domain. They are readable and deleteable by anyone. By design, there is NO privacy in the public Mailinator system and is intended for occasional, personal use.
 
-In addition, all emails in the public Mailinator system auto-delete after a few hours. They are un-retrievable after this happens. Public Mailinator emails also may not contain attachments (if they do, they will either not be delivered, or have their attachments stripped before delivery).
+In addition, all emails in the public Mailinator system auto-delete after a few hours. They are un-retrievable after this happens. Public Mailinator emails also may not contain attachments (if an attachment is sent, it will either not be delivered, or have the attachments stripped before delivery).
 
 Finally, it's important to note that the Mailinator system is RECEIVE-ONLY. <b>No one can send an email from Mailinator.</b> (Any email appearing to have arrived from an @mailinator address has had it's "From" field forged to appear as such).
 
 There is no need to sign-up to use the public Mailinator system. Simply go to the home page and enter an inbox name (i.e. anything you wish up to 50 characters) to check a particular inbox.
 
-Again, the public Mailinator is intended for personal and occasional use hence usage limits apply. Please see our Upgrade plans for corporate users.
+Again, the Public Mailinator is intended for personal and occasional use hence usage limits apply. Please see our Upgrade plans for corporate users.
 
 ## Private Mailinator
 
 Mailinator offers upgraded subscriptions for corporate users wishing to use the Mailinator system. This offers many benefits.
 
-Subscribers receive one or more "Private Domains" which provide a private version of Mailinator. That is, you control all inboxes for a given domain (i.e. either one your provide or the system will provide one for you). You may view all such inboxes in one "super inbox" which lists every email coming into the domain in realtime. Emails in Private domains are not automatically deleted until your team's storage is exhausted. At this time, new emails push out old emails. Otherwise, emails in private domains are persistent as long as the account is active.
+Subscribers receive one or more "Private Domains" which provide a private version of Mailinator. That is, you control all inboxes for a given domain (i.e. you can use a Domain you provide or the system will provide one for you). You may view all such inboxes in one "super inbox" which lists every email coming into the domain in realtime. Emails in Private domains are not automatically deleted until your team's storage is exhausted. At this time, new emails push out old emails. Otherwise, emails in private domains are persistent as long as the account is active.
 
 In addition, Private users gain API access to messages within the Mailinator system. Subscribers may use the API to access all email in their Private Domain(s) in addition to the Public Mailinator system.
 
@@ -56,7 +55,7 @@ The classic way is they arrive as email. However, messages may also enter the sy
 
 ### Web
 
-The web interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s). The Web interface will first attempt to show a message as an email. However, if the formatting of the message does not follow email conventions (i.e. maybe it arrived as an HTTP Post with a custom format), the message will be displayed in raw JSON.
+The Web Interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s). The Web interface will first attempt to show a message as an email. However, if the formatting of the message does not follow email conventions (i.e. maybe it arrived as an HTTP Post with a custom format), the message will be displayed in raw JSON.
 
 ### API
 
@@ -72,7 +71,7 @@ The Rule system allows subscribers to match on inbox and act upon every email th
 
 For example, a rule might be:
 
-IF <b>TO = mytestinbox</b> THEN <b>POST Webhook To https://mywebsite.com/endpoint</b>
+IF <b>TO == mytestinbox</b> THEN <b>POST Webhook To https://mywebsite.com/endpoint</b>
 
 For a given Private domain, all emails that arrive to the "mytestinbox" address will be converted to JSON, and HTTP Posted to the designated endpoint.
 
@@ -82,15 +81,19 @@ For more information on configuring Rules, see the Rules API documentation below
 
 Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscritpion.
 
-You now (yes, already) have a Private domain. Every conceivable inbox at that domain is waiting for you to send email to it. Unlike the public Mailinator system however, you won't run into rate-limits or filters. The email at that domain is private to you.
+You now have a Private domain (yes, already - check your Team Settings tab). Every conceivable inbox at that domain is waiting for you to send email to it. Unlike the public Mailinator system however, you won't run into rate-limits or filters. The email at that domain is private to you.
 
-When your subscription became active, a subdomain of Mailinator was created and assigned to your account as your private domain. For example, your initial private domain would be something like @you-yourcompany.m8r.co. So any email to anything@you-yourcompany.m8r.co will arrive in your private domain. On the left of the Web User Interface you'll see "Private Team Inbox". If you click that you'll be taken to the web interface for your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming domain.
+When your subscription became active, a subdomain of Testinator.com (i.e. a Mailinator testing domain) was created and assigned to your account as your private domain. For example, your initial private domain would be something like <b>@you-yourcompany.testinator.com</b>. So any email to <b>anything@you-yourcompany.testinator.com</b> will arrive in your private domain. On the left of the Web User Interface you'll see "Private Team Inbox". If you click that you'll be taken to the web interface for your private domain. Unlike Public Mailinator inboxes, you can see ALL incoming email to all inboxes at once! The inbox field in the upper right allows you to filter that incoming domain.
 
-To see what your current Private Domain is, go the Team Settings section of the Web interface and you'll see it listed. You can leave it as is, change it to another subdomain, or even put in a domain you already own (you must change the DNS record MX to point to our servers for this to work).
+To see what your current Private Domain is, go the Team Settings section of the Web interface and you'll see it listed. You can leave it as is, change it to another subdomain, or even put in a domain you already own (you must change your MX DNS record of your domain to point to our servers for this to work).
 
 On the Team Settings page, you'll also notice your API token. This token allows you to access all email in Mailinator (public and private) via API instead of the Web. See our API documentation below.
 
 The Team Management screen allows you to add co-workers to your account so they too can access your private domain emails. Also, checkout the Message Routing Rules system. While it's great to read emails via the web or API, Mailinator will push emails to you via webhooks. You can set this up in the Rules System.
+
+# Single Sign-On
+
+Mailinator Enterprise subscriptions support Single Sign-On (SSO) using SAML. Please contact support (support@manybrain.com) for more information or help with configuration.
 
 # The Mailinator API
 
@@ -100,17 +103,15 @@ Subscribers can read messages in both the Public and their own Private Mailinato
 
 Access to the API (and messages in general) are subject to your subscription plan's rate limits.
 
-[Note: The V1 API will remain active. See the old documentation here: <a href='https://manybrain.github.io/m8rdocs/indexold.html'>HERE</a>]
-
 ## Definitions
 
 - <b>Messages</b>
 
-Messages within Mailinator are typically thought of as emails - however, messages can enter the system in a variety of ways including email, SMS, or HTTP Post. In general, the schema of messages contains a TO, FROM, SUBJECT, and message body. Message bodies can be simple string of text or as is allowed by email standards, a complicated multi-part, multi-encoded schema.
+Messages within Mailinator are typically thought of as emails - however, messages can enter the system in a variety of ways including email, SMS, or HTTP Post. In general, the schema of messages contains a TO, FROM, SUBJECT, and message body. Message bodies can be simple string of text or - as is allowed by email standards, a complicated multi-part, multi-encoded schema.
 
-- **Domains / domains**
+- <b>Domains</b>
 
-Domains (aka domains) identify a specific source for messages. Emails automatically are assigned to the domain of their "to" address. Expectedly, each of your Private Domains represent a specific source for messages. Each Domain may have it's own set of rules.
+Domains identify a specific source for messages. Emails automatically are assigned to the domain of their "to" address. Expectedly, each of your Private Domains represent a specific source for messages. Each Domain may have it's own set of rules.
 
 <!--
 - <b>Destinations</b>
@@ -124,11 +125,14 @@ You may define a set of Destinations to be reused by your rules.
 Mailinator provides several official SDKs. Please select your language in the upper right to see examples in your preferred language.
 
 Java:
-  <a href='https://github.com/manybrain/mailinator-java-client' rel=nofollow>https://github.com/manybrain/mailinator-java-client</a>
+<a href='https://github.com/manybrain/mailinator-java-client' rel=nofollow>https://github.com/manybrain/mailinator-java-client</a>
+<br>
 Javascript:
-  <a href='https://github.com/manybrain/mailinator-javascript-client' rel=nofollow>https://github.com/manybrain/mailinator-javascript-client</a>
+<a href='https://github.com/manybrain/mailinator-javascript-client' rel=nofollow>https://github.com/manybrain/mailinator-javascript-client</a>
+<br>
 C#:
-  <a href='https://github.com/manybrain/mailinator-csharp-client' rel=nofollow>https://github.com/manybrain/mailinator-csharp-client</a>
+<a href='https://github.com/manybrain/mailinator-csharp-client' rel=nofollow>https://github.com/manybrain/mailinator-csharp-client</a>
+<br>
 
 ``` java
 Maven:
@@ -227,18 +231,19 @@ Response:
 ```
 
 ``` javascript
-        mailinatorClient.request(new GetInboxRequest(domain.name))
-                .then(response => {
-                    const result = response.result;
-                    const msgs = result?.msgs;
-                    if (msgs !== undefined) {
-                        msgs.forEach((msg) => {
-                            const subject = msg.subject;
-                            const parts = msg.parts;
-                            // process message
-                        })
-                    }
-                });
+   mailinatorClient.request(new GetInboxRequest(domain.name))
+          .then(response => {
+          const result = response.result;
+          const msgs = result?.msgs;
+          if (msgs !== undefined) {
+            msgs.forEach((msg) => {
+              const subject = msg.subject;
+              const parts = msg.parts;
+	      ..
+              // process message
+              })
+            }
+          });
 ```
 
 ```csharp
@@ -433,6 +438,54 @@ Response:
 
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
+
+## Fetch Links
+This endpoint retrieves all links found within a given email
+
+```shell
+curl "https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/testinbox-1570635306-12914603/links"
+
+Response:
+{
+"links": [
+        "https://www.yoursite.com/activate",
+        "https://www.yoursite.com/privacy",
+        "https://www.facebook.com/oursitepage"
+         ]
+}
+
+```
+
+``` java
+  List<Links> links = mailinatorClient.request(
+    new GetLinksRequest("private", "testinbox", "testinbox-1570635306-12914603"));
+```
+
+``` javascript
+    mailinatorClient.request(new GetLinkssRequest("private", "testinbox", "testinbox-1570635306-12914603"))
+            .then(response => {
+                const result = response.result;
+                const links = result?.links;
+                if (links !== undefined) {
+                    links.forEach((link)=>{
+                        ...
+                    });
+                }
+            });
+```
+
+```csharp
+    FetchLinksRequest fetchLinksRequest = new FetchLinksRequest() 
+    { 
+        Domain = "yourDomainNameHere", 
+        Inbox = "yourInboxHere", 
+        MessageId = "yourMessageIdWithAttachmentHere" 
+    };
+    FetchLinksResponse fetchLinksResponse = await mailinatorClient.MessagesClient.FetchLinksAsync(fetchLinksRequest);
+```
+
+### HTTP Request
+<b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/links
 
 
 ## Fetch Attachment
@@ -689,7 +742,7 @@ You may add or replace Private Domains in your Team Settings panel.
 
 ### Get All domains
 ```shell
-curl "https://api.mailinator.com/domains"
+curl "https://api.mailinator.com/api/v2/domains"
 
 Response:
 {
@@ -730,7 +783,7 @@ GET https://api.mailinator.com/domains/
 
 ### Get Domain
 ```shell
-curl "https://api.mailinator.com/domains/:domain_id"
+curl "https://api.mailinator.com/api/v2/domains/:domain_id"
 
 Response:
 {
@@ -873,7 +926,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 
 ```shell
 curl -H "content-type: application/json"
-     -X POST "https://api.mailinator.com/domains/:domain_id/rules/"
+     -X POST "https://api.mailinator.com/api/v2/domains/:domain_id/rules/"
      -d "@data.json"
 
 (data.json):
@@ -984,7 +1037,7 @@ This endpoint allows you to create a Rule. Note that in the examples, ":domain_i
 
 #### HTTP Request
 
-POST https://api.mailinator.com/domains/:domain_id/rules/
+POST https://api.mailinator.com/api/v2/domains/:domain_id/rules/
 
 #### PATH
 
@@ -1010,7 +1063,7 @@ Creating rules with enabled:true activates them immediately
 
 ### Enable Rule
 ```shell
-curl -X PUT "https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=enable"
+curl -X PUT "https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=enable"
 
 Response:
 {
@@ -1039,7 +1092,7 @@ This endpoint allows you to enable an existing Rule
 
 #### HTTP Request
 
-PUT https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=enable
+PUT https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=enable
 
 #### PATH
 
@@ -1055,7 +1108,7 @@ Parameter | Default | Required | Description
 
 ### Disable Rule
 ```shell
-curl -X PUT "https://api.mailinator.com/domains/:domain_id/rules/:rule_id/?action=disable"
+curl -X PUT "https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id/?action=disable"
 
 Response:
 {
@@ -1084,7 +1137,7 @@ This endpoint allows you to disable an existing Rule
 
 #### HTTP Request
 
-PUT https://api.mailinator.com/domains/:domain_id/rules/:rule_id?action=disable
+PUT https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=disable
 
 #### PATH
 
@@ -1101,7 +1154,7 @@ Parameter | Default | Required | Description
 
 ### Get All Rules
 ```shell
-curl "https://api.mailinator.com/domains/:domain_id/rules/"
+curl "https://api.mailinator.com/api/v2/domains/:domain_id/rules/"
 
 Response:
 {
@@ -1166,7 +1219,7 @@ This endpoint fetches all Rules for a Domain
 
 ### HTTP Request
 
-GET https://api.mailinator.com/domains/:domain_id/rules/
+GET https://api.mailinator.com/api/v2/domains/:domain_id/rules/
 
 ### PATH
 
@@ -1240,7 +1293,7 @@ This endpoint fetches a Rules for a Domain
 
 ### HTTP Request
 
-GET https://api.mailinator.com/domains/:domain_id/rules/:rule_id
+GET https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id
 
 ### PATH
 
@@ -1252,7 +1305,7 @@ Parameter | Default | Description
 ## Delete Rule
 
 ```shell
-curl -X DELETE "https://api.mailinator.com/domains/:domain_id/rules/:rule_id"
+curl -X DELETE "https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id"
 
 Response:
 {
@@ -1282,7 +1335,7 @@ This endpoint deletes a specific Rule from a Domain
 
 ### HTTP Request
 
-DELETE https://api.mailinator.com/domains/:domain_id/rules/:rule_id
+DELETE https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id
 
 ### PATH
 
