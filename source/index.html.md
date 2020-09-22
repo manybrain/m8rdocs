@@ -49,7 +49,7 @@ Messages arrive in the Mailinator system several ways.
 + SMS
 + HTTP Post
 
-The classic way is they arrive as email. However, messages may also enter the system via SMS (i.e. text message), or HTTP Post. Regardless of how a message arrives, it lands in a designated inbox and is then available for retrieval or manipulation/re-delivery via the rule systesm.
+The classic way is they arrive as email. However, messages may also enter the system via SMS (i.e. text message), or HTTP Post. Regardless of how a message arrives, it lands in a designated inbox and is then available for retrieval or manipulation/re-delivery via the rule system.
 
 ## Message Access
 
@@ -735,14 +735,75 @@ Path Element |  Value | Description
 
 
 
-
-# domains API
-You may add or replace Private Domains in your Team Settings panel.
+# Stats API
+You may retrieve usage information for your Team using this API.
 
 
 ### Get All domains
 ```shell
-curl "https://api.mailinator.com/api/v2/domains"
+curl "https://api.mailinator.com/api/v2/team/stats"
+
+Response:
+{
+     "stats": [
+           {
+             "date": "20200921",
+             "retrieved": {
+                "web_private": 1029,
+                "web_public": 0,
+                "api_email": 983
+                "api_error": 1,
+              },
+              "sent": {
+                "sms": 0,
+                "email": 1990
+              }
+           },
+           {
+             "date": "20200922",
+             "retrieved": {
+                "web_private": 829,
+                "web_public": 2,
+                "api_email": 800
+                "api_error": 0,
+              },
+              "sent": {
+                "sms": 3,
+                "email": 1402
+              }
+           }
+      ]
+}
+```
+
+``` javascript
+
+ADD JAVASCRIPT
+
+```
+``` java
+
+ADD JAVA
+
+```
+
+```csharp
+ADD CSHARP
+
+```
+
+#### HTTP Request
+
+GET https://api.mailinator.com/api/v2/team/stats
+
+
+# Domains API
+You may add or replace Private Domains in your Team Settings panel.
+
+
+### Get Usage Statistica
+```shell
+curl "https://api.mailinator.com/api/v2/team/stats"
 
 Response:
 {
