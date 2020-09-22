@@ -294,10 +294,18 @@
               </ul>
           </li>
           <li>
-            <a href="#domains-api" class="toc-h1 toc-link" data-title="domains API">domains API</a>
+            <a href="#stats-api" class="toc-h1 toc-link" data-title="Stats API">Stats API</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#get-all-domains" class="toc-h2 toc-link" data-title="Get All domains">Get All domains</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#domains-api" class="toc-h1 toc-link" data-title="Domains API">Domains API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-usage-statistica" class="toc-h2 toc-link" data-title="Get Usage Statistica">Get Usage Statistica</a>
                   </li>
                   <li>
                     <a href="#get-domain" class="toc-h2 toc-link" data-title="Get Domain">Get Domain</a>
@@ -329,7 +337,7 @@
                     <a href="#get-all-rules" class="toc-h2 toc-link" data-title="Get All Rules">Get All Rules</a>
                   </li>
                   <li>
-                    <a href="#http-request-12" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                    <a href="#http-request-13" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
                   </li>
                   <li>
                     <a href="#path-5" class="toc-h2 toc-link" data-title="PATH">PATH</a>
@@ -382,7 +390,7 @@
 <li>HTTP Post</li>
 </ul>
 
-<p>The classic way is they arrive as email. However, messages may also enter the system via SMS (i.e. text message), or HTTP Post. Regardless of how a message arrives, it lands in a designated inbox and is then available for retrieval or manipulation/re-delivery via the rule systesm.</p>
+<p>The classic way is they arrive as email. However, messages may also enter the system via SMS (i.e. text message), or HTTP Post. Regardless of how a message arrives, it lands in a designated inbox and is then available for retrieval or manipulation/re-delivery via the rule system.</p>
 <h2 id='message-access'>Message Access</h2><h3 id='web'>Web</h3>
 <p>The Web Interface is available for all Public and Private email in the Mailinator system. Subscribers must login first in order to see their Private Team Inbox containing mail sent to their Private Domain(s). The Web interface will first attempt to show a message as an email. However, if the formatting of the message does not follow email conventions (i.e. maybe it arrived as an HTTP Post with a custom format), the message will be displayed in raw JSON.</p>
 <h3 id='api'>API</h3>
@@ -1050,9 +1058,54 @@ Response:
 <td>TO destination for injected message</td>
 </tr>
 </tbody></table>
-<h1 id='domains-api'>domains API</h1>
+<h1 id='stats-api'>Stats API</h1>
+<p>You may retrieve usage information for your Team using this API.</p>
+<h3 id='get-all-domains'>Get All domains</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/team/stats"</span>
+
+Response:
+<span class="o">{</span>
+     <span class="s2">"stats"</span>: <span class="o">[</span>
+           <span class="o">{</span>
+             <span class="s2">"date"</span>: <span class="s2">"20200921"</span>,
+             <span class="s2">"retrieved"</span>: <span class="o">{</span>
+                <span class="s2">"web_private"</span>: 1029,
+                <span class="s2">"web_public"</span>: 0,
+                <span class="s2">"api_email"</span>: 983
+                <span class="s2">"api_error"</span>: 1,
+              <span class="o">}</span>,
+              <span class="s2">"sent"</span>: <span class="o">{</span>
+                <span class="s2">"sms"</span>: 0,
+                <span class="s2">"email"</span>: 1990
+              <span class="o">}</span>
+           <span class="o">}</span>,
+           <span class="o">{</span>
+             <span class="s2">"date"</span>: <span class="s2">"20200922"</span>,
+             <span class="s2">"retrieved"</span>: <span class="o">{</span>
+                <span class="s2">"web_private"</span>: 829,
+                <span class="s2">"web_public"</span>: 2,
+                <span class="s2">"api_email"</span>: 800
+                <span class="s2">"api_error"</span>: 0,
+              <span class="o">}</span>,
+              <span class="s2">"sent"</span>: <span class="o">{</span>
+                <span class="s2">"sms"</span>: 3,
+                <span class="s2">"email"</span>: 1402
+              <span class="o">}</span>
+           <span class="o">}</span>
+      <span class="o">]</span>
+<span class="o">}</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code>
+<span class="nx">ADD</span> <span class="nx">JAVASCRIPT</span>
+
+</code></pre><pre class="highlight java tab-java"><code>
+<span class="n">ADD</span> <span class="n">JAVA</span>
+
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="n">ADD</span> <span class="n">CSHARP</span>
+
+</code></pre><h4 id='http-request-7'>HTTP Request</h4>
+<p>GET https://api.mailinator.com/api/v2/team/stats</p>
+<h1 id='domains-api'>Domains API</h1>
 <p>You may add or replace Private Domains in your Team Settings panel.</p>
-<h3 id='get-all-domains'>Get All domains</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domains"</span>
+<h3 id='get-usage-statistica'>Get Usage Statistica</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/team/stats"</span>
 
 Response:
 <span class="o">{</span>
@@ -1079,7 +1132,7 @@ Response:
 </code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">GetAllDomainsResponse</span> <span class="n">getAllDomainsResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">DomainsClient</span><span class="p">.</span><span class="nf">GetAllDomainsAsync</span><span class="p">();</span>
 </code></pre>
 <p>The endpoint fetches a list of all your domains.</p>
-<h4 id='http-request-7'>HTTP Request</h4>
+<h4 id='http-request-8'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/domains/</p>
 <h3 id='get-domain'>Get Domain</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domains/:domain_id"</span>
 
@@ -1105,7 +1158,7 @@ Response:
     <span class="n">GetDomainResponse</span> <span class="n">getDomainResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">DomainsClient</span><span class="p">.</span><span class="nf">GetDomainAsync</span><span class="p">(</span><span class="n">getDomainRequest</span><span class="p">);</span>
 </code></pre>
 <p>The endpoint fetches a specific domain</p>
-<h4 id='http-request-8'>HTTP Request</h4>
+<h4 id='http-request-9'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/domains/:domain_id</p>
 <h4 id='path'>PATH</h4>
 <table><thead>
@@ -1416,7 +1469,7 @@ Response:
     <span class="n">CreateRuleResponse</span> <span class="n">createRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">CreateRuleAsync</span><span class="p">(</span><span class="n">createRuleRequest</span><span class="p">);</span>
 </code></pre>
 <p>This endpoint allows you to create a Rule. Note that in the examples, &quot;:domain_id&quot; can be one of your private domains.</p>
-<h4 id='http-request-9'>HTTP Request</h4>
+<h4 id='http-request-10'>HTTP Request</h4>
 <p>POST https://api.mailinator.com/api/v2/domains/:domain_id/rules/</p>
 <h4 id='path-2'>PATH</h4>
 <table><thead>
@@ -1507,7 +1560,7 @@ Response:
     <span class="n">EnableRuleResponse</span> <span class="n">enableRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">EnableRuleAsync</span><span class="p">(</span><span class="n">enableRuleRequest</span><span class="p">);</span>
 </code></pre>
 <p>This endpoint allows you to enable an existing Rule</p>
-<h4 id='http-request-10'>HTTP Request</h4>
+<h4 id='http-request-11'>HTTP Request</h4>
 <p>PUT https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=enable</p>
 <h4 id='path-3'>PATH</h4>
 <table><thead>
@@ -1550,7 +1603,7 @@ Response:
     <span class="n">DisableRuleResponse</span> <span class="n">disableRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">DisableRuleAsync</span><span class="p">(</span><span class="n">disableRuleRequest</span><span class="p">);</span>
 </code></pre>
 <p>This endpoint allows you to disable an existing Rule</p>
-<h4 id='http-request-11'>HTTP Request</h4>
+<h4 id='http-request-12'>HTTP Request</h4>
 <p>PUT https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=disable</p>
 <h4 id='path-4'>PATH</h4>
 <table><thead>
@@ -1629,7 +1682,7 @@ Response:
     <span class="kt">var</span> <span class="n">getAllRulesResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">GetAllRulesAsync</span><span class="p">(</span><span class="n">getAllRulesRequest</span><span class="p">);</span>
 </code></pre>
 <p>This endpoint fetches all Rules for a Domain</p>
-<h3 id='http-request-12'>HTTP Request</h3>
+<h3 id='http-request-13'>HTTP Request</h3>
 <p>GET https://api.mailinator.com/api/v2/domains/:domain_id/rules/</p>
 <h3 id='path-5'>PATH</h3>
 <table><thead>
@@ -1696,7 +1749,7 @@ Response:
     <span class="kt">var</span> <span class="n">getRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">GetRuleAsync</span><span class="p">(</span><span class="n">getRuleRequest</span><span class="p">);</span>
 </code></pre>
 <p>This endpoint fetches a Rules for a Domain</p>
-<h3 id='http-request-13'>HTTP Request</h3>
+<h3 id='http-request-14'>HTTP Request</h3>
 <p>GET https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id</p>
 <h3 id='path-6'>PATH</h3>
 <table><thead>
@@ -1737,7 +1790,7 @@ Response:
     <span class="n">DeleteRuleResponse</span> <span class="n">deleteRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">DeleteRuleAsync</span><span class="p">(</span><span class="n">deleteRuleRequest</span><span class="p">);</span>
 </code></pre>
 <p>This endpoint deletes a specific Rule from a Domain</p>
-<h3 id='http-request-14'>HTTP Request</h3>
+<h3 id='http-request-15'>HTTP Request</h3>
 <p>DELETE https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id</p>
 <h3 id='path-7'>PATH</h3>
 <table><thead>
