@@ -788,8 +788,7 @@ ADD JAVA
 ```
 
 ```csharp
-ADD CSHARP
-
+GetTeamStatsResponse response = await mailinatorClient.StatsClient.GetTeamStatsAsync();
 ```
 
 #### HTTP Request
@@ -1269,11 +1268,11 @@ Response:
 ```
 
 ```csharp
-    var getAllRulesRequest = new GetAllRulesRequest() 
+    GetAllRulesRequest getAllRulesRequest = new GetAllRulesRequest() 
     { 
         DomainId = "yourDomainIdHere" 
     };
-    var getAllRulesResponse = await mailinatorClient.RulesClient.GetAllRulesAsync(getAllRulesRequest);
+    GetAllRulesResponse getAllRulesResponse = await mailinatorClient.RulesClient.GetAllRulesAsync(getAllRulesRequest);
 ```
 
 This endpoint fetches all Rules for a Domain
@@ -1342,12 +1341,12 @@ Response:
 ```
 
 ```csharp
-    var getRuleRequest = new GetRuleRequest() 
+    GetRuleRequest getRuleRequest = new GetRuleRequest() 
     { 
         DomainId = "yourDomainIdHere", 
         RuleId = "yourRuleIdHere" 
     };
-    var getRuleResponse = await mailinatorClient.RulesClient.GetRuleAsync(getRuleRequest);
+    GetRuleResponse getRuleResponse = await mailinatorClient.RulesClient.GetRuleAsync(getRuleRequest);
 ```
 
 This endpoint fetches a Rules for a Domain
