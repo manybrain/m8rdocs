@@ -6,6 +6,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 - java: Java
 - javascript: Javascript
 - csharp: C#
+- go: Go
 
 toc_footers:
 - <a href='https://www.mailinator.com/'>Mailinator Home</a>
@@ -133,6 +134,9 @@ Javascript:
 C#:
 <a href='https://github.com/manybrain/mailinator-csharp-client' rel=nofollow>https://github.com/manybrain/mailinator-csharp-client</a>
 <br>
+Go:
+<a href='https://github.com/manybrain/mailinator-go-client' rel=nofollow>https://github.com/manybrain/mailinator-go-client</a>
+<br>
 
 ``` java
 Maven:
@@ -172,6 +176,10 @@ const mailinatorClient = new MailinatorClient("YourTeamAPIToken");
 
 ```csharp
 MailinatorClient mailinatorClient = new MailinatorClient("YourTeamAPIToken");
+```
+
+```go
+mailinatorClient := mailinator.NewMailinatorClient("YourTeamAPIToken")
 ```
 
 > Replace YourTeamAPIToken with the API Token found on your Team's settings page
@@ -256,6 +264,10 @@ Response:
         Sort = Sort.asc 
     };
     FetchInboxResponse fetchInboxResponse = await mailinatorClient.MessagesClient.FetchInboxAsync(fetchInboxRequest);
+```
+
+```go
+    res, err := mailinatorClient.FetchInbox(&FetchInboxOptions{Domain: "yourDomainNameHere", Inbox: "yourInboxHere"})
 ```
 
 ### HTTP Request
@@ -368,6 +380,10 @@ Response:
     FetchMessageResponse fetchMessageResponse = await mailinatorClient.MessagesClient.FetchMessageAsync(fetchMessageRequest);
 ```
 
+```go
+    res, err := mailinatorClient.FetchMessage(&FetchMessageOptions{"yourDomainNameHere", "yourInboxHere", "yourMessageIdHere"})
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
@@ -436,6 +452,10 @@ Response:
     FetchAttachmentsResponse fetchAttachmentsResponse = await mailinatorClient.MessagesClient.FetchAttachmentsAsync(fetchAttachmentsRequest);
 ```
 
+```go
+    res, err := mailinatorClient.FetchAtachments(&FetchAttachmentsOptions{"yourDomainNameHere", "yourInboxHere", "yourMessageIdWithAttachmentHere"})
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
 
@@ -484,6 +504,10 @@ Response:
     FetchLinksResponse fetchLinksResponse = await mailinatorClient.MessagesClient.FetchLinksAsync(fetchLinksRequest);
 ```
 
+```go
+    res, err := mailinatorClient.FetchMessageLinks(&FetchMessageLinksOptions{"yourDomainNameHere", "yourInboxHere", "yourMessageIdHere"})
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/links
 
@@ -519,6 +543,10 @@ curl "https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/te
         AttachmentId = "yourAttachmentIdHere" 
     };
     FetchAttachmentResponse fetchAttachmentResponse = await mailinatorClient.MessagesClient.FetchAttachmentAsync(fetchAttachmentRequest);
+```
+
+```go
+    res, err := mailinatorClient.FetchAttachment(&FetchAttachmentOptions{"yourDomainNameHere", "yourInboxHere", "yourMessageIdWithAttachmentHere", "yourAttachmentIdHere"})
 ```
 
 ### HTTP Request
@@ -566,6 +594,10 @@ Response:
     };
     DeleteAllDomainMessagesResponse deleteAllDomainMessagesResponse = 
         await mailinatorClient.MessagesClient.DeleteAllDomainMessagesAsync(deleteAllDomainMessagesRequest);
+```
+
+```go
+    res, err := mailinatorClient.DeleteAllDomainMessages(&DeleteAllDomainMessagesOptions{"yourDomainNameHere"})
 ```
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/
@@ -618,6 +650,10 @@ Response:
         await mailinatorClient.MessagesClient.DeleteAllInboxMessagesAsync(deleteAllInboxMessagesRequest);
 ```
 
+```go
+    res, err := mailinatorClient.DeleteAllInboxMessages(&DeleteAllInboxMessagesOptions{"yourDomainNameHere", "yourInboxHere"})
+```
+
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
@@ -661,6 +697,10 @@ Response:
         MessageId = "yourMessageIdHere" 
     };
     DeleteMessageResponse deleteMessageResponse = await mailinatorClient.MessagesClient.DeleteMessageAsync(deleteMessageRequest);
+```
+
+```go
+    res, err := mailinatorClient.DeleteMessage(&DeleteMessageOptions{"yourDomainNameHere", "yourInboxHere", "yourMessageIdHere"})
 ```
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
@@ -715,6 +755,15 @@ Response:
         Message = messageToPost 
     };
     InjectMessageResponse injectMessageResponse = await mailinatorClient.MessagesClient.InjectMessageAsync(injectMessageRequest);
+```
+
+```go
+    message := MessageToPost{
+			Subject: "Testing message",
+			From:    "test_email@test.com",
+			Text:    "Hello World!",
+		}
+    res, err := mailinatorClient.InjectMessage(&InjectMessageOptions{"yourDomainNameHere", "yourInboxHere", message})
 ```
 
 This endpoint allows you to deliver a JSON message into your private domain. This is similar to simply emailing a message to your private domain, except that you use HTTP Post and can programmatically inject the message.
@@ -788,7 +837,11 @@ ADD JAVA
 ```
 
 ```csharp
-GetTeamStatsResponse response = await mailinatorClient.StatsClient.GetTeamStatsAsync();
+    GetTeamStatsResponse response = await mailinatorClient.StatsClient.GetTeamStatsAsync();
+```
+
+```go
+    res, err := mailinatorClient.GetTeamStats()
 ```
 
 #### HTTP Request
@@ -835,6 +888,10 @@ Response:
     GetAllDomainsResponse getAllDomainsResponse = await mailinatorClient.DomainsClient.GetAllDomainsAsync();
 ```
 
+```go
+    res, err := mailinatorClient.GetDomains()
+```
+
 The endpoint fetches a list of all your domains.
 
 #### HTTP Request
@@ -871,6 +928,10 @@ Response:
         DomainId = "yourDomainIdHere" 
     };
     GetDomainResponse getDomainResponse = await mailinatorClient.DomainsClient.GetDomainAsync(getDomainRequest);
+```
+
+```go
+    res, err := mailinatorClient.GetDomain(&GetDomainOptions{"yourDomainIdHere"})
 ```
 
 The endpoint fetches a specific domain
@@ -1093,6 +1154,35 @@ Response:
     CreateRuleResponse createRuleResponse = await mailinatorClient.RulesClient.CreateRuleAsync(createRuleRequest);
 ```
 
+```go
+    rule := RuleToCreate{
+		Name:        "RuleName",
+		Priority:    15,
+		Description: "Description",
+		Conditions: []Condition{
+			Condition{
+				Operation: OperationType("PREFIX"),
+				ConditionData: ConditionData{
+					Field: "to",
+					Value: "raul",
+				},
+			},
+		},
+		Enabled: true,
+		Match:   MatchType("ANY"),
+		Actions: []ActionRule{
+			ActionRule{
+				Action: ActionType("WEBHOOK"),
+				ActionData: ActionData{
+					Url: "https://www.google.com",
+				},
+			},
+		},
+	}
+
+	res, err := mailinatorClient.CreateRule(&CreateRuleOptions{"yourDomainIdHere", rule})
+```
+
 This endpoint allows you to create a Rule. Note that in the examples, ":domain_id" can be one of your private domains.
 
 #### HTTP Request
@@ -1148,6 +1238,10 @@ Response:
     EnableRuleResponse enableRuleResponse = await mailinatorClient.RulesClient.EnableRuleAsync(enableRuleRequest);
 ```
 
+```go
+    res, err := mailinatorClient.EnableRule(&EnableRuleOptions{"yourDomainIdHere", "yourRuleIdHere"})
+```
+
 This endpoint allows you to enable an existing Rule
 
 #### HTTP Request
@@ -1191,6 +1285,10 @@ Response:
         RuleId = "yourRuleIdHere" 
     };
     DisableRuleResponse disableRuleResponse = await mailinatorClient.RulesClient.DisableRuleAsync(disableRuleRequest);
+```
+
+```go
+    res, err := mailinatorClient.DisableRule(&DisableRuleOptions{"yourDomainIdHere", "yourRuleIdHere"})
 ```
 
 This endpoint allows you to disable an existing Rule
@@ -1275,6 +1373,10 @@ Response:
     GetAllRulesResponse getAllRulesResponse = await mailinatorClient.RulesClient.GetAllRulesAsync(getAllRulesRequest);
 ```
 
+```go
+    res, err := mailinatorClient.GetAllRules(&GetAllRulesOptions{"yourDomainIdHere"})
+```
+
 This endpoint fetches all Rules for a Domain
 
 ### HTTP Request
@@ -1349,6 +1451,10 @@ Response:
     GetRuleResponse getRuleResponse = await mailinatorClient.RulesClient.GetRuleAsync(getRuleRequest);
 ```
 
+```go
+    res, err := mailinatorClient.GetRule(&GetRuleOptions{"yourDomainIdHere", "yourRuleIdHere"})
+```
+
 This endpoint fetches a Rules for a Domain
 
 ### HTTP Request
@@ -1389,6 +1495,10 @@ Response:
         RuleId = "yourRuleIdHere" 
     };
     DeleteRuleResponse deleteRuleResponse = await mailinatorClient.RulesClient.DeleteRuleAsync(deleteRuleRequest);
+```
+
+```go
+    res, err := mailinatorClient.DeleteRule(&DeleteRuleOptions{"yourDomainIdHere", "yourRuleIdHere"})
 ```
 
 This endpoint deletes a specific Rule from a Domain
