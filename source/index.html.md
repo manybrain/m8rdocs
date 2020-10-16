@@ -132,6 +132,10 @@ in the payload, the message will be rejected.
 
 If the message contains a "from" and "subject" field, these will be visible on the inbox page.
 
+Note: This section specifically describes *Public* Webhooks. Subscribers may also use webhooks to inject
+messages into their Private Domains which provide many more features. Please refer to that Documentation 
+<a href="https://manybrain.github.io/m8rdocs/#private-webhooks">HERE</a>.
+
 ## Twilio Webhooks
 
 If you have a Twilio account which receives incoming SMS messages. You may direct those messages through
@@ -146,10 +150,6 @@ The SMS message will arrive in the Public Mailinator inbox corresponding to the 
 If you wish the message to arrive in a different inbox, you may append the destination inbox to the URL.
 
 POST https://www.mailinator.com/api/v2/domains/public/<b>twilio</b>/bob
-
-Note: This section specifically describes *Public* Webhooks. Subscribers may also use webhooks to inject
-messages into their Private Domains which provide many more features. Please refer to that Documentation 
-<a href="https://manybrain.github.io/m8rdocs/#private-webhooks">HERE</a>.
 
 
 # Setting up your Mailinator Subscription
