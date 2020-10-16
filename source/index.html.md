@@ -49,7 +49,7 @@ Messages arrive in the Mailinator system several ways.
 
 + Email
 + SMS
-+ HTTP Post
++ HTTP Post / Webhooks
 
 The classic way is they arrive as email. However, messages may also enter the system via SMS (i.e. text message), or HTTP Post. Regardless of how a message arrives, it lands in a designated inbox and is then available for retrieval or manipulation/re-delivery via the rule system.
 
@@ -79,6 +79,79 @@ For a given Private domain, all emails that arrive to the "mytestinbox" address 
 
 For more information on configuring Rules, see the Rules API documentation below.
 
+# Public Webhooks
+
+Email is just one entry point for messages into the Mailinator system. Mailinator allows public users to setup
+webhooks (or HTTP Posts) from their own systems or from third-party systems to inject messages into the Mailinator system.
+
+When a message is injected in this way, it will appear in the appropriate inbox and is readable just like any
+other message. The most notable difference is that the messages appear as pure JSON instead of parsed Email 
+messages.
+
+In this case, all that Mailinator provides is a public URL destination. As with other parts of the Public
+Mailinator system, no authentication or authorization is required. However, strict rate and count limits
+exist on public incoming webhooks. If you need this webhook functionality for your business, you are
+encouraged to Subscribe to gain privacy, authentication, higher rate limits, the rule-system and more.
+
+## Public Webhook URLS
+
+
+```shell
+This command will deliver the message to the "bob" inbox
+
+curl -v -d '{"from":"MyMailinatorTest", "subject":"testing message", "text" : "hello world", "to" : "jack" }'      
+-H "Content-Type: application/json"      
+-X POST "https://www.mailinator.com/api/v2/domains/public/webhook/bob/"
+```
+```shell
+This command will deliver the message to the "jack" inbox
+
+curl -v -d '{"from":"MyMailinatorTest", "subject":"testing message", "text" : "hello world", "to" : "jack" }'      
+-H "Content-Type: application/json"      
+-X POST "https://www.mailinator.com/api/v2/domains/public/webhook/"
+```
+
+
+You may use these urls in your own systems, or give to third-party systems that deliver webhooks
+(i.e. Zapier, Twilio, IFTTT, etc.)
+
+The urls take two forms:
+
+#### HTTP Request
+
+POST https://www.mailinator.com/api/v2/domains/public/webhook/:to
+
+A JSON Payload delivered to this url will be put into the ":to" inbox.
+
+You may also allow the webhook to determine which inbox to deliver the message so long as
+the incoming JSON contains a "to" field.
+
+
+Note that if the Mailinator system cannot determine the destination inbox via the URL or a "to" field
+in the payload, the message will be rejected.
+
+If the message contains a "from" and "subject" field, these will be visible on the inbox page.
+
+## Twilio Webhooks
+
+If you have a Twilio account which receives incoming SMS messages. You may direct those messages through
+this facility to inject those messages into the Mailinator system.
+
+Set the Webhook URL in your Twilio phone number to:
+
+POST https://www.mailinator.com/api/v2/domains/public/<b>twilio</b>
+
+The SMS message will arrive in the Public Mailinator inbox corresponding to the Twilio Phone Number.
+(only the digits, if a plus sign precedes the number it will be removed)
+If you wish the message to arrive in a different inbox, you may append the destination inbox to the URL.
+
+POST https://www.mailinator.com/api/v2/domains/public/<b>twilio</b>/bob
+
+Note: This section specifically describes *Public* Webhooks. Subscribers may also use webhooks to inject
+messages into their Private Domains which provide many more features. Please refer to that Documentation 
+<a href="https://manybrain.github.io/m8rdocs/#private-webhooks">HERE</a>.
+
+
 # Setting up your Mailinator Subscription
 
 Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscritpion.
@@ -96,6 +169,64 @@ The Team Management screen allows you to add co-workers to your account so they 
 # Single Sign-On
 
 Mailinator Enterprise subscriptions support Single Sign-On (SSO) using SAML. Please contact support (support@manybrain.com) for more information or help with configuration.
+
+# Private Webhooks
+
+Mailinator allows you to HTTP Post or Webhook messages into your Private Domain. This is extremely convenient for
+testing as now all your test emails, SMS messages, and Webhooks will reside in the same place and are accessible
+via same Web Interface, API, and Rule System.
+
+```shell
+This command will deliver the message to the "bob" inbox
+
+curl -v -d '{"from":"someplace@xyz.com", "subject":"testing", "text" : "helloworld", "to" : "jack" }'      
+-H "Content-Type: application/json"      
+-X POST "https://www.mailinator.com/api/v2/domains/<your_webhook_token>/webhook/bob/"
+```
+
+<aside class="notice">
+Webhooks into your Private System do <b>NOT</b> use your regular API Token. 
+<br>
+This is because a typical use case is to 
+enter the Webhook URL into 3rd-party systems (i.e. Twilio, Zapier, IFTTT, etc) and you should never give out
+your API Token.
+</aside>
+<br>
+<aside class="notice">
+Check your Team Settings where you can create "Webhook Tokens" designed for this purpose.
+</aside>
+
+There are several permutations of the Webhook URLS. Say your Private Domain is <b>mypd.com</b> then
+all of the following urls are identical:
+
+<b>https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/webhook/</b><br>
+<b>https://www.mailinator.com/api/v2/domains/mypd.com/webhook/?whtoken=&lt;wh-token&gt;</b><br>
+<b>https://www.mailinator.com/api/v2/domains/private/webhook/?whtoken=&lt;wh-token&gt;</b>
+
+The incoming Webhook will arrive in the inbox designated by the "to" field in the incoming JSON payload.
+If the incoming payload does not contain a "to" field, or you wish to override the incoming destination,
+you may specify the desination inbox in the url:
+
+https://www.mailinator.com/api/v2/domains/&lt;token&gt;/webhook/<b>bob</b><br>
+
+Incoming Webhooks are delivered to Mailinator inboxes and from that point onward are not notably different
+than other messages in the system (i.e. emails). You may retrieve such messages via the Web Interface,
+the API, or the Rule System. See the following documentation on the Message API for more information.
+
+As normal, Mailinator will list all messages in the Inbox page and via the Inbox API calls. If the incoming
+JSON payload does not contain a "from" or "subject", then dummy values will be inserted in these fields.
+
+## Twilio
+
+Mailinator intends to apply specific mappings for certain services that commonly publish webhooks.
+
+If you test incoming Messages to SMS numbers via Twilio, you may use this endpoint to correctly map
+"to", "from", and "subject" of those messages to the Mailinator system.  By default, the destination 
+inbox is the Twilio phone number. This may be overridden by specifying the destination inbox in the URL
+(second example below).
+
+https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/<b>twilio</b>/<br>
+https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/<b>twilio</b>/someinbox
 
 # The Mailinator API
 
@@ -758,7 +889,7 @@ Path Element |  Value | Description
 ```shell
 curl -d '{"from":"ourtest@xyz.com", "subject":"testing message", "text" : "hello world" }'
      -H "Content-Type: application/json"
-     -X POST "https://mailinator.com/api/v2/domains/private/inboxes/testinbox/"
+     -X POST "https://mailinator.com/api/v2/domains/private/inboxes/testinbox/messages"
 
 Response:
 {
