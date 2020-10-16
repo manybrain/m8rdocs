@@ -241,10 +241,29 @@
               </ul>
           </li>
           <li>
+            <a href="#public-webhooks" class="toc-h1 toc-link" data-title="Public Webhooks">Public Webhooks</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#public-webhook-urls" class="toc-h2 toc-link" data-title="Public Webhook URLS">Public Webhook URLS</a>
+                  </li>
+                  <li>
+                    <a href="#twilio-webhooks" class="toc-h2 toc-link" data-title="Twilio Webhooks">Twilio Webhooks</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#setting-up-your-mailinator-subscription" class="toc-h1 toc-link" data-title="Setting up your Mailinator Subscription">Setting up your Mailinator Subscription</a>
           </li>
           <li>
             <a href="#single-sign-on" class="toc-h1 toc-link" data-title="Single Sign-On">Single Sign-On</a>
+          </li>
+          <li>
+            <a href="#private-webhooks" class="toc-h1 toc-link" data-title="Private Webhooks">Private Webhooks</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#twilio" class="toc-h2 toc-link" data-title="Twilio">Twilio</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#the-mailinator-api" class="toc-h1 toc-link" data-title="The Mailinator API">The Mailinator API</a>
@@ -339,7 +358,7 @@
                     <a href="#get-all-rules" class="toc-h2 toc-link" data-title="Get All Rules">Get All Rules</a>
                   </li>
                   <li>
-                    <a href="#http-request-13" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
+                    <a href="#http-request-14" class="toc-h2 toc-link" data-title="HTTP Request">HTTP Request</a>
                   </li>
                   <li>
                     <a href="#path-5" class="toc-h2 toc-link" data-title="PATH">PATH</a>
@@ -389,7 +408,7 @@
 <ul>
 <li>Email</li>
 <li>SMS</li>
-<li>HTTP Post</li>
+<li>HTTP Post / Webhooks</li>
 </ul>
 
 <p>The classic way is they arrive as email. However, messages may also enter the system via SMS (i.e. text message), or HTTP Post. Regardless of how a message arrives, it lands in a designated inbox and is then available for retrieval or manipulation/re-delivery via the rule system.</p>
@@ -411,6 +430,62 @@
 <p>For a given Private domain, all emails that arrive to the &quot;mytestinbox&quot; address will be converted to JSON, and HTTP Posted to the designated endpoint.</p>
 
 <p>For more information on configuring Rules, see the Rules API documentation below.</p>
+<h1 id='public-webhooks'>Public Webhooks</h1>
+<p>Email is just one entry point for messages into the Mailinator system. Mailinator allows public users to setup
+webhooks (or HTTP Posts) from their own systems or from third-party systems to inject messages into the Mailinator system.</p>
+
+<p>When a message is injected in this way, it will appear in the appropriate inbox and is readable just like any
+other message. The most notable difference is that the messages appear as pure JSON instead of parsed Email 
+messages.</p>
+
+<p>In this case, all that Mailinator provides is a public URL destination. As with other parts of the Public
+Mailinator system, no authentication or authorization is required. However, strict rate and count limits
+exist on public incoming webhooks. If you need this webhook functionality for your business, you are
+encouraged to Subscribe to gain privacy, authentication, higher rate limits, the rule-system and more.</p>
+<h2 id='public-webhook-urls'>Public Webhook URLS</h2><pre class="highlight shell tab-shell"><code>This <span class="nb">command </span>will deliver the message to the <span class="s2">"bob"</span> inbox
+
+curl -v -d <span class="s1">'{"from":"MyMailinatorTest", "subject":"testing message", "text" : "hello world", "to" : "jack" }'</span>      
+-H <span class="s2">"Content-Type: application/json"</span>      
+-X POST <span class="s2">"https://www.mailinator.com/api/v2/domains/public/webhook/bob/"</span>
+</code></pre><pre class="highlight shell tab-shell"><code>This <span class="nb">command </span>will deliver the message to the <span class="s2">"jack"</span> inbox
+
+curl -v -d <span class="s1">'{"from":"MyMailinatorTest", "subject":"testing message", "text" : "hello world", "to" : "jack" }'</span>      
+-H <span class="s2">"Content-Type: application/json"</span>      
+-X POST <span class="s2">"https://www.mailinator.com/api/v2/domains/public/webhook/"</span>
+</code></pre>
+<p>You may use these urls in your own systems, or give to third-party systems that deliver webhooks
+(i.e. Zapier, Twilio, IFTTT, etc.)</p>
+
+<p>The urls take two forms:</p>
+<h4 id='http-request'>HTTP Request</h4>
+<p>POST https://www.mailinator.com/api/v2/domains/public/webhook/:to</p>
+
+<p>A JSON Payload delivered to this url will be put into the &quot;:to&quot; inbox.</p>
+
+<p>You may also allow the webhook to determine which inbox to deliver the message so long as
+the incoming JSON contains a &quot;to&quot; field.</p>
+
+<p>Note that if the Mailinator system cannot determine the destination inbox via the URL or a &quot;to&quot; field
+in the payload, the message will be rejected.</p>
+
+<p>If the message contains a &quot;from&quot; and &quot;subject&quot; field, these will be visible on the inbox page.</p>
+<h2 id='twilio-webhooks'>Twilio Webhooks</h2>
+<p>If you have a Twilio account which receives incoming SMS messages. You may direct those messages through
+this facility to inject those messages into the Mailinator system.</p>
+
+<p>Set the Webhook URL in your Twilio phone number to:</p>
+
+<p>POST https://www.mailinator.com/api/v2/domains/public/<b>twilio</b></p>
+
+<p>The SMS message will arrive in the Public Mailinator inbox corresponding to the Twilio Phone Number.
+(only the digits, if a plus sign precedes the number it will be removed)
+If you wish the message to arrive in a different inbox, you may append the destination inbox to the URL.</p>
+
+<p>POST https://www.mailinator.com/api/v2/domains/public/<b>twilio</b>/bob</p>
+
+<p>Note: This section specifically describes <em>Public</em> Webhooks. Subscribers may also use webhooks to inject
+messages into their Private Domains which provide many more features. Please refer to that Documentation 
+<a href="https://manybrain.github.io/m8rdocs/#private-webhooks">HERE</a>.</p>
 <h1 id='setting-up-your-mailinator-subscription'>Setting up your Mailinator Subscription</h1>
 <p>Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscritpion.</p>
 
@@ -425,6 +500,58 @@
 <p>The Team Management screen allows you to add co-workers to your account so they too can access your private domain emails. Also, checkout the Message Routing Rules system. While it&#39;s great to read emails via the web or API, Mailinator will push emails to you via webhooks. You can set this up in the Rules System.</p>
 <h1 id='single-sign-on'>Single Sign-On</h1>
 <p>Mailinator Enterprise subscriptions support Single Sign-On (SSO) using SAML. Please contact support (support@manybrain.com) for more information or help with configuration.</p>
+<h1 id='private-webhooks'>Private Webhooks</h1>
+<p>Mailinator allows you to HTTP Post or Webhook messages into your Private Domain. This is extremely convenient for
+testing as now all your test emails, SMS messages, and Webhooks will reside in the same place and are accessible
+via same Web Interface, API, and Rule System.</p>
+<pre class="highlight shell tab-shell"><code>This <span class="nb">command </span>will deliver the message to the <span class="s2">"bob"</span> inbox
+
+curl -v -d <span class="s1">'{"from":"someplace@xyz.com", "subject":"testing", "text" : "helloworld", "to" : "jack" }'</span>      
+-H <span class="s2">"Content-Type: application/json"</span>      
+-X POST <span class="s2">"https://www.mailinator.com/api/v2/domains/&lt;your_webhook_token&gt;/webhook/bob/"</span>
+</code></pre>
+<aside class="notice">
+Webhooks into your Private System do <b>NOT</b> use your regular API Token. 
+<br>
+This is because a typical use case is to 
+enter the Webhook URL into 3rd-party systems (i.e. Twilio, Zapier, IFTTT, etc) and you should never give out
+your API Token.
+</aside>
+
+<p><br>
+<aside class="notice">
+Check your Team Settings where you can create &quot;Webhook Tokens&quot; designed for this purpose.
+</aside></p>
+
+<p>There are several permutations of the Webhook URLS. Say your Private Domain is <b>mypd.com</b> then
+all of the following urls are identical:</p>
+
+<p><b>https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/webhook/</b><br>
+<b>https://www.mailinator.com/api/v2/domains/mypd.com/webhook/?whtoken=&lt;wh-token&gt;</b><br>
+<b>https://www.mailinator.com/api/v2/domains/private/webhook/?whtoken=&lt;wh-token&gt;</b></p>
+
+<p>The incoming Webhook will arrive in the inbox designated by the &quot;to&quot; field in the incoming JSON payload.
+If the incoming payload does not contain a &quot;to&quot; field, or you wish to override the incoming destination,
+you may specify the desination inbox in the url:</p>
+
+<p>https://www.mailinator.com/api/v2/domains/&lt;token&gt;/webhook/<b>bob</b><br></p>
+
+<p>Incoming Webhooks are delivered to Mailinator inboxes and from that point onward are not notably different
+than other messages in the system (i.e. emails). You may retrieve such messages via the Web Interface,
+the API, or the Rule System. See the following documentation on the Message API for more information.</p>
+
+<p>As normal, Mailinator will list all messages in the Inbox page and via the Inbox API calls. If the incoming
+JSON payload does not contain a &quot;from&quot; or &quot;subject&quot;, then dummy values will be inserted in these fields.</p>
+<h2 id='twilio'>Twilio</h2>
+<p>Mailinator intends to apply specific mappings for certain services that commonly publish webhooks.</p>
+
+<p>If you test incoming Messages to SMS numbers via Twilio, you may use this endpoint to correctly map
+&quot;to&quot;, &quot;from&quot;, and &quot;subject&quot; of those messages to the Mailinator system.  By default, the destination 
+inbox is the Twilio phone number. This may be overridden by specifying the destination inbox in the URL
+(second example below).</p>
+
+<p>https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/<b>twilio</b>/<br>
+https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/<b>twilio</b>/someinbox</p>
 <h1 id='the-mailinator-api'>The Mailinator API</h1>
 <p>The Mailinator API provides programmatic access to the Mailinator system. This includes fetching and injecting messages into the Mailinator system and creating routing rules for specific message domains within the system. Messages are typically (and historically) email messages. Hence the format of messages tend to look like emails but in reality any message can be fed, routed, and read or delivered through the system. In a broader scope messages generally arrive via email, SMS, or direct HTTP Post.</p>
 
@@ -568,7 +695,7 @@ Response:
     <span class="n">FetchInboxResponse</span> <span class="n">fetchInboxResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchInboxAsync</span><span class="p">(</span><span class="n">fetchInboxRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchInbox</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchInboxOptions</span><span class="p">{</span><span class="n">Domain</span><span class="o">:</span><span class="x"> </span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="n">Inbox</span><span class="o">:</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">})</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">fetch_inbox</span><span class="p">(</span><span class="n">domain</span><span class="ss">:"yourDomainNameHere"</span><span class="p">,</span> <span class="ss">inbox: </span><span class="s2">"yourInboxHere"</span><span class="p">,</span> <span class="ss">skip: </span><span class="mi">0</span><span class="p">,</span> <span class="ss">limit: </span><span class="mi">50</span><span class="p">,</span> <span class="ss">sort: </span><span class="s2">"ascending"</span><span class="p">,</span> <span class="ss">decodeSubject: </span><span class="kp">false</span><span class="p">)</span>
-</code></pre><h3 id='http-request'>HTTP Request</h3>
+</code></pre><h3 id='http-request-2'>HTTP Request</h3>
 <p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b></p>
 
 <table><thead>
@@ -717,7 +844,7 @@ Response:
     <span class="n">FetchMessageResponse</span> <span class="n">fetchMessageResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchMessageAsync</span><span class="p">(</span><span class="n">fetchMessageRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchMessageOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdHere"</span><span class="p">})</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">fetch_message</span><span class="p">(</span><span class="n">domain</span><span class="ss">:"yourDomainNameHere"</span><span class="p">,</span> <span class="ss">inbox: </span><span class="s2">"yourInboxHere"</span><span class="p">,</span> <span class="ss">messageId: </span><span class="s2">"yourMessageIdHere"</span><span class="p">)</span>
-</code></pre><h3 id='http-request-2'>HTTP Request</h3>
+</code></pre><h3 id='http-request-3'>HTTP Request</h3>
 <p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b></p>
 
 <table><thead>
@@ -755,7 +882,7 @@ Response:
 </tbody></table>
 <h2 id='fetch-an-sms-messages'>Fetch an SMS Messages</h2>
 <p>SMS messages go into an inbox by the name of their phone number. Retrieving them is the same as any other message, simply use the phone number as the Inbox you are fetching.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
+<h3 id='http-request-4'>HTTP Request</h3>
 <p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:YOUR_TEAM_SMS_NUMBER</b></p>
 <h2 id='fetch-list-of-attachments'>Fetch List of Attachments</h2>
 <p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
@@ -795,7 +922,7 @@ Response:
     <span class="n">FetchAttachmentsResponse</span> <span class="n">fetchAttachmentsResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchAttachmentsAsync</span><span class="p">(</span><span class="n">fetchAttachmentsRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchAtachments</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchAttachmentsOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdWithAttachmentHere"</span><span class="p">})</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">fetch_attachments</span><span class="p">(</span><span class="n">domain</span><span class="ss">:"yourDomainNameHere"</span><span class="p">,</span> <span class="ss">inbox: </span><span class="s2">"yourInboxHere"</span><span class="p">,</span> <span class="ss">messageId: </span><span class="s2">"yourMessageIdWithAttachmentHere"</span><span class="p">)</span>
-</code></pre><h3 id='http-request-4'>HTTP Request</h3>
+</code></pre><h3 id='http-request-5'>HTTP Request</h3>
 <p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments</p>
 <h2 id='fetch-links'>Fetch Links</h2>
 <p>This endpoint retrieves all links found within a given email</p>
@@ -831,7 +958,7 @@ Response:
     <span class="n">FetchLinksResponse</span> <span class="n">fetchLinksResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchLinksAsync</span><span class="p">(</span><span class="n">fetchLinksRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchMessageLinks</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchMessageLinksOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdHere"</span><span class="p">})</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">fetch_message_links</span><span class="p">(</span><span class="n">domain</span><span class="ss">:"yourDomainNameHere"</span><span class="p">,</span> <span class="ss">inbox: </span><span class="s2">"yourInboxHere"</span><span class="p">,</span> <span class="ss">messageId: </span><span class="s2">"yourMessageIdHere"</span><span class="p">)</span>
-</code></pre><h3 id='http-request-5'>HTTP Request</h3>
+</code></pre><h3 id='http-request-6'>HTTP Request</h3>
 <p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/links</p>
 <h2 id='fetch-attachment'>Fetch Attachment</h2>
 <p>This endpoint retrieves a list of attachments for a message. Note attachments are expected to be in Email format.</p>
@@ -855,7 +982,7 @@ Response:
     <span class="n">FetchAttachmentResponse</span> <span class="n">fetchAttachmentResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchAttachmentAsync</span><span class="p">(</span><span class="n">fetchAttachmentRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchAttachment</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchAttachmentOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdWithAttachmentHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourAttachmentIdHere"</span><span class="p">})</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">fetch_attachment</span><span class="p">(</span><span class="n">domain</span><span class="ss">:"yourDomainNameHere"</span><span class="p">,</span> <span class="ss">inbox: </span><span class="s2">"yourInboxHere"</span><span class="p">,</span> <span class="ss">messageId: </span><span class="s2">"yourMessageIdWithAttachmentHere"</span><span class="p">,</span> <span class="ss">attachmentId: </span><span class="s2">"yourAttachmentIdHere"</span><span class="p">)</span>
-</code></pre><h3 id='http-request-6'>HTTP Request</h3>
+</code></pre><h3 id='http-request-7'>HTTP Request</h3>
 <p><b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments/<b>:attachment_name</b></p>
 
 <p>Note that alternatively, you specify the &quot;attachment-id&quot; value instead of the attachment name.</p>
@@ -1140,7 +1267,7 @@ Response:
 </code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">GetTeamStatsResponse</span> <span class="n">response</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">StatsClient</span><span class="p">.</span><span class="nf">GetTeamStatsAsync</span><span class="p">();</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">GetTeamStats</span><span class="p">()</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">stats</span><span class="p">.</span><span class="nf">get_team_stats</span>
-</code></pre><h4 id='http-request-7'>HTTP Request</h4>
+</code></pre><h4 id='http-request-8'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/api/v2/team/stats</p>
 <h1 id='domains-api'>Domains API</h1>
 <p>You may add or replace Private Domains in your Team Settings panel.</p>
@@ -1173,7 +1300,7 @@ Response:
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">domains</span><span class="p">.</span><span class="nf">get_domains</span>
 </code></pre>
 <p>The endpoint fetches a list of all your domains.</p>
-<h4 id='http-request-8'>HTTP Request</h4>
+<h4 id='http-request-9'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/domains/</p>
 <h3 id='get-domain'>Get Domain</h3><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mailinator.com/api/v2/domains/:domain_id"</span>
 
@@ -1201,7 +1328,7 @@ Response:
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">domains</span><span class="p">.</span><span class="nf">get_domain</span><span class="p">(</span><span class="n">domainId</span><span class="ss">:"yourDomainIdHere"</span><span class="p">)</span>
 </code></pre>
 <p>The endpoint fetches a specific domain</p>
-<h4 id='http-request-9'>HTTP Request</h4>
+<h4 id='http-request-10'>HTTP Request</h4>
 <p>GET https://api.mailinator.com/domains/:domain_id</p>
 <h4 id='path'>PATH</h4>
 <table><thead>
@@ -1564,7 +1691,7 @@ Response:
     <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">rules</span><span class="p">.</span><span class="nf">create_rule</span><span class="p">(</span><span class="n">domainId</span><span class="ss">:"yourDomainIdHere"</span><span class="p">,</span> <span class="ss">ruleToPost: </span><span class="n">ruleToPost</span><span class="p">)</span>
 </code></pre>
 <p>This endpoint allows you to create a Rule. Note that in the examples, &quot;:domain_id&quot; can be one of your private domains.</p>
-<h4 id='http-request-10'>HTTP Request</h4>
+<h4 id='http-request-11'>HTTP Request</h4>
 <p>POST https://api.mailinator.com/api/v2/domains/:domain_id/rules/</p>
 <h4 id='path-2'>PATH</h4>
 <table><thead>
@@ -1657,7 +1784,7 @@ Response:
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">rules</span><span class="p">.</span><span class="nf">enable_rule</span><span class="p">(</span><span class="n">domainId</span><span class="ss">:"yourDomainIdHere"</span><span class="p">,</span> <span class="ss">ruleId: </span><span class="s2">"yourRuleIdHere"</span><span class="p">)</span>
 </code></pre>
 <p>This endpoint allows you to enable an existing Rule</p>
-<h4 id='http-request-11'>HTTP Request</h4>
+<h4 id='http-request-12'>HTTP Request</h4>
 <p>PUT https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=enable</p>
 <h4 id='path-3'>PATH</h4>
 <table><thead>
@@ -1702,7 +1829,7 @@ Response:
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">rules</span><span class="p">.</span><span class="nf">disable_rule</span><span class="p">(</span><span class="n">domainId</span><span class="ss">:"yourDomainIdHere"</span><span class="p">,</span> <span class="ss">ruleId: </span><span class="s2">"yourRuleIdHere"</span><span class="p">)</span>
 </code></pre>
 <p>This endpoint allows you to disable an existing Rule</p>
-<h4 id='http-request-12'>HTTP Request</h4>
+<h4 id='http-request-13'>HTTP Request</h4>
 <p>PUT https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=disable</p>
 <h4 id='path-4'>PATH</h4>
 <table><thead>
@@ -1783,7 +1910,7 @@ Response:
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">rules</span><span class="p">.</span><span class="nf">get_all_rules</span><span class="p">(</span><span class="n">domainId</span><span class="ss">:"yourDomainIdHere"</span><span class="p">)</span>
 </code></pre>
 <p>This endpoint fetches all Rules for a Domain</p>
-<h3 id='http-request-13'>HTTP Request</h3>
+<h3 id='http-request-14'>HTTP Request</h3>
 <p>GET https://api.mailinator.com/api/v2/domains/:domain_id/rules/</p>
 <h3 id='path-5'>PATH</h3>
 <table><thead>
@@ -1852,7 +1979,7 @@ Response:
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">rules</span><span class="p">.</span><span class="nf">get_rule</span><span class="p">(</span><span class="n">domainId</span><span class="ss">:"yourDomainIdHere"</span><span class="p">,</span> <span class="ss">ruleId: </span><span class="s2">"yourRuleIdHere"</span><span class="p">)</span>
 </code></pre>
 <p>This endpoint fetches a Rules for a Domain</p>
-<h3 id='http-request-14'>HTTP Request</h3>
+<h3 id='http-request-15'>HTTP Request</h3>
 <p>GET https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id</p>
 <h3 id='path-6'>PATH</h3>
 <table><thead>
@@ -1895,7 +2022,7 @@ Response:
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">rules</span><span class="p">.</span><span class="nf">delete_rule</span><span class="p">(</span><span class="n">domainId</span><span class="ss">:"yourDomainIdHere"</span><span class="p">,</span> <span class="ss">ruleId: </span><span class="s2">"yourRuleIdHere"</span><span class="p">)</span>
 </code></pre>
 <p>This endpoint deletes a specific Rule from a Domain</p>
-<h3 id='http-request-15'>HTTP Request</h3>
+<h3 id='http-request-16'>HTTP Request</h3>
 <p>DELETE https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id</p>
 <h3 id='path-7'>PATH</h3>
 <table><thead>
