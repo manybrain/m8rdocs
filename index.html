@@ -1,7 +1,7 @@
 
 <!doctype html>
-<html>
-  <head lang='en'>
+<html lang='en'>
+  <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -199,6 +199,17 @@
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
       <script src="javascripts/all.js"></script>
+
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQMG4HTV3B"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-KQMG4HTV3B');
+      </script>
+
   </head>
 
   <body class="index" data-languages="[&quot;shell&quot;,&quot;java&quot;,&quot;javascript&quot;,&quot;csharp&quot;,&quot;go&quot;,&quot;ruby&quot;]">
@@ -435,7 +446,7 @@
 webhooks (or HTTP Posts) from their own systems or from third-party systems to inject messages into the Mailinator system.</p>
 
 <p>When a message is injected in this way, it will appear in the appropriate inbox and is readable just like any
-other message. The most notable difference is that the messages appear as pure JSON instead of parsed Email 
+other message. The most notable difference is that the messages appear as pure JSON instead of parsed Email
 messages.</p>
 
 <p>In this case, all that Mailinator provides is a public URL destination. As with other parts of the Public
@@ -444,13 +455,13 @@ exist on public incoming webhooks. If you need this webhook functionality for yo
 encouraged to Subscribe to gain privacy, authentication, higher rate limits, the rule-system and more.</p>
 <h2 id='public-webhook-urls'>Public Webhook URLS</h2><pre class="highlight shell tab-shell"><code>This <span class="nb">command </span>will deliver the message to the <span class="s2">"bob"</span> inbox
 
-curl -v -d <span class="s1">'{"from":"MyMailinatorTest", "subject":"testing message", "text" : "hello world", "to" : "jack" }'</span>      
--H <span class="s2">"Content-Type: application/json"</span>      
+curl -v -d <span class="s1">'{"from":"MyMailinatorTest", "subject":"testing message", "text" : "hello world", "to" : "jack" }'</span>
+-H <span class="s2">"Content-Type: application/json"</span>
 -X POST <span class="s2">"https://www.mailinator.com/api/v2/domains/public/webhook/bob/"</span>
 </code></pre><pre class="highlight shell tab-shell"><code>This <span class="nb">command </span>will deliver the message to the <span class="s2">"jack"</span> inbox
 
-curl -v -d <span class="s1">'{"from":"MyMailinatorTest", "subject":"testing message", "text" : "hello world", "to" : "jack" }'</span>      
--H <span class="s2">"Content-Type: application/json"</span>      
+curl -v -d <span class="s1">'{"from":"MyMailinatorTest", "subject":"testing message", "text" : "hello world", "to" : "jack" }'</span>
+-H <span class="s2">"Content-Type: application/json"</span>
 -X POST <span class="s2">"https://www.mailinator.com/api/v2/domains/public/webhook/"</span>
 </code></pre>
 <p>You may use these urls in your own systems, or give to third-party systems that deliver webhooks
@@ -469,6 +480,10 @@ the incoming JSON contains a &quot;to&quot; field.</p>
 in the payload, the message will be rejected.</p>
 
 <p>If the message contains a &quot;from&quot; and &quot;subject&quot; field, these will be visible on the inbox page.</p>
+
+<p>Note: This section specifically describes <em>Public</em> Webhooks. Subscribers may also use webhooks to inject
+messages into their Private Domains which provide many more features. Please refer to that Documentation
+<a href="https://manybrain.github.io/m8rdocs/#private-webhooks">HERE</a>.</p>
 <h2 id='twilio-webhooks'>Twilio Webhooks</h2>
 <p>If you have a Twilio account which receives incoming SMS messages. You may direct those messages through
 this facility to inject those messages into the Mailinator system.</p>
@@ -482,10 +497,6 @@ this facility to inject those messages into the Mailinator system.</p>
 If you wish the message to arrive in a different inbox, you may append the destination inbox to the URL.</p>
 
 <p>POST https://www.mailinator.com/api/v2/domains/public/<b>twilio</b>/bob</p>
-
-<p>Note: This section specifically describes <em>Public</em> Webhooks. Subscribers may also use webhooks to inject
-messages into their Private Domains which provide many more features. Please refer to that Documentation 
-<a href="https://manybrain.github.io/m8rdocs/#private-webhooks">HERE</a>.</p>
 <h1 id='setting-up-your-mailinator-subscription'>Setting up your Mailinator Subscription</h1>
 <p>Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscritpion.</p>
 
@@ -506,14 +517,14 @@ testing as now all your test emails, SMS messages, and Webhooks will reside in t
 via same Web Interface, API, and Rule System.</p>
 <pre class="highlight shell tab-shell"><code>This <span class="nb">command </span>will deliver the message to the <span class="s2">"bob"</span> inbox
 
-curl -v -d <span class="s1">'{"from":"someplace@xyz.com", "subject":"testing", "text" : "helloworld", "to" : "jack" }'</span>      
--H <span class="s2">"Content-Type: application/json"</span>      
+curl -v -d <span class="s1">'{"from":"someplace@xyz.com", "subject":"testing", "text" : "helloworld", "to" : "jack" }'</span>
+-H <span class="s2">"Content-Type: application/json"</span>
 -X POST <span class="s2">"https://www.mailinator.com/api/v2/domains/&lt;your_webhook_token&gt;/webhook/bob/"</span>
 </code></pre>
 <aside class="notice">
-Webhooks into your Private System do <b>NOT</b> use your regular API Token. 
+Webhooks into your Private System do <b>NOT</b> use your regular API Token.
 <br>
-This is because a typical use case is to 
+This is because a typical use case is to
 enter the Webhook URL into 3rd-party systems (i.e. Twilio, Zapier, IFTTT, etc) and you should never give out
 your API Token.
 </aside>
@@ -546,7 +557,7 @@ JSON payload does not contain a &quot;from&quot; or &quot;subject&quot;, then du
 <p>Mailinator intends to apply specific mappings for certain services that commonly publish webhooks.</p>
 
 <p>If you test incoming Messages to SMS numbers via Twilio, you may use this endpoint to correctly map
-&quot;to&quot;, &quot;from&quot;, and &quot;subject&quot; of those messages to the Mailinator system.  By default, the destination 
+&quot;to&quot;, &quot;from&quot;, and &quot;subject&quot; of those messages to the Mailinator system.  By default, the destination
 inbox is the Twilio phone number. This may be overridden by specifying the destination inbox in the URL
 (second example below).</p>
 
@@ -684,13 +695,13 @@ Response:
               <span class="p">})</span>
             <span class="p">}</span>
           <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchInboxRequest</span> <span class="n">fetchInboxRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchInboxRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span> 
-        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span> 
-        <span class="n">Skip</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span> 
-        <span class="n">Limit</span> <span class="p">=</span> <span class="m">20</span><span class="p">,</span> 
-        <span class="n">Sort</span> <span class="p">=</span> <span class="n">Sort</span><span class="p">.</span><span class="n">asc</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchInboxRequest</span> <span class="n">fetchInboxRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchInboxRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span>
+        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span>
+        <span class="n">Skip</span> <span class="p">=</span> <span class="m">0</span><span class="p">,</span>
+        <span class="n">Limit</span> <span class="p">=</span> <span class="m">20</span><span class="p">,</span>
+        <span class="n">Sort</span> <span class="p">=</span> <span class="n">Sort</span><span class="p">.</span><span class="n">asc</span>
     <span class="p">};</span>
     <span class="n">FetchInboxResponse</span> <span class="n">fetchInboxResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchInboxAsync</span><span class="p">(</span><span class="n">fetchInboxRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchInbox</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchInboxOptions</span><span class="p">{</span><span class="n">Domain</span><span class="o">:</span><span class="x"> </span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="n">Inbox</span><span class="o">:</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">})</span><span class="x">
@@ -835,11 +846,11 @@ Response:
                 <span class="kr">const</span> <span class="nx">subject</span> <span class="o">=</span> <span class="nx">result</span><span class="p">?.</span><span class="nx">subject</span><span class="p">;</span>
                 <span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="nx">result</span><span class="p">?.</span><span class="nx">headers</span><span class="p">;</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchMessageRequest</span> <span class="n">fetchMessageRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchMessageRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span> 
-        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span> 
-        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchMessageRequest</span> <span class="n">fetchMessageRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchMessageRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span>
+        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span>
+        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdHere"</span>
     <span class="p">};</span>
     <span class="n">FetchMessageResponse</span> <span class="n">fetchMessageResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchMessageAsync</span><span class="p">(</span><span class="n">fetchMessageRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchMessageOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdHere"</span><span class="p">})</span><span class="x">
@@ -913,11 +924,11 @@ Response:
                     <span class="p">});</span>
                 <span class="p">}</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchAttachmentsRequest</span> <span class="n">fetchAttachmentsRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchAttachmentsRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span> 
-        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span> 
-        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdWithAttachmentHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchAttachmentsRequest</span> <span class="n">fetchAttachmentsRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchAttachmentsRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span>
+        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span>
+        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdWithAttachmentHere"</span>
     <span class="p">};</span>
     <span class="n">FetchAttachmentsResponse</span> <span class="n">fetchAttachmentsResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchAttachmentsAsync</span><span class="p">(</span><span class="n">fetchAttachmentsRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchAtachments</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchAttachmentsOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdWithAttachmentHere"</span><span class="p">})</span><span class="x">
@@ -949,11 +960,11 @@ Response:
                     <span class="p">});</span>
                 <span class="p">}</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchLinksRequest</span> <span class="n">fetchLinksRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchLinksRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span> 
-        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span> 
-        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdWithAttachmentHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchLinksRequest</span> <span class="n">fetchLinksRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchLinksRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span>
+        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span>
+        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdWithAttachmentHere"</span>
     <span class="p">};</span>
     <span class="n">FetchLinksResponse</span> <span class="n">fetchLinksResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchLinksAsync</span><span class="p">(</span><span class="n">fetchLinksRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchMessageLinks</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchMessageLinksOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdHere"</span><span class="p">})</span><span class="x">
@@ -972,12 +983,12 @@ Response:
             <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
                 <span class="nx">response</span><span class="p">.</span><span class="nx">result</span><span class="o">!</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchAttachmentRequest</span> <span class="n">fetchAttachmentRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchAttachmentRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span> 
-        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span> 
-        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdWithAttachmentHere"</span><span class="p">,</span> 
-        <span class="n">AttachmentId</span> <span class="p">=</span> <span class="s">"yourAttachmentIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">FetchAttachmentRequest</span> <span class="n">fetchAttachmentRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">FetchAttachmentRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span>
+        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span>
+        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdWithAttachmentHere"</span><span class="p">,</span>
+        <span class="n">AttachmentId</span> <span class="p">=</span> <span class="s">"yourAttachmentIdHere"</span>
     <span class="p">};</span>
     <span class="n">FetchAttachmentResponse</span> <span class="n">fetchAttachmentResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">FetchAttachmentAsync</span><span class="p">(</span><span class="n">fetchAttachmentRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">FetchAttachment</span><span class="p">(</span><span class="o">&amp;</span><span class="n">FetchAttachmentOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdWithAttachmentHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourAttachmentIdHere"</span><span class="p">})</span><span class="x">
@@ -1005,11 +1016,11 @@ Response:
             <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
                 <span class="kr">const</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">result</span><span class="o">!</span><span class="p">.</span><span class="nx">count</span><span class="p">;</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DeleteAllDomainMessagesRequest</span> <span class="n">deleteAllDomainMessagesRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DeleteAllDomainMessagesRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DeleteAllDomainMessagesRequest</span> <span class="n">deleteAllDomainMessagesRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DeleteAllDomainMessagesRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span>
     <span class="p">};</span>
-    <span class="n">DeleteAllDomainMessagesResponse</span> <span class="n">deleteAllDomainMessagesResponse</span> <span class="p">=</span> 
+    <span class="n">DeleteAllDomainMessagesResponse</span> <span class="n">deleteAllDomainMessagesResponse</span> <span class="p">=</span>
         <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">DeleteAllDomainMessagesAsync</span><span class="p">(</span><span class="n">deleteAllDomainMessagesRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">DeleteAllDomainMessages</span><span class="p">(</span><span class="o">&amp;</span><span class="n">DeleteAllDomainMessagesOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">})</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">delete_all_domain_messages</span><span class="p">(</span><span class="n">domain</span><span class="ss">:"yourDomainNameHere"</span><span class="p">)</span>
@@ -1061,12 +1072,12 @@ Response:
             <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
                 <span class="kr">const</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">result</span><span class="o">!</span><span class="p">.</span><span class="nx">count</span><span class="p">;</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DeleteAllInboxMessagesRequest</span> <span class="n">deleteAllInboxMessagesRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DeleteAllInboxMessagesRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span> 
-        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DeleteAllInboxMessagesRequest</span> <span class="n">deleteAllInboxMessagesRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DeleteAllInboxMessagesRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span>
+        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span>
     <span class="p">};</span>
-    <span class="n">DeleteAllInboxMessagesResponse</span> <span class="n">deleteAllInboxMessagesResponse</span> <span class="p">=</span> 
+    <span class="n">DeleteAllInboxMessagesResponse</span> <span class="n">deleteAllInboxMessagesResponse</span> <span class="p">=</span>
         <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">DeleteAllInboxMessagesAsync</span><span class="p">(</span><span class="n">deleteAllInboxMessagesRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">DeleteAllInboxMessages</span><span class="p">(</span><span class="o">&amp;</span><span class="n">DeleteAllInboxMessagesOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">})</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">delete_all_inbox_messages</span><span class="p">(</span><span class="n">domain</span><span class="ss">:"yourDomainNameHere"</span><span class="p">,</span> <span class="ss">inbox: </span><span class="s2">"yourInboxHere"</span><span class="p">)</span>
@@ -1111,11 +1122,11 @@ Response:
             <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
                 <span class="kr">const</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">result</span><span class="o">!</span><span class="p">.</span><span class="nx">count</span><span class="p">;</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DeleteMessageRequest</span> <span class="n">deleteMessageRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DeleteMessageRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span> 
-        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span> 
-        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DeleteMessageRequest</span> <span class="n">deleteMessageRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DeleteMessageRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span>
+        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span>
+        <span class="n">MessageId</span> <span class="p">=</span> <span class="s">"yourMessageIdHere"</span>
     <span class="p">};</span>
     <span class="n">DeleteMessageResponse</span> <span class="n">deleteMessageResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">DeleteMessageAsync</span><span class="p">(</span><span class="n">deleteMessageRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">DeleteMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">DeleteMessageOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourMessageIdHere"</span><span class="p">})</span><span class="x">
@@ -1174,11 +1185,11 @@ Response:
                 <span class="n">From</span> <span class="p">=</span> <span class="s">"test_email@test.com"</span><span class="p">,</span>
                 <span class="n">Text</span> <span class="p">=</span> <span class="s">"Hello World!"</span>
             <span class="p">};</span>
-    <span class="n">InjectMessageRequest</span> <span class="n">injectMessageRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">InjectMessageRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span> 
-        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span> 
-        <span class="n">Message</span> <span class="p">=</span> <span class="n">messageToPost</span> 
+    <span class="n">InjectMessageRequest</span> <span class="n">injectMessageRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">InjectMessageRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Domain</span> <span class="p">=</span> <span class="s">"yourDomainNameHere"</span><span class="p">,</span>
+        <span class="n">Inbox</span> <span class="p">=</span> <span class="s">"yourInboxHere"</span><span class="p">,</span>
+        <span class="n">Message</span> <span class="p">=</span> <span class="n">messageToPost</span>
     <span class="p">};</span>
     <span class="n">InjectMessageResponse</span> <span class="n">injectMessageResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">MessagesClient</span><span class="p">.</span><span class="nf">InjectMessageAsync</span><span class="p">(</span><span class="n">injectMessageRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">message</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">MessageToPost</span><span class="p">{</span><span class="x">
@@ -1189,7 +1200,7 @@ Response:
     </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">InjectMessage</span><span class="p">(</span><span class="o">&amp;</span><span class="n">InjectMessageOptions</span><span class="p">{</span><span class="s">"yourDomainNameHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourInboxHere"</span><span class="p">,</span><span class="x"> </span><span class="n">message</span><span class="p">})</span><span class="x">
 </span></code></pre><pre class="highlight ruby tab-ruby"><code>    <span class="n">messageToPost</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">subject</span><span class="ss">:"Testing ruby message"</span><span class="p">,</span>
-        <span class="n">from</span><span class="ss">:"test_email_ruby@test.com"</span><span class="p">,</span> 
+        <span class="n">from</span><span class="ss">:"test_email_ruby@test.com"</span><span class="p">,</span>
         <span class="n">text</span><span class="ss">:"I love Ruby!"</span>
       <span class="p">}</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">inject_message</span><span class="p">(</span><span class="n">domain</span><span class="ss">:"yourDomainNameHere"</span><span class="p">,</span> <span class="ss">inbox: </span><span class="s2">"yourInboxHere"</span><span class="p">,</span> <span class="ss">messageToPost: </span><span class="n">messageToPost</span><span class="p">)</span>
@@ -1319,9 +1330,9 @@ Response:
                 <span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">domain</span><span class="p">?.</span><span class="nx">name</span><span class="p">;</span>
                 <span class="c1">// ...</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">GetDomainRequest</span> <span class="n">getDomainRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetDomainRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">GetDomainRequest</span> <span class="n">getDomainRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetDomainRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span>
     <span class="p">};</span>
     <span class="n">GetDomainResponse</span> <span class="n">getDomainResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">DomainsClient</span><span class="p">.</span><span class="nf">GetDomainAsync</span><span class="p">(</span><span class="n">getDomainRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">GetDomain</span><span class="p">(</span><span class="o">&amp;</span><span class="n">GetDomainOptions</span><span class="p">{</span><span class="s">"yourDomainIdHere"</span><span class="p">})</span><span class="x">
@@ -1631,10 +1642,10 @@ Response:
               <span class="n">Match</span> <span class="p">=</span> <span class="n">MatchType</span><span class="p">.</span><span class="n">ANY</span><span class="p">,</span>
               <span class="n">Actions</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ActionRule</span><span class="p">&gt;()</span> <span class="p">{</span> <span class="k">new</span> <span class="nf">ActionRule</span><span class="p">()</span> <span class="p">{</span> <span class="n">Action</span> <span class="p">=</span> <span class="n">ActionType</span><span class="p">.</span><span class="n">WEBHOOK</span><span class="p">,</span> <span class="n">ActionData</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ActionData</span><span class="p">()</span> <span class="p">{</span> <span class="n">Url</span> <span class="p">=</span> <span class="s">"https://www.google.com"</span> <span class="p">}</span> <span class="p">}</span> <span class="p">}</span>
           <span class="p">};</span>
-    <span class="n">CreateRuleRequest</span> <span class="n">createRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CreateRuleRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span> 
-        <span class="n">Rule</span> <span class="p">=</span> <span class="n">ruleToCreate</span> 
+    <span class="n">CreateRuleRequest</span> <span class="n">createRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">CreateRuleRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span>
+        <span class="n">Rule</span> <span class="p">=</span> <span class="n">ruleToCreate</span>
     <span class="p">};</span>
     <span class="n">CreateRuleResponse</span> <span class="n">createRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">CreateRuleAsync</span><span class="p">(</span><span class="n">createRuleRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">rule</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">RuleToCreate</span><span class="p">{</span><span class="x">
@@ -1774,10 +1785,10 @@ Response:
                 <span class="kr">const</span> <span class="nx">statusCode</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">;</span>
                 <span class="c1">// ...</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">EnableRuleRequest</span> <span class="n">enableRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">EnableRuleRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span> 
-        <span class="n">RuleId</span> <span class="p">=</span> <span class="s">"yourRuleIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">EnableRuleRequest</span> <span class="n">enableRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">EnableRuleRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span>
+        <span class="n">RuleId</span> <span class="p">=</span> <span class="s">"yourRuleIdHere"</span>
     <span class="p">};</span>
     <span class="n">EnableRuleResponse</span> <span class="n">enableRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">EnableRuleAsync</span><span class="p">(</span><span class="n">enableRuleRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">EnableRule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">EnableRuleOptions</span><span class="p">{</span><span class="s">"yourDomainIdHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourRuleIdHere"</span><span class="p">})</span><span class="x">
@@ -1819,10 +1830,10 @@ Response:
                 <span class="kr">const</span> <span class="nx">statusCode</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">statusCode</span><span class="p">;</span>
                 <span class="c1">// ...</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DisableRuleRequest</span> <span class="n">disableRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DisableRuleRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span> 
-        <span class="n">RuleId</span> <span class="p">=</span> <span class="s">"yourRuleIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DisableRuleRequest</span> <span class="n">disableRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DisableRuleRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span>
+        <span class="n">RuleId</span> <span class="p">=</span> <span class="s">"yourRuleIdHere"</span>
     <span class="p">};</span>
     <span class="n">DisableRuleResponse</span> <span class="n">disableRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">DisableRuleAsync</span><span class="p">(</span><span class="n">disableRuleRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">DisableRule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">DisableRuleOptions</span><span class="p">{</span><span class="s">"yourDomainIdHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourRuleIdHere"</span><span class="p">})</span><span class="x">
@@ -1901,9 +1912,9 @@ Response:
                 <span class="kr">const</span> <span class="nx">rules</span> <span class="o">=</span> <span class="nx">result</span><span class="p">?.</span><span class="nx">rules</span><span class="p">;</span>
                 <span class="c1">// ...</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">GetAllRulesRequest</span> <span class="n">getAllRulesRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetAllRulesRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">GetAllRulesRequest</span> <span class="n">getAllRulesRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetAllRulesRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span>
     <span class="p">};</span>
     <span class="n">GetAllRulesResponse</span> <span class="n">getAllRulesResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">GetAllRulesAsync</span><span class="p">(</span><span class="n">getAllRulesRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">GetAllRules</span><span class="p">(</span><span class="o">&amp;</span><span class="n">GetAllRulesOptions</span><span class="p">{</span><span class="s">"yourDomainIdHere"</span><span class="p">})</span><span class="x">
@@ -1969,10 +1980,10 @@ Response:
                 <span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">result</span><span class="p">?.</span><span class="nx">name</span><span class="p">;</span>
                 <span class="c1">// ...</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">GetRuleRequest</span> <span class="n">getRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetRuleRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span> 
-        <span class="n">RuleId</span> <span class="p">=</span> <span class="s">"yourRuleIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">GetRuleRequest</span> <span class="n">getRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">GetRuleRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span>
+        <span class="n">RuleId</span> <span class="p">=</span> <span class="s">"yourRuleIdHere"</span>
     <span class="p">};</span>
     <span class="n">GetRuleResponse</span> <span class="n">getRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">GetRuleAsync</span><span class="p">(</span><span class="n">getRuleRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">GetRule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">GetRuleOptions</span><span class="p">{</span><span class="s">"yourDomainIdHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourRuleIdHere"</span><span class="p">})</span><span class="x">
@@ -2012,10 +2023,10 @@ Response:
                 <span class="kr">const</span> <span class="nx">status</span> <span class="o">=</span> <span class="nx">result</span><span class="p">?.</span><span class="nx">status</span><span class="p">;</span>
                 <span class="c1">// ...</span>
             <span class="p">});</span>
-</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DeleteRuleRequest</span> <span class="n">deleteRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DeleteRuleRequest</span><span class="p">()</span> 
-    <span class="p">{</span> 
-        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span> 
-        <span class="n">RuleId</span> <span class="p">=</span> <span class="s">"yourRuleIdHere"</span> 
+</code></pre><pre class="highlight csharp tab-csharp"><code>    <span class="n">DeleteRuleRequest</span> <span class="n">deleteRuleRequest</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">DeleteRuleRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DomainId</span> <span class="p">=</span> <span class="s">"yourDomainIdHere"</span><span class="p">,</span>
+        <span class="n">RuleId</span> <span class="p">=</span> <span class="s">"yourRuleIdHere"</span>
     <span class="p">};</span>
     <span class="n">DeleteRuleResponse</span> <span class="n">deleteRuleResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mailinatorClient</span><span class="p">.</span><span class="n">RulesClient</span><span class="p">.</span><span class="nf">DeleteRuleAsync</span><span class="p">(</span><span class="n">deleteRuleRequest</span><span class="p">);</span>
 </code></pre><pre class="highlight go tab-go"><code><span class="x">    </span><span class="n">res</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">mailinatorClient</span><span class="o">.</span><span class="n">DeleteRule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">DeleteRuleOptions</span><span class="p">{</span><span class="s">"yourDomainIdHere"</span><span class="p">,</span><span class="x"> </span><span class="s">"yourRuleIdHere"</span><span class="p">})</span><span class="x">
