@@ -1,0 +1,4 @@
+1) modify docs
+2) run ./deploy.sh
+3) FIX lang and sizing in HTML for accessibility
+4) cp -R ./build/* ~/repos/m8r/src/main/webapp/docs/

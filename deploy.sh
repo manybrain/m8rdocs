@@ -32,7 +32,7 @@ parse_args() {
     echo "lang='en' on HTML tag"
     echo "few other fixes - check Chrome Accessibility in dev tools and Tota11y"
 
-    
+
   # Set args from a local environment file.
   if [ -e ".env" ]; then
     source .env
@@ -219,5 +219,5 @@ elif [[ $1 = --push-only ]]; then
   main "$@"
 else
   run_build
-  main "$@"
+  echo main "$@"
 fi
