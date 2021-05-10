@@ -1128,6 +1128,30 @@ Response:
 
 The endpoint fetches a specific domain
 
+### Create Private Domain
+```shell
+curl -X POST "https://api.mailinator.com/api/v2/domains/:domain_id"
+
+Response:
+{
+  "status" : "ok"
+}
+```
+
+This endpoint creates a private domain attached to your account. Note, the domain must be unique to the system and you must have not reached your maximum number of Private Domains.
+
+### Create Private Domain
+```shell
+curl -X DELETE "https://api.mailinator.com/api/v2/domains/:domain_id"
+
+Response:
+{
+  "status" : "ok"
+}
+```
+
+This endpoint deletes a Private Domain. Use this first if you intend to add a new domain and have reached your Private Domain limit.
+
 #### HTTP Request
 
 GET https://api.mailinator.com/domains/:domain_id
