@@ -8,6 +8,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 - csharp: C#
 - go: Go
 - ruby: Ruby
+- python: Python
 
 toc_footers:
 - <a href='https://www.mailinator.com/'>Mailinator Home</a>
@@ -272,6 +273,9 @@ Go:
 Ruby:
 <a href='https://github.com/manybrain/mailinator-ruby-client' rel=nofollow>https://github.com/manybrain/mailinator-ruby-client</a>
 <br>
+Python:
+<a href='https://github.com/manybrain/mailinator-python-client' rel=nofollow>https://github.com/manybrain/mailinator-python-client</a>
+<br>
 
 ``` java
 Maven:
@@ -319,6 +323,10 @@ mailinatorClient := mailinator.NewMailinatorClient("YourTeamAPIToken")
 
 ```ruby
 mailinatorClient = MailinatorClient::Client.new(auth_token: "YourTeamAPIToken")
+```
+
+```python
+mailinatorClient = Mailinator(API_TOKEN)
 ```
 
 > Replace YourTeamAPIToken with the API Token found on your Team's settings page
@@ -411,6 +419,10 @@ Response:
 
 ```ruby
     response = mailinatorClient.messages.fetch_inbox(domain:"yourDomainNameHere", inbox: "yourInboxHere", skip: 0, limit: 50, sort: "ascending", decodeSubject: false)
+```
+
+```python
+    inbox = mailinator.request( GetInboxRequest(DOMAIN, INBOX) )
 ```
 
 ### HTTP Request
@@ -531,6 +543,10 @@ Response:
     response = mailinatorClient.messages.fetch_message(domain:"yourDomainNameHere", inbox: "yourInboxHere", messageId: "yourMessageIdHere")
 ```
 
+```python
+    message = self.mailinator.request( GetMessageRequest(DOMAIN, INBOX, message_id) )
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
 
@@ -607,6 +623,10 @@ Response:
     response = mailinatorClient.messages.fetch_attachments(domain:"yourDomainNameHere", inbox: "yourInboxHere", messageId: "yourMessageIdWithAttachmentHere")
 ```
 
+```python
+    attachments = self.mailinator.request( GetAttachmentsRequest(DOMAIN, INBOX, message_id) )
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/attachments
 
@@ -663,6 +683,10 @@ Response:
     response = mailinatorClient.messages.fetch_message_links(domain:"yourDomainNameHere", inbox: "yourInboxHere", messageId: "yourMessageIdHere")
 ```
 
+```python
+    links = self.mailinator.request( GetMessageLinksRequest(DOMAIN, INBOX, message_id) )
+```
+
 ### HTTP Request
 <b>GET</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>/links
 
@@ -706,6 +730,10 @@ curl "https://mailinator.com/api/v2/domain/private/inboxes/testinbox/messages/te
 
 ```ruby
     response = mailinatorClient.messages.fetch_attachment(domain:"yourDomainNameHere", inbox: "yourInboxHere", messageId: "yourMessageIdWithAttachmentHere", attachmentId: "yourAttachmentIdHere")
+```
+
+```python
+    response = self.mailinator.request( GetAttachmentRequest(DOMAIN, INBOX, message_id, attachment_id) )
 ```
 
 ### HTTP Request
@@ -761,6 +789,10 @@ Response:
 
 ```ruby
     response = mailinatorClient.messages.delete_all_domain_messages(domain:"yourDomainNameHere")
+```
+
+```python
+    response = self.mailinator.request( DeleteDomainMessagesRequest(DOMAIN) )
 ```
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/
@@ -821,6 +853,10 @@ Response:
     response = mailinatorClient.messages.delete_all_inbox_messages(domain:"yourDomainNameHere", inbox: "yourInboxHere")
 ```
 
+```python
+    response = self.mailinator.request( DeleteInboxMessagesRequest(DOMAIN) )    
+```
+
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>
 
@@ -872,6 +908,10 @@ Response:
 
 ```ruby
     response = mailinatorClient.messages.delete_message(domain:"yourDomainNameHere", inbox: "yourInboxHere", messageId: "yourMessageIdHere")
+```
+
+```python
+    response = self.mailinator.request( DeleteMessageRequest(DOMAIN, INBOX, message_id) )
 ```
 
 <b>DELETE</b> https://mailinator.com/api/v2/domains/<b>:domain</b>/inboxes/<b>:inbox</b>/messages/<b>:message_id</b>
@@ -944,6 +984,11 @@ Response:
         text:"I love Ruby!"
       }
     response = mailinatorClient.messages.inject_message(domain:"yourDomainNameHere", inbox: "yourInboxHere", messageToPost: messageToPost)
+```
+
+```python
+    post_message = PostMessage({'from':'test_email@test.com', 'subejct': "here my subject", 'text':"hello"})
+    response = self.mailinator.request( PostMessageRequest(DOMAIN, INBOX, post_message) )
 ```
 
 This endpoint allows you to deliver a JSON message into your private domain. This is similar to simply emailing a message to your private domain, except that you use HTTP Post and can programmatically inject the message.
@@ -1028,6 +1073,12 @@ ADD JAVA
     response = mailinatorClient.stats.get_team_stats
 ```
 
+```python
+    
+ADD PYTHON
+
+```
+
 #### HTTP Request
 
 GET https://api.mailinator.com/api/v2/team/stats
@@ -1080,6 +1131,10 @@ Response:
     response = mailinatorClient.domains.get_domains
 ```
 
+```python
+    domains = self.mailinator.request( GetDomainsRequest() )
+```
+
 The endpoint fetches a list of all your domains.
 
 #### HTTP Request
@@ -1124,6 +1179,10 @@ Response:
 
 ```ruby
     response = mailinatorClient.domains.get_domain(domainId:"yourDomainIdHere")
+```
+
+```python
+    domain = self.mailinator.request( GetDomainRequest(DOMAIN) )
 ```
 
 The endpoint fetches a specific domain
@@ -1428,6 +1487,14 @@ Response:
     response = mailinatorClient.rules.create_rule(domainId:"yourDomainIdHere", ruleToPost: ruleToPost)
 ```
 
+```python
+    conditions = [Condition(operation=Condition.OperationType.PREFIX, field="to", value="test")]
+    actions = [Action(action=Action.ActionType.DROP, action_data=Action.ActionData("https://www.mywebsite.com/restendpoint"))]
+    rule = Rule(description="mydescription", enabled=True, name="MyName", conditions=conditions, actions=actions)
+
+    rule = self.mailinator.request( CreateRuleRequest(DOMAIN, rule ) )
+```
+
 This endpoint allows you to create a Rule. Note that in the examples, ":domain_id" can be one of your private domains.
 
 #### HTTP Request
@@ -1491,6 +1558,10 @@ Response:
     response = mailinatorClient.rules.enable_rule(domainId:"yourDomainIdHere", ruleId: "yourRuleIdHere")
 ```
 
+```python
+    self.mailinator.request( EnableRuleRequest(DOMAIN, rule_id) )
+```
+
 This endpoint allows you to enable an existing Rule
 
 #### HTTP Request
@@ -1542,6 +1613,10 @@ Response:
 
 ```ruby
     response = mailinatorClient.rules.disable_rule(domainId:"yourDomainIdHere", ruleId: "yourRuleIdHere")
+```
+
+```python
+    self.mailinator.request( DisableRuleRequest(DOMAIN, rule_id) )
 ```
 
 This endpoint allows you to disable an existing Rule
@@ -1634,6 +1709,10 @@ Response:
     response = mailinatorClient.rules.get_all_rules(domainId:"yourDomainIdHere")
 ```
 
+```python
+    rules = self.mailinator.request( GetRulesRequest(DOMAIN) )
+```
+
 This endpoint fetches all Rules for a Domain
 
 ### HTTP Request
@@ -1716,6 +1795,10 @@ Response:
     response = mailinatorClient.rules.get_rule(domainId:"yourDomainIdHere", ruleId: "yourRuleIdHere")
 ```
 
+```python
+    rule = self.mailinator.request( GetRuleRequest(DOMAIN, rule_id) )
+```
+
 This endpoint fetches a Rules for a Domain
 
 ### HTTP Request
@@ -1764,6 +1847,10 @@ Response:
 
 ```ruby
     response = mailinatorClient.rules.delete_rule(domainId:"yourDomainIdHere", ruleId: "yourRuleIdHere")
+```
+
+```python
+    response = self.mailinator.request( DeleteRuleRequest(DOMAIN, rule_id) )
 ```
 
 This endpoint deletes a specific Rule from a Domain
