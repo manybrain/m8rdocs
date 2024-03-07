@@ -1713,7 +1713,7 @@ Path Element |  Value | Description
 This endpoint retrieves latest 5 messages
 
 ```shell
-curl "https://api.mailinator.com/api/v22/domain/:domain/messages/*"
+curl "https://api.mailinator.com/api/v2/domain/:domain/messages/*"
 
 Response:
 {
