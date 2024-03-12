@@ -1,6 +1,3 @@
-
-
-
 ---
 title: Mailinator Documentation
 
@@ -2032,7 +2029,7 @@ Path Element |  Value | Description
 You may retrieve usage information for your Team using this API.
 
 
-### Get All Team Stats
+## Get All Team Stats
 ```shell
 curl "https://api.mailinator.com/api/v2/team/stats"
 
@@ -2098,12 +2095,12 @@ Response:
 
 ```
 
-#### HTTP Request
+### HTTP Request
 
 GET https://api.mailinator.com/api/v2/team/stats
 
 
-### Get Team
+## Get Team
 ```shell
 curl "https://api.mailinator.com/api/v2/team"
 
@@ -2172,7 +2169,7 @@ Response:
 
 ```
 
-#### HTTP Request
+### HTTP Request
 
 GET https://api.mailinator.com/api/v2/team
 
@@ -2181,7 +2178,7 @@ GET https://api.mailinator.com/api/v2/team
 You may add or replace Private Domains in your Team Settings panel.
 
 
-### Get All Domains
+## Get All Domains
 ```shell
 curl "https://api.mailinator.com/api/v2/domains"
 
@@ -2234,11 +2231,11 @@ Response:
 
 The endpoint fetches a list of all your domains.
 
-#### HTTP Request
+### HTTP Request
 
 GET https://api.mailinator.com/domains/
 
-### Get Domain
+## Get Domain
 ```shell
 curl "https://api.mailinator.com/api/v2/domains/:domain_id"
 
@@ -2288,12 +2285,12 @@ Response:
 
 The endpoint fetches a specific domain
 
-#### HTTP Request
+### HTTP Request
 
 GET https://api.mailinator.com/domains/:domain_id
 
 
-### Create Private Domain
+## Create Private Domain
 ```shell
 curl -X POST "https://api.mailinator.com/api/v2/domains/:domain_id"
 
@@ -2332,17 +2329,17 @@ Response:
 
 This endpoint creates a private domain attached to your account. Note, the domain must be unique to the system and you must have not reached your maximum number of Private Domains.
 
-#### HTTP Request
+### HTTP Request
 
 POST https://api.mailinator.com/domains/:domain_id
 
-#### PATH
+### PATH
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
 :domain_id | (none) | true | This must be the Domain *name* or the Domain *id*
 
-### Delete Private Domain
+## Delete Private Domain
 ```shell
 curl -X DELETE "https://api.mailinator.com/api/v2/domains/:domain_id"
 
@@ -2383,11 +2380,11 @@ Response:
 
 This endpoint deletes a Private Domain. Use this first if you intend to add a new domain and have reached your Private Domain limit.
 
-#### HTTP Request
+### HTTP Request
 
 DELETE https://api.mailinator.com/domains/:domain_id
 
-#### PATH
+### PATH
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -2488,7 +2485,7 @@ A quick way to test webhooks is setup a free, disposable webhook at https://requ
 </aside>
 
 
-### Create Rule
+## Create Rule
 
 > Create Rule
 
@@ -2697,17 +2694,17 @@ Response:
 
 This endpoint allows you to create a Rule. Note that in the examples, ":domain_id" can be one of your private domains.
 
-#### HTTP Request
+### HTTP Request
 
 POST https://api.mailinator.com/api/v2/domains/:domain_id/rules/
 
-#### PATH
+### PATH
 
 Parameter | Default | Description
 --------- | ------- | -----------
 :domain_id | (none) | This must be the Domain *name* or the Domain *id* (i.e. your private domain)
 
-#### POST Parameters
+### POST Parameters
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -2723,7 +2720,7 @@ actions | (none) | true | Actions must be an array of Actions objects
 Creating rules with enabled:true activates them immediately
 </aside>
 
-### Enable Rule
+## Enable Rule
 ```shell
 curl -X PUT "https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=enable"
 
@@ -2768,11 +2765,11 @@ Response:
 
 This endpoint allows you to enable an existing Rule
 
-#### HTTP Request
+### HTTP Request
 
 PUT https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=enable
 
-#### PATH
+### PATH
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
@@ -2784,7 +2781,7 @@ Parameter | Default | Required | Description
 
 
 
-### Disable Rule
+## Disable Rule
 ```shell
 curl -X PUT "https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id/?action=disable"
 
@@ -2829,11 +2826,11 @@ Response:
 
 This endpoint allows you to disable an existing Rule
 
-#### HTTP Request
+### HTTP Request
 
 PUT https://api.mailinator.com/api/v2/domains/:domain_id/rules/:rule_id?action=disable
 
-#### PATH
+### PATH
 
 Parameter | Default | Required | Description
 --------- | ------- | -------- | -----------
