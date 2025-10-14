@@ -13,12 +13,13 @@ language_tabs: # must be one of https://git.io/vQNgJ
 toc_footers:
 - <a href='https://www.mailinator.com/'>Mailinator Home</a>
 - <a href='https://www.mailinator.com/pricing.jsp'>Subscribe for Mailinator API access</a>
+- <a href='https://github.com/manybrain'>GitHub</a>
 
 search: true
 ---
 # Mailinator
 
-Whereas most email systems are bulit around the concept of "account/inbox ownership", Mailinator is an email system built around "entire domain-inbox ownership". This allows companies to have instant access to millions of email addresses for system and automation testing of their software.
+Whereas most email systems are built around the concept of "account/inbox ownership", Mailinator is an email system built around "entire domain-inbox ownership". This allows companies to have instant access to millions of email addresses for system and automation testing of their software.
 
 Mailinator also provides a "public" domain for personal use where all email addresses (@mailinator.com) are completely public and usable by anyone.
 
@@ -32,13 +33,13 @@ Finally, it's important to note that the Mailinator system is RECEIVE-ONLY. <b>N
 
 There is no need to sign-up to use the public Mailinator system. Simply go to the home page and enter an inbox name (i.e. anything you wish up to 50 characters) to check a particular inbox.
 
-Again, the Public Mailinator is intended for personal and occasional use hence usage limits apply. Please see our Upgrade plans for corporate users.
+Public Mailinator is intended for personal and occasional use, hence usage limits apply. Please see our Upgrade plans for corporate users.
 
 ## Private Mailinator
 
 Mailinator offers upgraded subscriptions for corporate users wishing to use the Mailinator system. This offers many benefits.
 
-Subscribers receive one or more "Private Domains" which provide a private version of Mailinator. That is, you control all inboxes for a given domain (i.e. you can use a Domain you provide or the system will provide one for you). You may view all such inboxes in one "super inbox" which lists every email coming into the domain in realtime. Emails in Private domains are not automatically deleted until your team's storage is exhausted. At this time, new emails push out old emails. Otherwise, emails in private domains are persistent as long as the account is active.
+Subscribers receive one or more "Private Domains" which provide a private version of Mailinator. That is, you control all inboxes for a given domain (i.e. you can use a Domain you provide or the system will provide one for you). You may view all such inboxes in one "super inbox" which lists every email coming into the domain in realtime. Emails in Private Domains are not automatically deleted until your team's storage is exhausted. At this time, new emails push out old emails. Otherwise, emails in private domains are persistent as long as the account is active.
 
 In addition, Private users gain API access to messages within the Mailinator system. Subscribers may use the API to access all email in their Private Domain(s) in addition to the Public Mailinator system.
 
@@ -83,7 +84,7 @@ For more information on configuring Rules, see the Rules API documentation below
 
 # Setting up your Mailinator Subscription
 
-Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscritpion.
+Thanks for being a Mailinator subscriber! This section will show you some immediate ways to get the most out of your Mailinator subscription:
 
 You now have a Private domain (yes, already - check your Team Settings tab). Every conceivable inbox at that domain is waiting for you to send email to it. Unlike the public Mailinator system however, you won't run into rate-limits or filters. The email at that domain is private to you.
 
@@ -101,24 +102,20 @@ Mailinator Enterprise subscriptions support Single Sign-On (SSO) using SAML. Ple
 
 # Private Webhooks
 
-Mailinator allows you to HTTP Post or Webhook messages into your Private Domain. This is extremely convenient for
-testing as now all your test emails, SMS messages, and Webhooks will reside in the same place and are accessible
-via same Web Interface, API, and Rule System.
+Mailinator allows you to HTTP Post or Webhook messages into your Private Domain. This is extremely convenient for testing as now all your test emails, SMS messages, and Webhooks will reside in the same place and are accessible via same Web Interface, API, and Rule System.
 
 ```shell
 This command will deliver the message to the "bob" inbox
 
 curl -v -d '{"from":"someplace@xyz.com", "subject":"testing", "text" : "helloworld", "to" : "jack" }'      
 -H "Content-Type: application/json"      
--X POST "https://www.mailinator.com/api/v2/domains/<your_webhook_token>/webhook/bob/"
+-X POST "https://api.mailinator.com/api/v2/domains/<your_webhook_token>/webhook/bob/"
 ```
 
 <aside class="notice">
 Webhooks into your Private System do <b>NOT</b> use your regular API Token. 
 <br>
-This is because a typical use case is to 
-enter the Webhook URL into 3rd-party systems (i.e. Twilio, Zapier, IFTTT, etc) and you should never give out
-your API Token.
+This is because a typical use case is to enter the Webhook URL into 3rd-party systems (i.e. Twilio, Zapier, IFTTT, etc) and you should never give out your API Token.
 </aside>
 <br>
 <aside class="notice">
@@ -128,15 +125,15 @@ Check your Team Settings where you can create "Webhook Tokens" designed for this
 There are several permutations of the Webhook URLS. Say your Private Domain is <b>mypd.com</b> then
 all of the following urls are identical:
 
-<b>https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/webhook/</b><br>
-<b>https://www.mailinator.com/api/v2/domains/mypd.com/webhook/?whtoken=&lt;wh-token&gt;</b><br>
-<b>https://www.mailinator.com/api/v2/domains/private/webhook/?whtoken=&lt;wh-token&gt;</b>
+<b>https://api.mailinator.com/api/v2/domains/&lt;wh-token&gt;/webhook/</b><br>
+<b>https://api.mailinator.com/api/v2/domains/mypd.com/webhook/?whtoken=&lt;wh-token&gt;</b><br>
+<b>https://api.mailinator.com/api/v2/domains/private/webhook/?whtoken=&lt;wh-token&gt;</b>
 
 The incoming Webhook will arrive in the inbox designated by the "to" field in the incoming JSON payload.
 If the incoming payload does not contain a "to" field, or you wish to override the incoming destination,
 you may specify the desination inbox in the url:
 
-https://www.mailinator.com/api/v2/domains/&lt;token&gt;/webhook/<b>bob</b><br>
+https://api.mailinator.com/api/v2/domains/&lt;token&gt;/webhook/<b>bob</b><br>
 
 Incoming Webhooks are delivered to Mailinator inboxes and from that point onward are not notably different
 than other messages in the system (i.e. emails). You may retrieve such messages via the Web Interface,
@@ -154,8 +151,8 @@ If you test incoming Messages to SMS numbers via Twilio, you may use this endpoi
 inbox is the Twilio phone number. This may be overridden by specifying the destination inbox in the URL
 (second example below).
 
-https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/<b>twilio</b>/<br>
-https://www.mailinator.com/api/v2/domains/&lt;wh-token&gt;/<b>twilio</b>/someinbox
+https://api.mailinator.com/api/v2/domains/&lt;wh-token&gt;/<b>twilio</b>/<br>
+https://api.mailinator.com/api/v2/domains/&lt;wh-token&gt;/<b>twilio</b>/someinbox
 
 # The Mailinator API
 
@@ -254,10 +251,10 @@ mailinatorClient = MailinatorClient::Client.new(auth_token: "YourTeamAPIToken")
 ```
 
 ```python
-mailinatorClient = Mailinator(API_TOKEN)
+mailinatorClient = Mailinator("YourTeamAPIToken")
 ```
 
-> Replace YourTeamAPIToken with the API Token found on your Team's settings page
+> Replace "YourTeamAPIToken" with the API Token found on your Team's settings page
 
 Mailinator uses API tokens for authentication. All calls to the API must include the token query parameter OR included as an HTTP Authorization header.
 
